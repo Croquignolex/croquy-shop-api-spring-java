@@ -1,15 +1,14 @@
 package com.shop.croquy.v1.models;
 
 import jakarta.persistence.*;
-import lombok.Getter;
+
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.time.Instant;
 import java.util.Date;
 
-@Getter
-@Setter
+@Data
 @Entity
 @NoArgsConstructor
 @Table(name = "cs_refresh_tokens")
