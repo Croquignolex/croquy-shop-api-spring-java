@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Collection;
 import java.util.Date;
@@ -46,15 +47,6 @@ public class User implements UserDetails {
     @Column(name = "is_enabled", nullable = false)
     private Boolean enabled = true;
 
-    @Column(name = "is_credentials_non_expired", nullable = false)
-    private Boolean credentialsNonExpired = true;
-
-    @Column(name = "is_account_non_locked", nullable = false)
-    private Boolean accountNonLocked = true;
-
-    @Column(name = "is_account_non_expired", nullable = false)
-    private Boolean accountNonExpired = true;
-
     @Column(name = "last_logged_at")
     private Date lastLoggedAt = new Date();
 
@@ -66,10 +58,10 @@ public class User implements UserDetails {
     @JoinColumn(name = "refresh_token_id")
     private RefreshToken refreshToken;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at")
     private Date createdAt = new Date();
 
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "updated_at")
     private Date updatedAt = new Date();
 
     public String getFullName () {
@@ -88,22 +80,27 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return this.accountNonExpired;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return this.accountNonLocked;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return this.credentialsNonExpired;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
         return this.enabled;
+    }
+
+    @PrePersist
+    public void createTrigger() {
+        this.password = new BCryptPasswordEncoder().encode(this.password);
     }
 
     @PreUpdate

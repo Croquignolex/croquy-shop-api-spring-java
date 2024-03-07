@@ -1,6 +1,7 @@
-package com.shop.croquy.v1.dao.backoffice;
+package com.shop.croquy.v1.dao.web;
 
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,8 +10,8 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class AuthenticationRequest {
-    @NotEmpty(message = "Username field is required")
-    private String username;
+    @Email(message = "The email address is invalid.", flags = { Pattern.Flag.CASE_INSENSITIVE })
+    private String email;
 
     @NotEmpty(message = "Password field is required")
     private String password;

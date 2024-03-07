@@ -4,6 +4,8 @@ import com.shop.croquy.v1.dao.backoffice.AuthenticationRequest;
 import com.shop.croquy.v1.dao.backoffice.AuthenticationResponse;
 import com.shop.croquy.v1.services.backoffice.AuthenticationService;
 
+import jakarta.validation.Valid;
+
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
@@ -19,7 +21,7 @@ public class AuthController {
     private final AuthenticationService authenticationService;
 
     @PostMapping(path = "/login")
-    public ResponseEntity<AuthenticationResponse> login(@RequestBody AuthenticationRequest request) {
+    public ResponseEntity<AuthenticationResponse> login(@Valid @RequestBody AuthenticationRequest request) {
         return ResponseEntity.ok(authenticationService.login(request));
     }
 }

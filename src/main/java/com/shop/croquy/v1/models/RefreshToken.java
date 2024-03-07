@@ -2,6 +2,8 @@ package com.shop.croquy.v1.models;
 
 import jakarta.persistence.*;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -20,10 +22,10 @@ public class RefreshToken {
     @Column(name = "token", nullable = false, unique = true)
     private String token;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at")
     private Date createdAt = new Date();
 
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "updated_at")
     private Date updatedAt = new Date();
 
     @PreUpdate
