@@ -1,5 +1,6 @@
 package com.shop.croquy.v1.configurations;
 
+import com.shop.croquy.v1.enums.Role;
 import com.shop.croquy.v1.services.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -30,11 +31,18 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(request -> request.requestMatchers("/api/v1/backoffice/auth/**")
-                        .permitAll().anyRequest().authenticated())
+                .authorizeHttpRequests(request -> request
+                        .requestMatchers("/api/v1/**").permitAll()
+                        .requestMatchers("/api/v1/account/**").hasAuthority(Role.ROLE_CUSTOMER.getDisplayValue())
+                        .requestMatchers("/api/v1/backoffice/**").hasAnyAuthority(Role.ROLE_ADMIN.getDisplayValue(), Role.ROLE_SUPER_ADMIN.getDisplayValue())
+                        .requestMatchers("/api/v1/backoffice/auth/**").permitAll()
+                        .anyRequest().authenticated()
+                )
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider()).addFilterBefore(
-                        jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                        jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class
+                );
+
         return http.build();
     }
 

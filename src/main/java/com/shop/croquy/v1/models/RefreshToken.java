@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.Instant;
 import java.util.Date;
 
 @Data
@@ -15,18 +14,20 @@ import java.util.Date;
 public class RefreshToken {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Integer id;
 
     @Column(name = "token", nullable = false, unique = true)
     private String token;
 
-    @Column(name = "expiration_time", nullable = false)
-    private Instant expirationTime;
-
-    @Column(name = "created_at")
+    @Column(name = "created_at", nullable = false)
     private Date createdAt = new Date();
 
-    @OneToOne
-    @Column(name = "user_id")
-    private User user;
+    @Column(name = "updated_at", nullable = false)
+    private Date updatedAt = new Date();
+
+    @PreUpdate
+    public void updateTrigger() {
+        this.updatedAt = new Date();
+    }
 }

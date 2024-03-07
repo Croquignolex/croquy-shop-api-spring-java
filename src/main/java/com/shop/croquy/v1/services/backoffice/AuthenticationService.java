@@ -22,11 +22,17 @@ public class AuthenticationService implements IAuthenticationService {
     public AuthenticationResponse login(AuthenticationRequest request) {
         final String username = request.getUsername();
 
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, request.getPassword()));
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
 
         var user = userRepository.findByUsername(username).orElseThrow(() -> new IllegalArgumentException("Invalid credentials"));
-        var jwt = jwtService.generateToken(user);
+        String accessToken = jwtService.generateToken(user, false);
+        String refreshToken = jwtService.generateToken(user, true);
 
-        return AuthenticationResponse.builder().token(jwt).username(user.getUsername()).build();
+        return AuthenticationResponse.builder()
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .role(user.getRole().getDisplayValue())
+                .username(user.getUsername())
+                .build();
     }
 }

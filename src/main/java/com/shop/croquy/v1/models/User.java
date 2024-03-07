@@ -22,6 +22,7 @@ import java.util.List;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Integer id;
 
     @Column(name = "username", unique = true)
@@ -54,9 +55,6 @@ public class User implements UserDetails {
     @Column(name = "is_account_non_expired", nullable = false)
     private Boolean accountNonExpired = true;
 
-    @Column(name = "created_at")
-    private Date createdAt = new Date();
-
     @Column(name = "last_logged_at")
     private Date lastLoggedAt = new Date();
 
@@ -64,9 +62,15 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToOne(mappedBy = "user")
-    @Column(name = "refresh_token_id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "refresh_token_id")
     private RefreshToken refreshToken;
+
+    @Column(name = "created_at", nullable = false)
+    private Date createdAt = new Date();
+
+    @Column(name = "updated_at", nullable = false)
+    private Date updatedAt = new Date();
 
     public String getFullName () {
         return this.firstName + " " + this.lastName;
@@ -79,9 +83,8 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        return List.of(new SimpleGrantedAuthority(role.getDisplayValue()));
     }
-
 
     @Override
     public boolean isAccountNonExpired() {
@@ -101,5 +104,10 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return this.enabled;
+    }
+
+    @PreUpdate
+    public void updateTrigger() {
+        this.updatedAt = new Date();
     }
 }
