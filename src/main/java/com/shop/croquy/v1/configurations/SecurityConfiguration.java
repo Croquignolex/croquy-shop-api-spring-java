@@ -5,6 +5,7 @@ import com.shop.croquy.v1.services.UserService;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,6 +19,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
@@ -28,9 +33,24 @@ public class SecurityConfiguration {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final UserService userService;
 
+    @Value("${spring.graphql.cors.allowed-headers}")
+    private String corsAllowedHeaders;
+    @Value("${spring.graphql.cors.allowed-methods}")
+    private String corsAllowedMethods;
+    @Value("${spring.graphql.cors.allowed-origins}")
+    private String corsAllowedOrigins;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable)
+        http
+                .cors(cors -> cors.configurationSource(request -> {
+                    CorsConfiguration configuration = new CorsConfiguration();
+                    configuration.setAllowedOrigins(List.of(corsAllowedOrigins));
+                    configuration.setAllowedMethods(List.of(corsAllowedMethods));
+                    configuration.setAllowedHeaders(List.of(corsAllowedHeaders));
+                    return configuration;
+                })).
+                csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/v1/backoffice/auth/**").permitAll()
                         .requestMatchers("/v1/account/**").hasAuthority(Role.ROLE_CUSTOMER.getDisplayValue())
