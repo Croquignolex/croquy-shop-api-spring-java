@@ -6,11 +6,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-import io.jsonwebtoken.JwtBuilder;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -18,6 +20,7 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 
 @Service
+@Slf4j
 public class JwtService implements IJwtService {
     @Value("${token.signing.key}")
     private String jwtSigningKey;
@@ -36,12 +39,14 @@ public class JwtService implements IJwtService {
 
     @Override
     public boolean isTokenValid(String token, UserDetails userDetails, boolean everlasting) {
-        final String userName = extractUsernameFormToken(token);
-        return userName.equals(userDetails.getUsername()) && (everlasting || !isTokenExpired(token));
+        final String username = extractUsernameFormToken(token);
+
+        return username.equals(userDetails.getUsername()) && (everlasting || !isTokenExpired(token));
     }
 
     private <T> T extractClaim(String token, Function<Claims, T> claimsResolvers) {
         final Claims claims = extractAllClaims(token);
+
         return claimsResolvers.apply(claims);
     }
 
@@ -53,7 +58,7 @@ public class JwtService implements IJwtService {
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256);
 
-        if(everlasting) {
+        if(!everlasting) {
             builder.setExpiration(new Date(System.currentTimeMillis() + jwtSigningDuration));
         }
 
@@ -79,6 +84,7 @@ public class JwtService implements IJwtService {
 
     private Key getSigningKey() {
         byte[] keyBytes = Decoders.BASE64.decode(jwtSigningKey);
+
         return Keys.hmacShaKeyFor(keyBytes);
     }
 }

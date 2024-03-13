@@ -6,18 +6,20 @@ import com.shop.croquy.v1.enums.Role;
 import com.shop.croquy.v1.models.RefreshToken;
 import com.shop.croquy.v1.repositories.RefreshTokenRepository;
 import com.shop.croquy.v1.repositories.UserRepository;
-
 import com.shop.croquy.v1.services.JwtService;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class AuthenticationService implements IAuthenticationService {
     private final UserRepository userRepository;
@@ -45,6 +47,8 @@ public class AuthenticationService implements IAuthenticationService {
         } else {
             refreshToken = user.getRefreshToken().getToken();
         }
+
+        log.info("Authentication successful ===> " + user);
 
         return AuthenticationResponse.builder()
                 .accessToken(accessToken)

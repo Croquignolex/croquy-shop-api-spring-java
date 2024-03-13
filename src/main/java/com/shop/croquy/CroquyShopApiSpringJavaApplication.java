@@ -3,12 +3,16 @@ package com.shop.croquy;
 import com.shop.croquy.v1.enums.Role;
 import com.shop.croquy.v1.models.User;
 import com.shop.croquy.v1.repositories.UserRepository;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootApplication
 @RestController
@@ -26,29 +30,44 @@ public class CroquyShopApiSpringJavaApplication {
     @Bean
     public CommandLineRunner run(UserRepository userRepository) throws Exception {
         return (String[] args) -> {
-            User customer = new User();
-            User admin = new User();
-            User superAdmin = new User();
+            List<User> users = new ArrayList<>();
 
-            customer.setEmail("customer@croquy.com");
-            customer.setPassword("customer");
-            customer.setFirstName("Customer");
-            customer.setRole(Role.ROLE_CUSTOMER);
+            for (int i = 0; i < 30; i++) {
+                User customer = new User();
+                User admin;
+                User superAdmin;
 
-            admin.setUsername("admin");
-            admin.setPassword("admin");
-            admin.setFirstName("Admin");
-            admin.setRole(Role.ROLE_ADMIN);
+                customer.setEmail("customer" + i + "@croquy.com");
+                customer.setPassword("customer");
+                customer.setFirstName("Customer " + i);
+                customer.setRole(Role.ROLE_CUSTOMER);
 
-            superAdmin.setUsername("super");
-            superAdmin.setPassword("super");
-            superAdmin.setFirstName("Super");
-            superAdmin.setRole(Role.ROLE_SUPER_ADMIN);
+                if(i > 19) {
+                    admin = new User();
 
-            userRepository.save(customer);
-            userRepository.save(admin);
-            userRepository.save(superAdmin);
-            userRepository.findAll().forEach(System.out::println);
+                    admin.setUsername("admin" + i);
+                    admin.setPassword("admin");
+                    admin.setFirstName("Admin " + i);
+                    admin.setRole(Role.ROLE_ADMIN);
+
+                    users.add(admin);
+                }
+
+                if(i > 25) {
+                    superAdmin = new User();
+
+                    superAdmin.setUsername("super" + i);
+                    superAdmin.setPassword("super");
+                    superAdmin.setFirstName("Super " + i);
+                    superAdmin.setRole(Role.ROLE_SUPER_ADMIN);
+
+                    users.add(superAdmin);
+                }
+
+                users.add(customer);
+            }
+
+            userRepository.saveAll(users);
         };
     }
 }

@@ -1,5 +1,7 @@
 package com.shop.croquy.v1.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.shop.croquy.v1.enums.Role;
 
 import jakarta.persistence.*;
@@ -21,6 +23,7 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name = "cs_users")
 public class User implements UserDetails {
+    @JsonProperty(access = Access.WRITE_ONLY)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -32,6 +35,7 @@ public class User implements UserDetails {
     @Column(name = "email", unique = true)
     private String email;
 
+    @JsonProperty(access = Access.WRITE_ONLY)
     @Column(name = "password", nullable = false)
     private String password;
 
@@ -44,16 +48,19 @@ public class User implements UserDetails {
     @Column(name = "phone_number")
     private String phoneNumber;
 
+    @JsonProperty(access = Access.WRITE_ONLY)
     @Column(name = "is_enabled", nullable = false)
     private Boolean enabled = true;
 
     @Column(name = "last_logged_at")
-    private Date lastLoggedAt = new Date();
+    private Date lastLoggedAt;
 
+    @JsonProperty(access = Access.WRITE_ONLY)
     @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @JsonProperty(access = Access.WRITE_ONLY)
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "refresh_token_id")
     private RefreshToken refreshToken;
@@ -63,15 +70,6 @@ public class User implements UserDetails {
 
     @Column(name = "updated_at")
     private Date updatedAt = new Date();
-
-    public String getFullName () {
-        return this.firstName + " " + this.lastName;
-    }
-
-    @Override
-    public String getUsername() {
-        return (this.role == Role.ROLE_CUSTOMER) ? this.email : this.username;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -95,16 +93,21 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return this.enabled;
+        return enabled;
     }
 
     @PrePersist
     public void createTrigger() {
-        this.password = new BCryptPasswordEncoder().encode(this.password);
+        password = new BCryptPasswordEncoder().encode(this.password);
     }
 
     @PreUpdate
     public void updateTrigger() {
-        this.updatedAt = new Date();
+        updatedAt = new Date();
+    }
+
+    @Override
+    public String toString() {
+        return "User(id=" + id + ", username=" + username + ", role=" + role.getDisplayValue() + ")";
     }
 }
