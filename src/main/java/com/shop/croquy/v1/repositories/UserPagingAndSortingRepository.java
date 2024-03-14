@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Collection;
 
 @Repository
-public interface UserPagingAndSortingRepository extends PagingAndSortingRepository<User, Integer> {
-    Page<User> findAllByIdIsNotAndRoleIn(Integer id, Collection<Role> roles, Pageable pageable);
+public interface UserPagingAndSortingRepository extends PagingAndSortingRepository<User, String> {
+    Page<User> findAllByIdIsNotAndRoleIn(String id, Collection<Role> roles, Pageable pageable);
 }

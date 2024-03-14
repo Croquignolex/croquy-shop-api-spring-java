@@ -2,6 +2,7 @@ package com.shop.croquy;
 
 import com.shop.croquy.v1.enums.Role;
 import com.shop.croquy.v1.models.User;
+import com.shop.croquy.v1.models.UserInformation;
 import com.shop.croquy.v1.repositories.UserRepository;
 
 import org.springframework.boot.CommandLineRunner;
@@ -37,17 +38,23 @@ public class CroquyShopApiSpringJavaApplication {
                 User admin;
                 User superAdmin;
 
+                UserInformation customerInformation = new UserInformation();
+
+                customerInformation.setFirstName("Customer " + i);
+                customer.setUserInformation(customerInformation);
                 customer.setEmail("customer" + i + "@croquy.com");
                 customer.setPassword("customer");
-                customer.setFirstName("Customer " + i);
                 customer.setRole(Role.ROLE_CUSTOMER);
 
                 if(i > 19) {
                     admin = new User();
 
+                    UserInformation adminInformation = new UserInformation();
+
+                    adminInformation.setFirstName("Admin " + i);
+                    admin.setUserInformation(adminInformation);
                     admin.setUsername("admin" + i);
                     admin.setPassword("admin");
-                    admin.setFirstName("Admin " + i);
                     admin.setRole(Role.ROLE_ADMIN);
 
                     users.add(admin);
@@ -56,9 +63,12 @@ public class CroquyShopApiSpringJavaApplication {
                 if(i > 25) {
                     superAdmin = new User();
 
+                    UserInformation superAdminInformation = new UserInformation();
+
+                    superAdminInformation.setFirstName("Super " + i);
+                    superAdmin.setUserInformation(superAdminInformation);
                     superAdmin.setUsername("super" + i);
                     superAdmin.setPassword("super");
-                    superAdmin.setFirstName("Super " + i);
                     superAdmin.setRole(Role.ROLE_SUPER_ADMIN);
 
                     users.add(superAdmin);

@@ -5,8 +5,13 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum Role {
-    ROLE_SUPER_ADMIN,
-    ROLE_ADMIN,
-    ROLE_CUSTOMER;
+public enum MediaType {
+    VIDEO,
+    AUDIO,
+    IMAGE,
+    TXT,
+    PDF,
+    WORD,
+    EXCEL,
+    ZIP;
 }

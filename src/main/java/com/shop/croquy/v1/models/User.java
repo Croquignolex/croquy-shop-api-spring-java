@@ -23,11 +23,10 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name = "cs_users")
 public class User implements UserDetails {
-    @JsonProperty(access = Access.WRITE_ONLY)
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id")
-    private Integer id;
+    private String id;
 
     @Column(name = "username", unique = true)
     private String username;
@@ -38,15 +37,6 @@ public class User implements UserDetails {
     @JsonProperty(access = Access.WRITE_ONLY)
     @Column(name = "password", nullable = false)
     private String password;
-
-    @Column(name = "first_name", nullable = false)
-    private String firstName;
-
-    @Column(name = "last_name")
-    private String lastName;
-
-    @Column(name = "phone_number")
-    private String phoneNumber;
 
     @JsonProperty(access = Access.WRITE_ONLY)
     @Column(name = "is_enabled", nullable = false)
@@ -65,15 +55,23 @@ public class User implements UserDetails {
     @JoinColumn(name = "refresh_token_id")
     private RefreshToken refreshToken;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_information_id")
+    private UserInformation userInformation;
+
     @Column(name = "created_at")
     private Date createdAt = new Date();
 
     @Column(name = "updated_at")
     private Date updatedAt = new Date();
 
+    @JsonProperty(access = Access.WRITE_ONLY)
+    @Column(name = "deleted_at")
+    private Date deletedAt;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.getDisplayValue()));
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override
@@ -108,6 +106,6 @@ public class User implements UserDetails {
 
     @Override
     public String toString() {
-        return "User(id=" + id + ", username=" + username + ", role=" + role.getDisplayValue() + ")";
+        return "User(id=" + id + ", username=" + username + ", role=" + role.name() + ")";
     }
 }
