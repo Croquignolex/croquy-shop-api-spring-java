@@ -23,7 +23,7 @@ public class StorageService implements IStorageService {
     private final MediaRepository mediaRepository;
 
     @Value("${media.saving.directory}")
-    private Integer basePath;
+    private String basePath;
 
     @Override
     public Boolean saveFileToFileSystem(MultipartFile file) throws IOException {

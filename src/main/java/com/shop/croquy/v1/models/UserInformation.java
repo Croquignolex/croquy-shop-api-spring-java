@@ -1,5 +1,9 @@
 package com.shop.croquy.v1.models;
 
+import com.shop.croquy.v1.enums.Gender;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.*;
 
 import lombok.Data;
@@ -10,7 +14,7 @@ import java.util.Date;
 @Data
 @Entity
 @NoArgsConstructor
-@Table(name = "cs_users_information")
+@Table(name = "user_information")
 public class UserInformation {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -26,11 +30,35 @@ public class UserInformation {
     @Column(name = "phone_number")
     private String phoneNumber;
 
+    @Column(name = "profession")
+    private String profession;
+
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "gender", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Gender gender = Gender.UNKNOWN;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @Column(name = "is_first_purchase", nullable = false)
+    private Boolean firstPurchase = false;
+
+    @Column(name = "birthdate")
+    private Date birthdate;
+
+    @Column(name = "email_verified_at")
+    private Date emailVerifiedAt;
+
     @Column(name = "created_at")
     private Date createdAt = new Date();
 
     @Column(name = "updated_at")
     private Date updatedAt = new Date();
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @PreUpdate
     public void updateTrigger() {

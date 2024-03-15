@@ -1,8 +1,9 @@
 package com.shop.croquy.v1.models;
 
+import com.shop.croquy.v1.enums.Role;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
-import com.shop.croquy.v1.enums.Role;
 
 import jakarta.persistence.*;
 
@@ -14,14 +15,12 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Data
 @Entity
 @NoArgsConstructor
-@Table(name = "cs_users")
+@Table(name = "users")
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -34,9 +33,16 @@ public class User implements UserDetails {
     @Column(name = "email", unique = true)
     private String email;
 
+    @Column(name = "slug", nullable = false, unique = true)
+    private String slug;
+
     @JsonProperty(access = Access.WRITE_ONLY)
     @Column(name = "password", nullable = false)
     private String password;
+
+    @JsonProperty(access = Access.WRITE_ONLY)
+    @Column(name = "default_password", nullable = false)
+    private Boolean default_password = true;
 
     @JsonProperty(access = Access.WRITE_ONLY)
     @Column(name = "is_enabled", nullable = false)
@@ -46,18 +52,9 @@ public class User implements UserDetails {
     private Date lastLoggedAt;
 
     @JsonProperty(access = Access.WRITE_ONLY)
-    @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
     private Role role;
-
-    @JsonProperty(access = Access.WRITE_ONLY)
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "refresh_token_id")
-    private RefreshToken refreshToken;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_information_id")
-    private UserInformation userInformation;
 
     @Column(name = "created_at")
     private Date createdAt = new Date();
@@ -68,6 +65,49 @@ public class User implements UserDetails {
     @JsonProperty(access = Access.WRITE_ONLY)
     @Column(name = "deleted_at")
     private Date deletedAt;
+
+    @JsonProperty(access = Access.WRITE_ONLY)
+    @OneToOne(mappedBy="user")
+    private RefreshToken refreshToken;
+
+    @OneToOne(mappedBy="user")
+    private UserInformation userInformation;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name="creator_id")
+    private User creator;
+
+    @JsonProperty(access = Access.WRITE_ONLY)
+    @OneToMany(mappedBy="creator")
+    private Set<InventoryHistory> createdInventoryHistories = new HashSet<>();
+
+    @JsonProperty(access = Access.WRITE_ONLY)
+    @OneToMany(mappedBy="creator")
+    private Set<Inventory> createdInventories = new HashSet<>();
+
+    @JsonProperty(access = Access.WRITE_ONLY)
+    @OneToMany(mappedBy="creator")
+    private Set<Product> createdProducts = new HashSet<>();
+
+    @JsonProperty(access = Access.WRITE_ONLY)
+    @OneToMany(mappedBy="creator")
+    private Set<User> createdUsers = new HashSet<>();
+
+    @JsonProperty(access = Access.WRITE_ONLY)
+    @OneToMany(mappedBy="creator")
+    private Set<User> createdMedia = new HashSet<>();
+
+    @JsonProperty(access = Access.WRITE_ONLY)
+    @OneToMany(mappedBy="creator")
+    private Set<Address> createdAddress = new HashSet<>();
+
+    @JsonProperty(access = Access.WRITE_ONLY)
+    @OneToMany(mappedBy="creator")
+    private Set<Tag> createdTags = new HashSet<>();
+
+    @JsonProperty(access = Access.WRITE_ONLY)
+    @OneToMany(mappedBy="viewer")
+    private Set<View> views = new HashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

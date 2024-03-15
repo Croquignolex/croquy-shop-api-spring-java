@@ -5,13 +5,8 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum MediaType {
-    VIDEO,
-    AUDIO,
-    IMAGE,
-    TXT,
-    PDF,
-    WORD,
-    EXCEL,
-    ZIP
+public enum AttributeType {
+    TEXT,
+    SELECT,
+    COLOR
 }

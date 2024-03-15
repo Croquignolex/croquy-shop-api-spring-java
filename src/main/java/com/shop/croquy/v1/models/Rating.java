@@ -1,8 +1,8 @@
 package com.shop.croquy.v1.models;
 
+import com.shop.croquy.v1.enums.RatingMorphType;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.shop.croquy.v1.enums.MediaMorphType;
-import com.shop.croquy.v1.enums.MediaType;
 
 import jakarta.persistence.*;
 
@@ -14,37 +14,34 @@ import java.util.Date;
 @Data
 @Entity
 @NoArgsConstructor
-@Table(name = "medias")
-public class Media {
+@Table(name = "ratings")
+public class Rating {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id")
     private String id;
 
-    @Column(name = "name", nullable = false, unique = true)
-    private String name;
+    @Column(name = "note", nullable = false)
+    private Integer note = 0;
 
-    @Column(name = "type", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private MediaType type;
-
-    @Column(name = "path", nullable = false)
-    private String path;
-
-    @Column(name = "description")
-    private String description;
+    @Column(name = "comment")
+    private String comment;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Enumerated(EnumType.STRING)
-    @Column(name = "media_morph_type", nullable = false)
-    private MediaMorphType mediaMorphType;
+    @Column(name = "rating_morph_type", nullable = false)
+    private RatingMorphType ratingMorphType;
 
-    @Column(name = "media_morph_id")
-    private String mediaMorphId;
+    @Column(name = "rating_morph_id")
+    private String ratingMorphId;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name="creator_id")
-    private User creator;
+    @JoinColumn(name="rater_id")
+    private User rater;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @Column(name = "is_enabled", nullable = false)
+    private Boolean enabled = true;
 
     @Column(name = "created_at")
     private Date createdAt = new Date();

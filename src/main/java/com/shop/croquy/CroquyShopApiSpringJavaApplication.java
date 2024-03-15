@@ -28,7 +28,7 @@ public class CroquyShopApiSpringJavaApplication {
         return "pong";
     }
 
-    @Bean
+//    @Bean
     public CommandLineRunner run(UserRepository userRepository) throws Exception {
         return (String[] args) -> {
             List<User> users = new ArrayList<>();
@@ -45,6 +45,8 @@ public class CroquyShopApiSpringJavaApplication {
                 customer.setEmail("customer" + i + "@croquy.com");
                 customer.setPassword("customer");
                 customer.setRole(Role.ROLE_CUSTOMER);
+
+                users.add(customer);
 
                 if(i > 19) {
                     admin = new User();
