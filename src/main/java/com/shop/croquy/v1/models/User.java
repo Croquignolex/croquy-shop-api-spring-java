@@ -1,9 +1,9 @@
 package com.shop.croquy.v1.models;
 
+import com.shop.croquy.v1.enums.Gender;
 import com.shop.croquy.v1.enums.Role;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import jakarta.persistence.*;
 
@@ -24,7 +24,7 @@ import java.util.*;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private String id;
 
     @Column(name = "username", unique = true)
@@ -36,25 +36,50 @@ public class User implements UserDetails {
     @Column(name = "slug", nullable = false, unique = true)
     private String slug;
 
-    @JsonProperty(access = Access.WRITE_ONLY)
     @Column(name = "password", nullable = false)
     private String password;
 
-    @JsonProperty(access = Access.WRITE_ONLY)
+    @Column(name = "first_name", nullable = false)
+    private String firstName;
+
+    @Column(name = "last_name")
+    private String lastName;
+
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
+    @Column(name = "profession")
+    private String profession;
+
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "gender", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Gender gender = Gender.UNKNOWN;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @Column(name = "is_first_purchase", nullable = false)
+    private Boolean firstPurchase = false;
+
     @Column(name = "default_password", nullable = false)
     private Boolean default_password = true;
 
-    @JsonProperty(access = Access.WRITE_ONLY)
     @Column(name = "is_enabled", nullable = false)
     private Boolean enabled = true;
 
     @Column(name = "last_logged_at")
     private Date lastLoggedAt;
 
-    @JsonProperty(access = Access.WRITE_ONLY)
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
     private Role role;
+
+    @Column(name = "birthdate")
+    private Date birthdate;
+
+    @Column(name = "email_verified_at")
+    private Date emailVerifiedAt;
 
     @Column(name = "created_at")
     private Date createdAt = new Date();
@@ -62,51 +87,41 @@ public class User implements UserDetails {
     @Column(name = "updated_at")
     private Date updatedAt = new Date();
 
-    @JsonProperty(access = Access.WRITE_ONLY)
-    @Column(name = "deleted_at")
-    private Date deletedAt;
-
-    @JsonProperty(access = Access.WRITE_ONLY)
-    @OneToOne(mappedBy="user")
+    @OneToOne(mappedBy = "user")
     private RefreshToken refreshToken;
 
-    @OneToOne(mappedBy="user")
-    private UserInformation userInformation;
-
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name="creator_id")
+    @JoinColumn(name = "creator_id")
     private User creator;
 
-    @JsonProperty(access = Access.WRITE_ONLY)
-    @OneToMany(mappedBy="creator")
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.DETACH)
     private Set<InventoryHistory> createdInventoryHistories = new HashSet<>();
 
-    @JsonProperty(access = Access.WRITE_ONLY)
-    @OneToMany(mappedBy="creator")
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.DETACH)
     private Set<Inventory> createdInventories = new HashSet<>();
 
-    @JsonProperty(access = Access.WRITE_ONLY)
-    @OneToMany(mappedBy="creator")
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.DETACH)
     private Set<Product> createdProducts = new HashSet<>();
 
-    @JsonProperty(access = Access.WRITE_ONLY)
-    @OneToMany(mappedBy="creator")
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.DETACH)
     private Set<User> createdUsers = new HashSet<>();
 
-    @JsonProperty(access = Access.WRITE_ONLY)
-    @OneToMany(mappedBy="creator")
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.DETACH)
     private Set<User> createdMedia = new HashSet<>();
 
-    @JsonProperty(access = Access.WRITE_ONLY)
-    @OneToMany(mappedBy="creator")
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.DETACH)
     private Set<Address> createdAddress = new HashSet<>();
 
-    @JsonProperty(access = Access.WRITE_ONLY)
-    @OneToMany(mappedBy="creator")
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.DETACH)
     private Set<Tag> createdTags = new HashSet<>();
 
-    @JsonProperty(access = Access.WRITE_ONLY)
-    @OneToMany(mappedBy="viewer")
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.DETACH)
+    private Set<Brand> createdBrands = new HashSet<>();
+
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.DETACH)
+    private Set<Vendor> createdVendors = new HashSet<>();
+
+    @OneToMany(mappedBy = "viewer", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Set<View> views = new HashSet<>();
 
     @Override
@@ -146,6 +161,6 @@ public class User implements UserDetails {
 
     @Override
     public String toString() {
-        return "User(id=" + id + ", username=" + username + ", role=" + role.name() + ")";
+        return "User(id = " + id + ", username = " + username + ", role = " + role.name() + ")";
     }
 }

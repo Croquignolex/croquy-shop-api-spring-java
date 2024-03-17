@@ -18,7 +18,7 @@ import java.util.Set;
 public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private String id;
 
     @Column(name = "name", nullable = false)
@@ -46,16 +46,11 @@ public class Group {
     @Column(name = "updated_at")
     private Date updatedAt = new Date();
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Column(name = "deleted_at")
-    private Date deleted;
-
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name="creator_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "creator_id")
     private User creator;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @OneToMany(mappedBy="group")
+    @OneToMany(mappedBy = "group", cascade = CascadeType.DETACH)
     private Set<Category> categories = new HashSet<>();
 
     @PreUpdate

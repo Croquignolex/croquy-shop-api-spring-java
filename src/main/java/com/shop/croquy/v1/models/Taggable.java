@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class Taggable {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private String id;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -23,11 +23,11 @@ public class Taggable {
     @Column(name = "taggable_morph_type", nullable = false)
     private TaggableMorphType taggableMorphType;
 
-    @Column(name = "taggable_morph_id")
+    @Column(name = "taggable_morph_id", nullable = false)
     private String taggableMorphId;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name="tag_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tag_id", nullable = false)
     private Tag tag;
 }
 

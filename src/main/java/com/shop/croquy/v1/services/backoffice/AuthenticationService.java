@@ -55,7 +55,7 @@ public class AuthenticationService implements IAuthenticationService {
                 .refreshToken(refreshToken)
                 .role(user.getRole().name())
                 .username(user.getUsername())
-                .firstName(user.getUserInformation().getFirstName())
+                .firstName(user.getFirstName())
                 .build();
     }
 }

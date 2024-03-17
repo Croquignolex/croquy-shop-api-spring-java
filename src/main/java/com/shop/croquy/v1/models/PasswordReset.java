@@ -13,7 +13,7 @@ import java.util.Date;
 public class PasswordReset {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private String id;
 
     @Column(name = "email", nullable = false)

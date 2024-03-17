@@ -1,6 +1,5 @@
 package com.shop.croquy.v1.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.shop.croquy.v1.enums.MediaMorphType;
 import com.shop.croquy.v1.enums.MediaType;
 
@@ -18,7 +17,7 @@ import java.util.Date;
 public class Media {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private String id;
 
     @Column(name = "name", nullable = false, unique = true)
@@ -34,16 +33,15 @@ public class Media {
     @Column(name = "description")
     private String description;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Enumerated(EnumType.STRING)
     @Column(name = "media_morph_type", nullable = false)
     private MediaMorphType mediaMorphType;
 
-    @Column(name = "media_morph_id")
+    @Column(name = "media_morph_id", nullable = false)
     private String mediaMorphId;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name="creator_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "creator_id")
     private User creator;
 
     @Column(name = "created_at")
@@ -51,10 +49,6 @@ public class Media {
 
     @Column(name = "updated_at")
     private Date updatedAt = new Date();
-
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Column(name = "deleted_at")
-    private Date deleted;
 
     @PreUpdate
     public void updateTrigger() {

@@ -1,7 +1,5 @@
 package com.shop.croquy.v1.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import jakarta.persistence.*;
 
 import lombok.Data;
@@ -27,7 +25,6 @@ public class State {
     @Column(name = "slug", nullable = false, unique = true)
     private String slug;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "is_enabled", nullable = false)
     private Boolean enabled = true;
 
@@ -40,20 +37,15 @@ public class State {
     @Column(name = "updated_at")
     private Date updatedAt = new Date();
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Column(name = "deleted_at")
-    private Date deleted;
-
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name="creator_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "creator_id")
     private User creator;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name="country_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "country_id")
     private Country country;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @OneToMany(mappedBy="state")
+    @OneToMany(mappedBy = "state", cascade = CascadeType.DETACH)
     private Set<Address> addresses = new HashSet<>();
 
     @PreUpdate

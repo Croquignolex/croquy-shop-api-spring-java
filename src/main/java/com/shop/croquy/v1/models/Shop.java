@@ -1,7 +1,5 @@
 package com.shop.croquy.v1.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import jakarta.persistence.*;
 
 import lombok.Data;
@@ -17,7 +15,7 @@ import java.util.Set;
 public class Shop {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private String id;
 
     @Column(name = "name", nullable = false, unique = true)
@@ -26,7 +24,6 @@ public class Shop {
     @Column(name = "slug", nullable = false, unique = true)
     private String slug;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "is_enabled", nullable = false)
     private Boolean enabled = true;
 
@@ -39,16 +36,11 @@ public class Shop {
     @Column(name = "updated_at")
     private Date updatedAt = new Date();
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Column(name = "deleted_at")
-    private Date deleted;
-
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name="creator_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "creator_id")
     private User creator;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @OneToMany(mappedBy="shop")
+    @OneToMany(mappedBy = "shop", cascade = CascadeType.REMOVE)
     private Set<InventoryHistory> inventoryHistories = new HashSet<>();
 
     @PreUpdate

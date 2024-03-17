@@ -2,8 +2,6 @@ package com.shop.croquy.v1.models;
 
 import com.shop.croquy.v1.enums.InvoiceStatus;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import jakarta.persistence.*;
 
 import lombok.Data;
@@ -20,7 +18,7 @@ import java.util.Set;
 public class Invoice {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private String id;
 
     @Column(name = "reference", nullable = false, unique = true)
@@ -39,17 +37,16 @@ public class Invoice {
     @Column(name = "updated_at")
     private Date updatedAt = new Date();
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Column(name = "deleted_at")
-    private Date deleted;
-
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name="owner_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "owner_id")
     private User owner;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @OneToMany(mappedBy="invoice")
+    @OneToMany(mappedBy = "invoice", cascade = CascadeType.DETACH)
     private Set<Payment> payments = new HashSet<>();
+
+    public Boolean isPaid() {
+        return status == InvoiceStatus.PAID;
+    }
 
     @PreUpdate
     public void updateTrigger() {

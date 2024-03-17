@@ -2,8 +2,6 @@ package com.shop.croquy.v1.models;
 
 import com.shop.croquy.v1.enums.RatingMorphType;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import jakarta.persistence.*;
 
 import lombok.Data;
@@ -18,7 +16,7 @@ import java.util.Date;
 public class Rating {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private String id;
 
     @Column(name = "note", nullable = false)
@@ -27,19 +25,17 @@ public class Rating {
     @Column(name = "comment")
     private String comment;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Enumerated(EnumType.STRING)
     @Column(name = "rating_morph_type", nullable = false)
     private RatingMorphType ratingMorphType;
 
-    @Column(name = "rating_morph_id")
+    @Column(name = "rating_morph_id", nullable = false)
     private String ratingMorphId;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name="rater_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "rater_id")
     private User rater;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "is_enabled", nullable = false)
     private Boolean enabled = true;
 
@@ -48,10 +44,6 @@ public class Rating {
 
     @Column(name = "updated_at")
     private Date updatedAt = new Date();
-
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Column(name = "deleted_at")
-    private Date deleted;
 
     @PreUpdate
     public void updateTrigger() {

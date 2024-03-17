@@ -7,4 +7,5 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum AddressMorphType {
     USER,
+    VENDOR,
 }

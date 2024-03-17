@@ -7,4 +7,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum MediaMorphType {
     USER,
+    BRAND,
+    VENDOR,
+    INVOICE,
+    PAYMENT,
 }

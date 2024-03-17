@@ -2,13 +2,11 @@ package com.shop.croquy;
 
 import com.shop.croquy.v1.enums.Role;
 import com.shop.croquy.v1.models.User;
-import com.shop.croquy.v1.models.UserInformation;
 import com.shop.croquy.v1.repositories.UserRepository;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -38,10 +36,7 @@ public class CroquyShopApiSpringJavaApplication {
                 User admin;
                 User superAdmin;
 
-                UserInformation customerInformation = new UserInformation();
-
-                customerInformation.setFirstName("Customer " + i);
-                customer.setUserInformation(customerInformation);
+                customer.setFirstName("Customer " + i);
                 customer.setEmail("customer" + i + "@croquy.com");
                 customer.setPassword("customer");
                 customer.setRole(Role.ROLE_CUSTOMER);
@@ -51,10 +46,7 @@ public class CroquyShopApiSpringJavaApplication {
                 if(i > 19) {
                     admin = new User();
 
-                    UserInformation adminInformation = new UserInformation();
-
-                    adminInformation.setFirstName("Admin " + i);
-                    admin.setUserInformation(adminInformation);
+                    admin.setFirstName("Admin " + i);
                     admin.setUsername("admin" + i);
                     admin.setPassword("admin");
                     admin.setRole(Role.ROLE_ADMIN);
@@ -65,10 +57,7 @@ public class CroquyShopApiSpringJavaApplication {
                 if(i > 25) {
                     superAdmin = new User();
 
-                    UserInformation superAdminInformation = new UserInformation();
-
-                    superAdminInformation.setFirstName("Super " + i);
-                    superAdmin.setUserInformation(superAdminInformation);
+                    superAdmin.setFirstName("Super " + i);
                     superAdmin.setUsername("super" + i);
                     superAdmin.setPassword("super");
                     superAdmin.setRole(Role.ROLE_SUPER_ADMIN);
