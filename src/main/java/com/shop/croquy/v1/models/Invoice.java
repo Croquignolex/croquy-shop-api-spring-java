@@ -41,7 +41,7 @@ public class Invoice {
     @JoinColumn(name = "owner_id")
     private User owner;
 
-    @OneToMany(mappedBy = "invoice", cascade = CascadeType.DETACH)
+    @OneToMany(mappedBy = "invoice")
     private Set<Payment> payments = new HashSet<>();
 
     public Boolean isPaid() {

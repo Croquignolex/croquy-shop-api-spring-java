@@ -1,5 +1,7 @@
 package com.shop.croquy.v1.services;
 
+import com.shop.croquy.v1.services.interfaces.IJwtService;
+
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;

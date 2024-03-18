@@ -7,4 +7,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum TaggableMorphType {
     PRODUCT,
+    CATEGORY,
+    GROUP,
+    VENDOR,
+    BRAND,
+    SHOP,
 }

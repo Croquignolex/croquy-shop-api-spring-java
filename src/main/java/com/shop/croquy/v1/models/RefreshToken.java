@@ -27,7 +27,7 @@ public class RefreshToken {
     private Date updatedAt = new Date();
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     private User user;
 
     @PreUpdate

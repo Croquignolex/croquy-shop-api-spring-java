@@ -3,7 +3,9 @@ package com.shop.croquy.v1.services;
 import com.shop.croquy.v1.enums.MediaType;
 import com.shop.croquy.v1.models.Media;
 import com.shop.croquy.v1.repositories.MediaRepository;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,20 +14,18 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.Optional;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class StorageService implements IStorageService {
+public class StorageService {
     private final MediaRepository mediaRepository;
 
     @Value("${media.saving.directory}")
     private String basePath;
 
-    @Override
     public Boolean saveFileToFileSystem(MultipartFile file) throws IOException {
         String filePath = basePath + file.getOriginalFilename();
 
@@ -48,7 +48,6 @@ public class StorageService implements IStorageService {
         return false;
     }
 
-    @Override
     public byte[] downloadFileFromFileSystem(String mediaName) throws IOException {
         var media = mediaRepository.findByName(mediaName).orElseThrow(() -> new FileNotFoundException("Invalid media name"));
         String filePath = media.getPath();

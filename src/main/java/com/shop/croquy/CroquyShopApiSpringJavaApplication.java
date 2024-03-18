@@ -39,7 +39,7 @@ public class CroquyShopApiSpringJavaApplication {
                 customer.setFirstName("Customer " + i);
                 customer.setEmail("customer" + i + "@croquy.com");
                 customer.setPassword("customer");
-                customer.setRole(Role.ROLE_CUSTOMER);
+                customer.setRole(Role.CUSTOMER);
 
                 users.add(customer);
 
@@ -49,7 +49,7 @@ public class CroquyShopApiSpringJavaApplication {
                     admin.setFirstName("Admin " + i);
                     admin.setUsername("admin" + i);
                     admin.setPassword("admin");
-                    admin.setRole(Role.ROLE_ADMIN);
+                    admin.setRole(Role.ADMIN);
 
                     users.add(admin);
                 }
@@ -60,7 +60,7 @@ public class CroquyShopApiSpringJavaApplication {
                     superAdmin.setFirstName("Super " + i);
                     superAdmin.setUsername("super" + i);
                     superAdmin.setPassword("super");
-                    superAdmin.setRole(Role.ROLE_SUPER_ADMIN);
+                    superAdmin.setRole(Role.SUPER_ADMIN);
 
                     users.add(superAdmin);
                 }

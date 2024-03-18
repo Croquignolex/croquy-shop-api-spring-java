@@ -5,8 +5,9 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum AddressMorphType {
-    SHOP,
-    USER,
-    VENDOR
+public enum DashboardRange {
+    DAILY,
+    WEEKLY,
+    MONTHLY,
+    YEARLY
 }

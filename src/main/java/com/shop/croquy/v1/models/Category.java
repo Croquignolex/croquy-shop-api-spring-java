@@ -44,14 +44,14 @@ public class Category {
     private Date updatedAt = new Date();
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "creator_id", nullable = false)
+    @JoinColumn(name = "creator_id")
     private User creator;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "group_id", nullable = false)
+    @JoinColumn(name = "group_id")
     private Group group;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.DETACH)
+    @OneToMany(mappedBy = "category")
     private Set<Product> products = new HashSet<>();
 
     @PreUpdate

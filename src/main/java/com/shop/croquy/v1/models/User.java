@@ -3,8 +3,6 @@ package com.shop.croquy.v1.models;
 import com.shop.croquy.v1.enums.Gender;
 import com.shop.croquy.v1.enums.Role;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import jakarta.persistence.*;
 
 import lombok.Data;
@@ -27,7 +25,7 @@ public class User implements UserDetails {
     @Column(name = "id", nullable = false)
     private String id;
 
-    @Column(name = "username", unique = true)
+    @Column(name = "username", unique = true, nullable = false)
     private String username;
 
     @Column(name = "email", unique = true)
@@ -58,7 +56,6 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Gender gender = Gender.UNKNOWN;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "is_first_purchase", nullable = false)
     private Boolean firstPurchase = false;
 
@@ -90,39 +87,42 @@ public class User implements UserDetails {
     @OneToOne(mappedBy = "user")
     private RefreshToken refreshToken;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "creator_id")
     private User creator;
 
-    @OneToMany(mappedBy = "creator", cascade = CascadeType.DETACH)
+    @OneToMany(mappedBy = "creator")
     private Set<InventoryHistory> createdInventoryHistories = new HashSet<>();
 
-    @OneToMany(mappedBy = "creator", cascade = CascadeType.DETACH)
+    @OneToMany(mappedBy = "creator")
     private Set<Inventory> createdInventories = new HashSet<>();
 
-    @OneToMany(mappedBy = "creator", cascade = CascadeType.DETACH)
+    @OneToMany(mappedBy = "creator")
     private Set<Product> createdProducts = new HashSet<>();
 
-    @OneToMany(mappedBy = "creator", cascade = CascadeType.DETACH)
+    @OneToMany(mappedBy = "creator")
     private Set<User> createdUsers = new HashSet<>();
 
-    @OneToMany(mappedBy = "creator", cascade = CascadeType.DETACH)
+    @OneToMany(mappedBy = "creator")
     private Set<User> createdMedia = new HashSet<>();
 
-    @OneToMany(mappedBy = "creator", cascade = CascadeType.DETACH)
+    @OneToMany(mappedBy = "creator")
     private Set<Address> createdAddress = new HashSet<>();
 
-    @OneToMany(mappedBy = "creator", cascade = CascadeType.DETACH)
+    @OneToMany(mappedBy = "creator")
     private Set<Tag> createdTags = new HashSet<>();
 
-    @OneToMany(mappedBy = "creator", cascade = CascadeType.DETACH)
+    @OneToMany(mappedBy = "creator")
     private Set<Brand> createdBrands = new HashSet<>();
 
-    @OneToMany(mappedBy = "creator", cascade = CascadeType.DETACH)
+    @OneToMany(mappedBy = "creator")
     private Set<Vendor> createdVendors = new HashSet<>();
 
-    @OneToMany(mappedBy = "viewer", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "viewer")
     private Set<View> views = new HashSet<>();
+
+    @OneToMany(mappedBy = "rater")
+    private Set<Rating> rates = new HashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -157,10 +157,5 @@ public class User implements UserDetails {
     @PreUpdate
     public void updateTrigger() {
         updatedAt = new Date();
-    }
-
-    @Override
-    public String toString() {
-        return "User(id = " + id + ", username = " + username + ", role = " + role.name() + ")";
     }
 }

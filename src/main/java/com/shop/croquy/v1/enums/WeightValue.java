@@ -7,6 +7,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum WeightValue {
     KILOGRAM,
-    GRAM,
-    TONE
+    GRAMME,
+    TONNE
 }

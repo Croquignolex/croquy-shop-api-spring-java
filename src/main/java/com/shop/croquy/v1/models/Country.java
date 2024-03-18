@@ -44,10 +44,10 @@ public class Country {
     @JoinColumn(name = "creator_id")
     private User creator;
 
-    @OneToMany(mappedBy = "country", cascade = CascadeType.DETACH)
+    @OneToMany(mappedBy = "country")
     private Set<State> states = new HashSet<>();
 
-    @OneToMany(mappedBy = "country", cascade = CascadeType.DETACH)
+    @OneToMany(mappedBy = "country")
     private Set<Inventory> inventories = new HashSet<>();
 
     @PreUpdate

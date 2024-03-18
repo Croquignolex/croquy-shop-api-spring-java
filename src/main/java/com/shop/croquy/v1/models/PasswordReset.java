@@ -1,6 +1,7 @@
 package com.shop.croquy.v1.models;
 
 import jakarta.persistence.*;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

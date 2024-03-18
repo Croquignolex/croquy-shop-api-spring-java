@@ -40,7 +40,7 @@ public class Shop {
     @JoinColumn(name = "creator_id")
     private User creator;
 
-    @OneToMany(mappedBy = "shop", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "shop")
     private Set<InventoryHistory> inventoryHistories = new HashSet<>();
 
     @PreUpdate

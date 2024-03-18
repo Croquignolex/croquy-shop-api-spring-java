@@ -50,7 +50,7 @@ public class Brand {
     @JoinColumn(name = "creator_id")
     private User creator;
 
-    @OneToMany(mappedBy = "brand", cascade = CascadeType.DETACH)
+    @OneToMany(mappedBy = "brand")
     private Set<Product> products = new HashSet<>();
 
     @PreUpdate

@@ -37,11 +37,11 @@ public class InventoryHistory {
     private User creator;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id", nullable = false)
+    @JoinColumn(name = "product_id")
     private Product product;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "shop_id", nullable = false)
+    @JoinColumn(name = "shop_id")
     private Shop shop;
 
     @PreUpdate

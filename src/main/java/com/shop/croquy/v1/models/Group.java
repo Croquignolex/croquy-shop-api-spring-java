@@ -50,7 +50,7 @@ public class Group {
     @JoinColumn(name = "creator_id")
     private User creator;
 
-    @OneToMany(mappedBy = "group", cascade = CascadeType.DETACH)
+    @OneToMany(mappedBy = "group")
     private Set<Category> categories = new HashSet<>();
 
     @PreUpdate

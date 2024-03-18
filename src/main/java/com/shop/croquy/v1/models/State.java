@@ -16,7 +16,7 @@ import java.util.Set;
 public class State {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private String id;
 
     @Column(name = "name", nullable = false)
@@ -45,7 +45,7 @@ public class State {
     @JoinColumn(name = "country_id")
     private Country country;
 
-    @OneToMany(mappedBy = "state", cascade = CascadeType.DETACH)
+    @OneToMany(mappedBy = "state")
     private Set<Address> addresses = new HashSet<>();
 
     @PreUpdate

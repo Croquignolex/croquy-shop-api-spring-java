@@ -9,6 +9,10 @@ public enum MediaMorphType {
     USER,
     BRAND,
     VENDOR,
+    GROUP,
+    CATEGORY,
     INVOICE,
     PAYMENT,
+    COUNTRY,
+    PRODUCT,
 }

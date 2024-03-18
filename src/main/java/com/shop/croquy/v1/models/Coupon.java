@@ -1,7 +1,5 @@
 package com.shop.croquy.v1.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import jakarta.persistence.*;
 
 import lombok.Data;
@@ -25,7 +23,6 @@ public class Coupon {
     @Column(name = "slug", nullable = false, unique = true)
     private String slug;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "is_enabled", nullable = false)
     private Boolean enabled = true;
 

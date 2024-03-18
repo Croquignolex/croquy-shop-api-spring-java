@@ -5,8 +5,8 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum AddressMorphType {
-    SHOP,
-    USER,
-    VENDOR
+public enum PaymentStatus {
+    CANCELED,
+    FAILED,
+    SUCCESSFUL
 }

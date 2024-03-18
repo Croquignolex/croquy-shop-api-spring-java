@@ -1,4 +1,4 @@
-package com.shop.croquy.v1.services.backoffice;
+package com.shop.croquy.v1.services.interfaces;
 
 import com.shop.croquy.v1.dao.backoffice.AuthenticationRequest;
 import com.shop.croquy.v1.dao.backoffice.AuthenticationResponse;

@@ -1,4 +1,4 @@
-package com.shop.croquy.v1.services;
+package com.shop.croquy.v1.services.interfaces;
 
 import org.springframework.security.core.userdetails.UserDetails;
 

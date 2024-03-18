@@ -4,6 +4,7 @@ import com.shop.croquy.v1.enums.Role;
 import com.shop.croquy.v1.models.User;
 import com.shop.croquy.v1.repositories.UserPagingAndSortingRepository;
 import com.shop.croquy.v1.repositories.UserRepository;
+import com.shop.croquy.v1.services.interfaces.IUsersService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,13 +33,13 @@ public class UsersService implements IUsersService {
         Pageable pageable = PageRequest.of(0, 2);
 
         Collection<Role> includedRoles = new ArrayList<>();
-        includedRoles.add(Role.ROLE_CUSTOMER);
+        includedRoles.add(Role.CUSTOMER);
 
         switch (role) {
-            case ROLE_ADMIN -> includedRoles.add(Role.ROLE_ADMIN);
-            case ROLE_SUPER_ADMIN -> {
-                includedRoles.add(Role.ROLE_SUPER_ADMIN);
-                includedRoles.add(Role.ROLE_ADMIN);
+            case ADMIN -> includedRoles.add(Role.ADMIN);
+            case SUPER_ADMIN -> {
+                includedRoles.add(Role.SUPER_ADMIN);
+                includedRoles.add(Role.ADMIN);
             }
         }
 

@@ -2,8 +2,6 @@ package com.shop.croquy.v1.models;
 
 import com.shop.croquy.v1.enums.*;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import jakarta.persistence.*;
 
 import lombok.Data;
@@ -58,7 +56,7 @@ public class Product {
 
     @Column(name = "weight_unit", nullable = false)
     @Enumerated(EnumType.STRING)
-    private WeightValue weightUnit = WeightValue.GRAM;
+    private WeightValue weightUnit = WeightValue.GRAMME;
 
     @Column(name = "height_unit", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -76,7 +74,6 @@ public class Product {
     @Enumerated(EnumType.STRING)
     private QuantityValue volumeUnit = QuantityValue.LITTER;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "is_enabled", nullable = false)
     private Boolean enabled = true;
 
@@ -104,13 +101,13 @@ public class Product {
     private Category category;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "brand_id", nullable = false)
+    @JoinColumn(name = "brand_id")
     private Brand brand;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "product")
     private Set<Inventory> inventories = new HashSet<>();
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "product")
     private Set<InventoryHistory> inventoryHistories = new HashSet<>();
 
     @PreUpdate

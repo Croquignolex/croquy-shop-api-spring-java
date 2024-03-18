@@ -41,7 +41,7 @@ public class Vendor {
     @JoinColumn(name = "creator_id", nullable = false)
     private User creator;
 
-    @OneToMany(mappedBy = "vendor", cascade = CascadeType.DETACH)
+    @OneToMany(mappedBy = "vendor")
     private Set<Inventory> inventories = new HashSet<>();
 
     @PreUpdate

@@ -2,8 +2,6 @@ package com.shop.croquy.v1.models;
 
 import com.shop.croquy.v1.enums.InventoryCondition;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import jakarta.persistence.*;
 
 import lombok.Data;
@@ -25,7 +23,6 @@ public class Inventory {
     @Enumerated(EnumType.STRING)
     private InventoryCondition condition = InventoryCondition.NEW;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "is_enabled", nullable = false)
     private Boolean enabled = true;
 
@@ -63,7 +60,7 @@ public class Inventory {
     private Date updatedAt = new Date();
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id", nullable = false)
+    @JoinColumn(name = "product_id")
     private Product product;
 
     @ManyToOne(fetch = FetchType.LAZY)

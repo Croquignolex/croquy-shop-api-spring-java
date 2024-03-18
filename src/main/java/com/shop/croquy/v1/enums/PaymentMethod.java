@@ -5,8 +5,10 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum AddressMorphType {
-    SHOP,
-    USER,
-    VENDOR
+public enum PaymentMethod {
+    CASH_ON_DELIVERY,
+    ORANGE_MONEY,
+    MTN_MOBILE_MONEY,
+    STRIPE,
+    PAYPAL,
 }

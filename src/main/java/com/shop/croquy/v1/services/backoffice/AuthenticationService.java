@@ -7,6 +7,7 @@ import com.shop.croquy.v1.models.RefreshToken;
 import com.shop.croquy.v1.repositories.RefreshTokenRepository;
 import com.shop.croquy.v1.repositories.UserRepository;
 import com.shop.croquy.v1.services.JwtService;
+import com.shop.croquy.v1.services.interfaces.IAuthenticationService;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -33,7 +34,7 @@ public class AuthenticationService implements IAuthenticationService {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
 
         Collection<Role> excludedRoles = new ArrayList<>();
-        excludedRoles.add(Role.ROLE_CUSTOMER);
+        excludedRoles.add(Role.CUSTOMER);
         var user = userRepository.findByUsernameAndRoleNotIn(username, excludedRoles).orElseThrow(() -> new IllegalArgumentException("Invalid credentials"));
 
         String accessToken = jwtService.generateToken(user, false);
