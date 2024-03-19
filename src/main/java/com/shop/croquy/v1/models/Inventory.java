@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Data
-@Entity
+//@Entity
 @NoArgsConstructor
-@Table(name = "inventories")
+//@Table(name = "inventories")
 public class Inventory {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -59,19 +59,19 @@ public class Inventory {
     @Column(name = "updated_at")
     private Date updatedAt = new Date();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "creator_id")
     private User creator;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "vendor_id")
     private Vendor vendor;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "country_id")
     private Country country;
 

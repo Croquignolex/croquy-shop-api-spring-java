@@ -10,9 +10,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Data
-@Entity
+//@Entity
 @NoArgsConstructor
-@Table(name = "vendors")
+//@Table(name = "vendors")
 public class Vendor {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -21,9 +21,6 @@ public class Vendor {
 
     @Column(name = "name", nullable = false, unique = true)
     private String name;
-
-    @Column(name = "slug", nullable = false, unique = true)
-    private String slug;
 
     @Column(name = "is_enabled", nullable = false)
     private Boolean enabled = true;
@@ -37,7 +34,7 @@ public class Vendor {
     @Column(name = "updated_at")
     private Date updatedAt = new Date();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "creator_id", nullable = false)
     private User creator;
 

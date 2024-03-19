@@ -12,9 +12,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Data
-@Entity
+//@Entity
 @NoArgsConstructor
-@Table(name = "attributes")
+//@Table(name = "attributes")
 public class Attribute {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -23,9 +23,6 @@ public class Attribute {
 
     @Column(name = "name", nullable = false, unique = true)
     private String name;
-
-    @Column(name = "slug", nullable = false, unique = true)
-    private String slug;
 
     @Column(name = "type", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -43,7 +40,7 @@ public class Attribute {
     @Column(name = "updated_at")
     private Date updatedAt = new Date();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "creator_id")
     private User creator;
 

@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Data
-@Entity
+//@Entity
 @NoArgsConstructor
-@Table(name = "inventory_histories")
+//@Table(name = "inventory_histories")
 public class InventoryHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -32,15 +32,15 @@ public class InventoryHistory {
     @Column(name = "updated_at")
     private Date updatedAt = new Date();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "creator_id")
     private User creator;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "shop_id")
     private Shop shop;
 

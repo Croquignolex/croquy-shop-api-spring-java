@@ -24,9 +24,9 @@ public class Taggable {
     @Column(name = "taggable_morph_id", nullable = false)
     private String taggableMorphId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tag_id")
-    private Tag tag;
+//    @ManyToOne
+//    @JoinColumn(name = "tag_id")
+//    private Tag tag;
 }
 
 

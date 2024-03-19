@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Data
-@Entity
+//@Entity
 @NoArgsConstructor
-@Table(name = "attribute_values", uniqueConstraints = @UniqueConstraint(columnNames = {"attribute_id", "name"}))
+//@Table(name = "attribute_values", uniqueConstraints = @UniqueConstraint(columnNames = {"attribute_id", "name"}))
 public class AttributeValue {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -19,9 +19,6 @@ public class AttributeValue {
 
     @Column(name = "name", nullable = false)
     private String name;
-
-    @Column(name = "slug", nullable = false, unique = true)
-    private String slug;
 
     @Column(name = "value", nullable = false)
     private String value;
@@ -38,7 +35,7 @@ public class AttributeValue {
     @Column(name = "updated_at")
     private Date updatedAt = new Date();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "creator_id")
     private User creator;
 

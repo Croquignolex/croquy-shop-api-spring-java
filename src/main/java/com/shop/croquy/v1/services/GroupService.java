@@ -32,20 +32,20 @@ public class GroupService implements IGroupService {
                  .orElse(null);
     }
 
-    @Override
-    public List<Product> getProductsById(String id) {
-        List<Category> categories = categoryRepository.findAllByGroupId(id);
-        List<Product> products = new ArrayList<>();
-
-        categories.forEach((Category category) -> products.addAll(category.getProducts()));
-
-        return products;
-    }
-
-    @Override
-    public List<Tag> getTagsById(String id) {
-        List<Taggable> taggable = taggableRepository.findByTaggableMorphIdAndTaggableMorphType(id, TaggableMorphType.GROUP);
-
-        return taggable.stream().map(Taggable::getTag).toList();
-    }
+//    @Override
+//    public List<Product> getProductsById(String id) {
+//        List<Category> categories = categoryRepository.findAllByGroupId(id);
+//        List<Product> products = new ArrayList<>();
+//
+//        categories.forEach((Category category) -> products.addAll(category.getProducts()));
+//
+//        return products;
+//    }
+//
+//    @Override
+//    public List<Tag> getTagsById(String id) {
+//        List<Taggable> taggable = taggableRepository.findByTaggableMorphIdAndTaggableMorphType(id, TaggableMorphType.GROUP);
+//
+//        return taggable.stream().map(Taggable::getTag).toList();
+//    }
 }

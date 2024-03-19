@@ -17,10 +17,10 @@ import java.util.List;
 public class AttributeService implements IAttributeService {
     private final ProductAttributeRepository productAttributeRepository;
 
-    @Override
-    public List<AttributeValue> getAttributeValuesByIdAndByProductId(String id, String productId) {
-        List<ProductAttribute> productAttributes = productAttributeRepository.findAllByProductIdAndAttributeId(productId, id);
-
-        return productAttributes.stream().map(ProductAttribute::getAttributeValue).toList();
-    }
+//    @Override
+//    public List<AttributeValue> getAttributeValuesByIdAndByProductId(String id, String productId) {
+//        List<ProductAttribute> productAttributes = productAttributeRepository.findAllByProductIdAndAttributeId(productId, id);
+//
+//        return productAttributes.stream().map(ProductAttribute::getAttributeValue).toList();
+//    }
 }

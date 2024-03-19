@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Data
-@Entity
+//@Entity
 @NoArgsConstructor
-@Table(name = "coupons")
+//@Table(name = "coupons")
 public class Coupon {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -19,9 +19,6 @@ public class Coupon {
 
     @Column(name = "code", nullable = false, unique = true)
     private String code;
-
-    @Column(name = "slug", nullable = false, unique = true)
-    private String slug;
 
     @Column(name = "is_enabled", nullable = false)
     private Boolean enabled = true;
@@ -47,7 +44,7 @@ public class Coupon {
     @Column(name = "updated_at")
     private Date updatedAt = new Date();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "creator_id")
     private User creator;
 

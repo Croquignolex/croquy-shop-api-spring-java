@@ -2,6 +2,7 @@ package com.shop.croquy.v1.services.interfaces;
 
 import com.shop.croquy.v1.models.Address;
 import com.shop.croquy.v1.models.Media;
+
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface IUserService {

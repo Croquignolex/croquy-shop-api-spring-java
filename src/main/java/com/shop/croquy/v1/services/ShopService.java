@@ -31,10 +31,10 @@ public class ShopService implements IShopService {
                 .orElse(null);
     }
 
-    @Override
-    public List<Tag> getTagsById(String id) {
-        List<Taggable> taggable = taggableRepository.findByTaggableMorphIdAndTaggableMorphType(id, TaggableMorphType.SHOP);
-
-        return taggable.stream().map(Taggable::getTag).toList();
-    }
+//    @Override
+//    public List<Tag> getTagsById(String id) {
+//        List<Taggable> taggable = taggableRepository.findByTaggableMorphIdAndTaggableMorphType(id, TaggableMorphType.SHOP);
+//
+//        return taggable.stream().map(Taggable::getTag).toList();
+//    }
 }

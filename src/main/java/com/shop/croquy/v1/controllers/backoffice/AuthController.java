@@ -2,17 +2,16 @@ package com.shop.croquy.v1.controllers.backoffice;
 
 import com.shop.croquy.v1.dao.backoffice.AuthenticationRequest;
 import com.shop.croquy.v1.dao.backoffice.AuthenticationResponse;
+import com.shop.croquy.v1.dao.backoffice.RefreshTokenRequest;
 import com.shop.croquy.v1.services.backoffice.AuthenticationService;
 
 import jakarta.validation.Valid;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,6 +21,20 @@ public class AuthController {
 
     @PostMapping(path = "/login")
     public ResponseEntity<AuthenticationResponse> login(@Valid @RequestBody AuthenticationRequest request) {
-        return ResponseEntity.ok(authenticationService.login(request));
+        AuthenticationResponse loginResponse = authenticationService.login(request);
+
+        HttpStatus httpStatus = (loginResponse != null) ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
+
+        return ResponseEntity.status(httpStatus).body(loginResponse);
+    }
+
+    @PostMapping(path = "/refresh")
+    public ResponseEntity<AuthenticationResponse> refresh(@Valid @RequestBody RefreshTokenRequest request) {
+        System.out.println("request=========================================>" + request);
+        AuthenticationResponse refreshResponse = authenticationService.refresh(request);
+
+        HttpStatus httpStatus = (refreshResponse != null) ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
+
+        return ResponseEntity.status(httpStatus).body(refreshResponse);
     }
 }

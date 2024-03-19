@@ -40,7 +40,7 @@ public class Media {
     @Column(name = "media_morph_id", nullable = false)
     private String mediaMorphId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "creator_id")
     private User creator;
 

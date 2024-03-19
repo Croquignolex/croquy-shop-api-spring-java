@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface ICategoryService {
     Media getBannerById(String id);
-    List<Tag> getTagsById(String id);
+//    List<Tag> getTagsById(String id);
 }

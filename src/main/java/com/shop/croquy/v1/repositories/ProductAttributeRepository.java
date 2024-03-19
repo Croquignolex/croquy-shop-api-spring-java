@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface ProductAttributeRepository extends JpaRepository<ProductAttribute, String> {
-    List<ProductAttribute> findAllByProductId(String productId);
-    List<ProductAttribute> findAllByProductIdAndAttributeId(String productId, String attributeId);
+//    List<ProductAttribute> findAllByProductId(String productId);
+//    List<ProductAttribute> findAllByProductIdAndAttributeId(String productId, String attributeId);
 }

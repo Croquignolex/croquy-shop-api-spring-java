@@ -31,10 +31,10 @@ public class BrandService implements IBrandService {
                  .orElse(null);
     }
 
-    @Override
-    public List<Tag> getTagsById(String id) {
-        List<Taggable> taggable = taggableRepository.findByTaggableMorphIdAndTaggableMorphType(id, TaggableMorphType.BRAND);
-
-        return taggable.stream().map(Taggable::getTag).toList();
-    }
+//    @Override
+//    public List<Tag> getTagsById(String id) {
+//        List<Taggable> taggable = taggableRepository.findByTaggableMorphIdAndTaggableMorphType(id, TaggableMorphType.BRAND);
+//
+//        return taggable.stream().map(Taggable::getTag).toList();
+//    }
 }

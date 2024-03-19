@@ -8,22 +8,23 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @NoArgsConstructor
-@Table(name = "PRODUCT_ATTRIBUTE", uniqueConstraints = @UniqueConstraint(columnNames = {"product_id", "attribute_id", "attribute_value_id"}))
+@Table(name = "product_attribute")
+//@Table(name = "product_attribute", uniqueConstraints = @UniqueConstraint(columnNames = {"product_id", "attribute_id", "attribute_value_id"}))
 public class ProductAttribute {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", nullable = false)
     private String id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id")
-    private Product product;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "attribute_value_id")
-    private AttributeValue attributeValue;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "attribute_id")
-    private Attribute attribute;
+//    @ManyToOne
+//    @JoinColumn(name = "product_id")
+//    private Product product;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "attribute_value_id")
+//    private AttributeValue attributeValue;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "attribute_id")
+//    private Attribute attribute;
 }

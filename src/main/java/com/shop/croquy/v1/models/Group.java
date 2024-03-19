@@ -12,9 +12,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Data
-@Entity
+//@Entity
 @NoArgsConstructor
-@Table(name = "groups")
+//@Table(name = "groups")
 public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -46,12 +46,12 @@ public class Group {
     @Column(name = "updated_at")
     private Date updatedAt = new Date();
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "creator_id")
-    private User creator;
-
-    @OneToMany(mappedBy = "group")
-    private Set<Category> categories = new HashSet<>();
+//    @ManyToOne
+//    @JoinColumn(name = "creator_id")
+//    private User creator;
+//
+//    @OneToMany(mappedBy = "group")
+//    private Set<Category> categories = new HashSet<>();
 
     @PreUpdate
     public void updateTrigger() {

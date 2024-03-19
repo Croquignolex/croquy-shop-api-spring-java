@@ -59,17 +59,17 @@ public class ProductService implements IProductService {
         return (int)intSummaryStatistics.getAverage();
     }
 
-    @Override
-    public List<Attribute> getAttributesById(String id) {
-        List<ProductAttribute> productAttributes = productAttributeRepository.findAllByProductId(id);
-
-        return productAttributes.stream().map(ProductAttribute::getAttribute).toList();
-    }
-
-    @Override
-    public List<Tag> getTagsById(String id) {
-        List<Taggable> taggable = taggableRepository.findByTaggableMorphIdAndTaggableMorphType(id, TaggableMorphType.PRODUCT);
-
-        return taggable.stream().map(Taggable::getTag).toList();
-    }
+//    @Override
+//    public List<Attribute> getAttributesById(String id) {
+//        List<ProductAttribute> productAttributes = productAttributeRepository.findAllByProductId(id);
+//
+//        return productAttributes.stream().map(ProductAttribute::getAttribute).toList();
+//    }
+//
+//    @Override
+//    public List<Tag> getTagsById(String id) {
+//        List<Taggable> taggable = taggableRepository.findByTaggableMorphIdAndTaggableMorphType(id, TaggableMorphType.PRODUCT);
+//
+//        return taggable.stream().map(Taggable::getTag).toList();
+//    }
 }

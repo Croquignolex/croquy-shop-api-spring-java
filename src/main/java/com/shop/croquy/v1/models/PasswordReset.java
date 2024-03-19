@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Data
-@Entity
+//@Entity
 @NoArgsConstructor
-@Table(name = "password_resets")
+//@Table(name = "password_resets")
 public class PasswordReset {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

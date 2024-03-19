@@ -9,5 +9,5 @@ import java.util.List;
 public interface IVendorService {
     Media getLogoById(String id);
     Address getAddressById(String id);
-    List<Tag> getTagsById(String id);
+//    List<Tag> getTagsById(String id);
 }

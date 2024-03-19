@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Data
-@Entity
+//@Entity
 @NoArgsConstructor
-@Table(name = "views", uniqueConstraints = @UniqueConstraint(columnNames = {"viewer_id", "vieww_morph_id", "vieww_morph_type"}))
+//@Table(name = "views", uniqueConstraints = @UniqueConstraint(columnNames = {"viewer_id", "vieww_morph_id", "vieww_morph_type"}))
 public class View {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -26,7 +26,7 @@ public class View {
     @Column(name = "view_morph_id", nullable = false)
     private String viewMorphId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "viewer_id", nullable = false)
     private User viewer;
 

@@ -12,7 +12,8 @@ import java.util.HashSet;
 @Data
 @Entity
 @NoArgsConstructor
-@Table(name = "categories", uniqueConstraints = @UniqueConstraint(columnNames = {"group_id", "name"}))
+@Table(name = "categories")
+//@Table(name = "categories", uniqueConstraints = @UniqueConstraint(columnNames = {"group_id", "name"}))
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -43,16 +44,16 @@ public class Category {
     @Column(name = "updated_at")
     private Date updatedAt = new Date();
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "creator_id")
-    private User creator;
+//    @ManyToOne
+//    @JoinColumn(name = "creator_id")
+//    private User creator;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "group_id")
-    private Group group;
-
-    @OneToMany(mappedBy = "category")
-    private Set<Product> products = new HashSet<>();
+//    @ManyToOne
+//    @JoinColumn(name = "group_id")
+//    private Group group;
+//
+//    @OneToMany(mappedBy = "category")
+//    private Set<Product> products = new HashSet<>();
 
     @PreUpdate
     public void updateTrigger() {

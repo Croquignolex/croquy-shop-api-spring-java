@@ -53,9 +53,10 @@ public class SecurityConfiguration {
                 })).
                 csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
+                        .requestMatchers("/ping").permitAll()
                         .requestMatchers("/v1/backoffice/auth/**").permitAll()
-                        .requestMatchers("/v1/account/**").hasAuthority(Role.CUSTOMER.name())
-                        .requestMatchers("/v1/backoffice/**").hasAuthority(Role.ADMIN.name())
+//                        .requestMatchers("/v1/account/**").hasAuthority(Role.CUSTOMER.name())
+//                        .requestMatchers("/v1/backoffice/**").hasAuthority(Role.ADMIN.name())
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))

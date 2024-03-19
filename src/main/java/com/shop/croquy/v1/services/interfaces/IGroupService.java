@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface IGroupService {
     Media getBannerById(String id);
-    List<Product> getProductsById(String id);
-    List<Tag> getTagsById(String id);
+//    List<Product> getProductsById(String id);
+//    List<Tag> getTagsById(String id);
 }

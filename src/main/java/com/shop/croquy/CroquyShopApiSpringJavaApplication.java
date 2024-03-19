@@ -1,12 +1,16 @@
 package com.shop.croquy;
 
 import com.shop.croquy.v1.enums.Role;
+import com.shop.croquy.v1.models.Shop;
 import com.shop.croquy.v1.models.User;
+import com.shop.croquy.v1.repositories.ShopRepository;
 import com.shop.croquy.v1.repositories.UserRepository;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,7 +19,10 @@ import java.util.List;
 
 @SpringBootApplication
 @RestController
+@RequiredArgsConstructor
 public class CroquyShopApiSpringJavaApplication {
+    private final UserRepository userRepository;
+    private final ShopRepository shopRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(CroquyShopApiSpringJavaApplication.class, args);
@@ -26,49 +33,38 @@ public class CroquyShopApiSpringJavaApplication {
         return "pong";
     }
 
-//    @Bean
-    public CommandLineRunner run(UserRepository userRepository) throws Exception {
+    @Bean
+    public CommandLineRunner run() {
         return (String[] args) -> {
             List<User> users = new ArrayList<>();
+            List<Shop> shops = new ArrayList<>();
 
-            for (int i = 0; i < 30; i++) {
-                User customer = new User();
-                User admin;
-                User superAdmin;
+            users.add(seedUsers(100, Role.CUSTOMER));
+            users.add(seedUsers(200, Role.ADMIN));
 
-                customer.setFirstName("Customer " + i);
-                customer.setEmail("customer" + i + "@croquy.com");
-                customer.setPassword("customer");
-                customer.setRole(Role.CUSTOMER);
-
-                users.add(customer);
-
-                if(i > 19) {
-                    admin = new User();
-
-                    admin.setFirstName("Admin " + i);
-                    admin.setUsername("admin" + i);
-                    admin.setPassword("admin");
-                    admin.setRole(Role.ADMIN);
-
-                    users.add(admin);
-                }
-
-                if(i > 25) {
-                    superAdmin = new User();
-
-                    superAdmin.setFirstName("Super " + i);
-                    superAdmin.setUsername("super" + i);
-                    superAdmin.setPassword("super");
-                    superAdmin.setRole(Role.SUPER_ADMIN);
-
-                    users.add(superAdmin);
-                }
-
-                users.add(customer);
+            for (int i = 0; i < 5; i++) {
+                shops.add(seedShops(i));
             }
 
             userRepository.saveAll(users);
+            shopRepository.saveAll(shops);
         };
+    }
+
+    private User seedUsers(Integer i, Role role) {
+        User user = new User();
+        user.setEmail("user-" + i + "@croquy-shop.com");
+        user.setFirstName("User " + i);
+        user.setUsername("user" + i);
+        user.setPassword("user");
+        user.setRole(role);
+        return user;
+    }
+
+    private Shop seedShops(Integer i) {
+        Shop shop = new Shop();
+        shop.setName("Shop " + i);
+        shop.setSlug("shop-" + i);
+        return shop;
     }
 }

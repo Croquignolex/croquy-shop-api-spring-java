@@ -39,10 +39,10 @@ public class VendorService implements IVendorService {
                 .orElse(null);
     }
 
-    @Override
-    public List<Tag> getTagsById(String id) {
-        List<Taggable> taggable = taggableRepository.findByTaggableMorphIdAndTaggableMorphType(id, TaggableMorphType.VENDOR);
-
-        return taggable.stream().map(Taggable::getTag).toList();
-    }
+//    @Override
+//    public List<Tag> getTagsById(String id) {
+//        List<Taggable> taggable = taggableRepository.findByTaggableMorphIdAndTaggableMorphType(id, TaggableMorphType.VENDOR);
+//
+//        return taggable.stream().map(Taggable::getTag).toList();
+//    }
 }

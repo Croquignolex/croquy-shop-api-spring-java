@@ -13,6 +13,6 @@ public interface IProductService {
     Media getPresentationVideoById(String id);
     List<Media> getGalleryImagesById(String id);
     Integer getNoteById(String id);
-    List<Attribute> getAttributesById(String id);
-    List<Tag> getTagsById(String id);
+//    List<Attribute> getAttributesById(String id);
+//    List<Tag> getTagsById(String id);
 }

@@ -12,6 +12,7 @@ import java.util.Set;
 @Data
 @Entity
 @NoArgsConstructor
+@Table(name = "shops")
 public class Shop {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -36,12 +37,12 @@ public class Shop {
     @Column(name = "updated_at")
     private Date updatedAt = new Date();
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "creator_id")
-    private User creator;
-
-    @OneToMany(mappedBy = "shop")
-    private Set<InventoryHistory> inventoryHistories = new HashSet<>();
+//    @ManyToOne
+//    @JoinColumn(name = "creator_id")
+//    private User creator;
+//
+//    @OneToMany(mappedBy = "shop")
+//    private Set<InventoryHistory> inventoryHistories = new HashSet<>();
 
     @PreUpdate
     public void updateTrigger() {

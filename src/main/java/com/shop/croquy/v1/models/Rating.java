@@ -32,7 +32,7 @@ public class Rating {
     @Column(name = "rating_morph_id", nullable = false)
     private String ratingMorphId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "rater_id")
     private User rater;
 
