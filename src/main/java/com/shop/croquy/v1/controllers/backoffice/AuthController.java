@@ -30,7 +30,6 @@ public class AuthController {
 
     @PostMapping(path = "/refresh")
     public ResponseEntity<AuthenticationResponse> refresh(@Valid @RequestBody RefreshTokenRequest request) {
-        System.out.println("request=========================================>" + request);
         AuthenticationResponse refreshResponse = authenticationService.refresh(request);
 
         HttpStatus httpStatus = (refreshResponse != null) ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
