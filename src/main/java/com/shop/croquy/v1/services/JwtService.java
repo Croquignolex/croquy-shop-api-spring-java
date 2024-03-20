@@ -27,7 +27,7 @@ public class JwtService implements IJwtService {
     @Value("${token.signing.key}")
     private String jwtSigningKey;
     @Value("${token.signing.duration}")
-    private Integer jwtSigningDuration;
+    private int jwtSigningDuration;
 
     @Override
     public String extractUsernameFormToken(String token) {

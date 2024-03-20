@@ -8,6 +8,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,7 +20,13 @@ public class ShopsService implements IShopsService {
     private final ShopPagingAndSortingRepository shopPagingAndSortingRepository;
 
     @Override
-    public Page<Shop> getPaginatedShops() {
-        return shopPagingAndSortingRepository.findAll();
+    public Page<Shop> getPaginatedShops(int pageNumber, int pageSize) {
+        Pageable pageable = PageRequest.of(
+                pageNumber,
+                pageSize,
+                Sort.by(Sort.Direction.DESC, "createdAt")
+        );
+
+        return shopPagingAndSortingRepository.findAll(pageable);
     }
 }

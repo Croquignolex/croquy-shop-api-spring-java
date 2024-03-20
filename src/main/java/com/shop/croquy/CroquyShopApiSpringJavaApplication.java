@@ -39,10 +39,10 @@ public class CroquyShopApiSpringJavaApplication {
             List<User> users = new ArrayList<>();
             List<Shop> shops = new ArrayList<>();
 
-            users.add(seedUsers(100, Role.CUSTOMER));
-            users.add(seedUsers(200, Role.ADMIN));
+            users.add(seedUsers(100, Role.SUPER_ADMIN));
+            users.add(seedUsers(101, Role.CUSTOMER));
 
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 20; i++) {
                 shops.add(seedShops(i));
             }
 
@@ -51,7 +51,7 @@ public class CroquyShopApiSpringJavaApplication {
         };
     }
 
-    private User seedUsers(Integer i, Role role) {
+    private User seedUsers(int i, Role role) {
         User user = new User();
         user.setEmail("user-" + i + "@croquy-shop.com");
         user.setFirstName("User " + i);
@@ -61,7 +61,7 @@ public class CroquyShopApiSpringJavaApplication {
         return user;
     }
 
-    private Shop seedShops(Integer i) {
+    private Shop seedShops(int i) {
         Shop shop = new Shop();
         shop.setName("Shop " + i);
         shop.setSlug("shop-" + i);

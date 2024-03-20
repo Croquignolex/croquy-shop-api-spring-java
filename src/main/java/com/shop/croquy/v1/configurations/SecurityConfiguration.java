@@ -1,6 +1,5 @@
 package com.shop.croquy.v1.configurations;
 
-import com.shop.croquy.v1.enums.Role;
 import com.shop.croquy.v1.services.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -55,8 +54,6 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/ping").permitAll()
                         .requestMatchers("/v1/backoffice/auth/**").permitAll()
-//                        .requestMatchers("/v1/account/**").hasAuthority(Role.CUSTOMER.name())
-//                        .requestMatchers("/v1/backoffice/**").hasAuthority(Role.ADMIN.name())
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
