@@ -6,4 +6,5 @@ import org.springframework.data.domain.Page;
 
 public interface IShopsService {
     Page<Shop> getPaginatedShops(int pageNumber, int pageSize, String needle);
+    boolean deleteById(String id);
 }

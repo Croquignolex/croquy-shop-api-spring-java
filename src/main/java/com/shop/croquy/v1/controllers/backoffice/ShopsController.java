@@ -9,10 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,5 +27,14 @@ public class ShopsController {
         Page<Shop> paginatedSopsResponse = shopsService.getPaginatedShops(page, size, needle);
 
         return ResponseEntity.status(HttpStatus.OK).body(paginatedSopsResponse);
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<Object> delete(@PathVariable String id) {
+        boolean deleteByIdResponse = shopsService.deleteById(id);
+
+        HttpStatus httpStatus = (deleteByIdResponse) ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
+
+        return ResponseEntity.status(httpStatus).build();
     }
 }

@@ -60,7 +60,7 @@ public class AuthenticationService implements IAuthenticationService {
                     .firstName(user.getFirstName())
                     .build();
         } catch (Exception e) {
-            log.warn("################################# Authentication failed ===> " + e.getMessage());
+            log.warn("################################# [Authentication failed] ===> " + e.getMessage());
 
             return null;
         }
