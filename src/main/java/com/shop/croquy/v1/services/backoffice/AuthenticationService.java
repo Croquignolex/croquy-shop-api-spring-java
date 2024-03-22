@@ -50,7 +50,7 @@ public class AuthenticationService implements IAuthenticationService {
                 refreshToken = user.getRefreshToken();
             }
 
-            log.info("Authentication successful for username ===> " + username);
+            log.info("################################# [Login successful (username)] ===> " + username);
 
             return AuthenticationResponse.builder()
                     .accessToken(accessToken)
@@ -60,7 +60,7 @@ public class AuthenticationService implements IAuthenticationService {
                     .firstName(user.getFirstName())
                     .build();
         } catch (Exception e) {
-            log.info("Authentication failed for username ===> " + username);
+            log.warn("################################# Authentication failed ===> " + e.getMessage());
 
             return null;
         }
@@ -82,7 +82,7 @@ public class AuthenticationService implements IAuthenticationService {
 
                     String accessToken = jwtService.generateToken(user, false);
 
-                    log.info("Refresh token successful for jwt token ===> " + username);
+                    log.info("################################# [Refresh token successful (username)] ===> " + username);
 
                     return AuthenticationResponse.builder()
                             .accessToken(accessToken)
@@ -94,7 +94,7 @@ public class AuthenticationService implements IAuthenticationService {
                 }
             }
         } catch (Exception e) {
-            log.info("Refresh token failed for jwt token ===> " + jwtRefreshToken);
+            log.warn("################################# [Refresh token failed] ===> " + e.getMessage());
         }
 
         return null;

@@ -1,13 +1,18 @@
 package com.shop.croquy.v1.configurations;
 
-import lombok.RequiredArgsConstructor;
 import com.shop.croquy.v1.services.UserService;
 import com.shop.croquy.v1.services.JwtService;
 
+import io.jsonwebtoken.ExpiredJwtException;
+
+import lombok.RequiredArgsConstructor;
+
 import java.io.IOException;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
@@ -23,6 +28,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Component
+@Slf4j
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
@@ -42,21 +48,30 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        jwtAccessToken = authHeader.substring(7);
-        username = jwtService.extractUsernameFormToken(jwtAccessToken);
+        try {
+            jwtAccessToken = authHeader.substring(7);
+            username = jwtService.extractUsernameFormToken(jwtAccessToken);
 
-        if (StringUtils.isNotEmpty(username) && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userService.userDetailsService().loadUserByUsername(username);
+            if (StringUtils.isNotEmpty(username) && SecurityContextHolder.getContext().getAuthentication() == null) {
+                UserDetails userDetails = userService.userDetailsService().loadUserByUsername(username);
 
-            if (jwtService.isTokenValid(jwtAccessToken, userDetails, false)) {
-                SecurityContext context = SecurityContextHolder.createEmptyContext();
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                        userDetails, null, userDetails.getAuthorities()
-                );
-                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                context.setAuthentication(authToken);
-                SecurityContextHolder.setContext(context);
+                if (jwtService.isTokenValid(jwtAccessToken, userDetails, false)) {
+                    SecurityContext context = SecurityContextHolder.createEmptyContext();
+                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                            userDetails, null, userDetails.getAuthorities()
+                    );
+                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    context.setAuthentication(authToken);
+                    SecurityContextHolder.setContext(context);
+                }
             }
+        } catch (ExpiredJwtException e) {
+            log.warn("################################# [Access token expire] ===> " + e.getMessage());
+
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            response.getWriter().flush();
+
+            return;
         }
 
         filterChain.doFilter(request, response);

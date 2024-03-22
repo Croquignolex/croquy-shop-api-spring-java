@@ -22,8 +22,12 @@ public class ShopsController {
     private final ShopsService shopsService;
 
     @GetMapping
-    public ResponseEntity<Page<Shop>> list(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
-        Page<Shop> paginatedSopsResponse = shopsService.getPaginatedShops(page, size);
+    public ResponseEntity<Page<Shop>> list(
+            @RequestParam(defaultValue = "") String needle,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        Page<Shop> paginatedSopsResponse = shopsService.getPaginatedShops(page, size, needle);
 
         return ResponseEntity.status(HttpStatus.OK).body(paginatedSopsResponse);
     }

@@ -42,11 +42,12 @@ public class CroquyShopApiSpringJavaApplication {
             users.add(seedUsers(100, Role.SUPER_ADMIN));
             users.add(seedUsers(101, Role.CUSTOMER));
 
+            userRepository.saveAll(users);
+
             for (int i = 0; i < 20; i++) {
-                shops.add(seedShops(i));
+                shops.add(seedShops(i, users.get(0)));
             }
 
-            userRepository.saveAll(users);
             shopRepository.saveAll(shops);
         };
     }
@@ -61,10 +62,11 @@ public class CroquyShopApiSpringJavaApplication {
         return user;
     }
 
-    private Shop seedShops(int i) {
+    private Shop seedShops(int i, User creator) {
         Shop shop = new Shop();
         shop.setName("Shop " + i);
         shop.setSlug("shop-" + i);
+        shop.setCreator(creator);
         return shop;
     }
 }

@@ -35,10 +35,10 @@ public class Shop {
     @Column(name = "updated_at")
     private Date updatedAt = new Date();
 
-//    @ManyToOne
-//    @JoinColumn(name = "creator_id")
-//    private User creator;
-//
+    @ManyToOne
+    @JoinColumn(name = "creator_id")
+    private User creator;
+
 //    @OneToMany(mappedBy = "shop")
 //    private Set<InventoryHistory> inventoryHistories = new HashSet<>();
 

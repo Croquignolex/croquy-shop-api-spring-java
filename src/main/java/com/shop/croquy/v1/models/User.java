@@ -148,6 +148,7 @@ public class User implements UserDetails {
 
     @PrePersist
     public void createTrigger() {
+
         password = new BCryptPasswordEncoder().encode(this.password);
 
         if(role.equals(Role.CUSTOMER)) {
