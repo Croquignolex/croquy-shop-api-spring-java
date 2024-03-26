@@ -1,7 +1,7 @@
 package com.shop.croquy.v1.services.backoffice;
 
-import com.shop.croquy.v1.dao.backoffice.AuthenticationRequest;
-import com.shop.croquy.v1.dao.backoffice.AuthenticationResponse;
+import com.shop.croquy.v1.dao.backoffice.authentication.AuthenticationRequest;
+import com.shop.croquy.v1.dao.backoffice.authentication.AuthenticationResponse;
 import com.shop.croquy.v1.dao.backoffice.RefreshTokenRequest;
 import com.shop.croquy.v1.enums.Role;
 import com.shop.croquy.v1.repositories.UserRepository;

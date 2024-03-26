@@ -1,4 +1,4 @@
-package com.shop.croquy.v1.dao.backoffice;
+package com.shop.croquy.v1.dao.backoffice.authentication;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
