@@ -2,7 +2,7 @@ package com.shop.croquy.v1.repositories;
 
 import com.shop.croquy.v1.enums.MediaMorphType;
 import com.shop.croquy.v1.enums.MediaType;
-import com.shop.croquy.v1.models.Media;
+import com.shop.croquy.v1.entities.Media;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

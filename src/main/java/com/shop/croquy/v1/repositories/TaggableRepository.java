@@ -1,7 +1,7 @@
 package com.shop.croquy.v1.repositories;
 
 import com.shop.croquy.v1.enums.TaggableMorphType;
-import com.shop.croquy.v1.models.Taggable;
+import com.shop.croquy.v1.entities.Taggable;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

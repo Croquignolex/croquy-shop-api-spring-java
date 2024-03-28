@@ -2,7 +2,7 @@ package com.shop.croquy.v1.services;
 
 import com.shop.croquy.v1.enums.MediaMorphType;
 import com.shop.croquy.v1.enums.MediaType;
-import com.shop.croquy.v1.models.Media;
+import com.shop.croquy.v1.entities.Media;
 import com.shop.croquy.v1.repositories.MediaRepository;
 import com.shop.croquy.v1.services.interfaces.ICountryService;
 import lombok.RequiredArgsConstructor;

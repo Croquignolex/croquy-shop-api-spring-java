@@ -1,13 +1,14 @@
 package com.shop.croquy.v1.services.interfaces;
 
-import com.shop.croquy.v1.dao.backoffice.GenericResponse;
-import com.shop.croquy.v1.dao.backoffice.shop.ShopStoreRequest;
-import com.shop.croquy.v1.models.Shop;
+import com.shop.croquy.v1.dto.backoffice.shop.ShopStoreRequest;
+import com.shop.croquy.v1.dto.backoffice.shop.ShopUpdateRequest;
+import com.shop.croquy.v1.entities.Shop;
 
 import org.springframework.data.domain.Page;
 
 public interface IShopsService {
     Page<Shop> getPaginatedShops(int pageNumber, int pageSize, String needle);
-    GenericResponse create(ShopStoreRequest request, String userUsername);
-    GenericResponse deleteById(String id);
+    void store(ShopStoreRequest request, String userUsername);
+    void update(ShopUpdateRequest request, String id);
+    void destroyById(String id);
 }

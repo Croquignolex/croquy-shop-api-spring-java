@@ -1,9 +1,10 @@
 package com.shop.croquy.v1.services.backoffice;
 
-import com.shop.croquy.v1.dao.backoffice.GenericResponse;
-import com.shop.croquy.v1.dao.backoffice.shop.ShopStoreRequest;
-import com.shop.croquy.v1.models.Shop;
-import com.shop.croquy.v1.models.User;
+import com.shop.croquy.v1.dto.backoffice.shop.ShopStoreRequest;
+import com.shop.croquy.v1.dto.backoffice.shop.ShopUpdateRequest;
+import com.shop.croquy.v1.entities.Shop;
+import com.shop.croquy.v1.entities.User;
+import com.shop.croquy.v1.helpers.ErrorMessagesHelper;
 import com.shop.croquy.v1.repositories.ShopPagingAndSortingRepository;
 import com.shop.croquy.v1.repositories.ShopRepository;
 import com.shop.croquy.v1.repositories.UserRepository;
@@ -13,16 +14,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -50,29 +49,45 @@ public class ShopsService implements IShopsService {
     }
 
     @Override
-    public GenericResponse create(ShopStoreRequest request, String creatorUsername) {
-        Optional<Shop> shop = shopRepository.findFistByNameOrSlug(request.getName(), request.getSlug());
-
-        if(shop.isEmpty()) {
-            var creator = userRepository.findByUsername(creatorUsername).orElse(null);
-            shopRepository.save(request.toShop(creator));
-
-            return GenericResponse.builder().code(HttpStatus.CREATED).build();
+    public void store(ShopStoreRequest request, String creatorUsername) {
+        if(shopRepository.findFistByName(request.getName()).isPresent()) {
+            throw new DataIntegrityViolationException(ErrorMessagesHelper.SHOP_NAME_ALREADY_EXIST + request.getName());
         }
 
-        return GenericResponse.builder().code(HttpStatus.BAD_REQUEST).message("UNIQUE_SLUG_ERROR").build();
+        if(shopRepository.findFistBySlug(request.getSlug()).isPresent()) {
+            throw new DataIntegrityViolationException(ErrorMessagesHelper.SHOP_SLUG_ALREADY_EXIST + request.getSlug());
+        }
+
+        var creator = userRepository.findByUsername(creatorUsername).orElse(null);
+        shopRepository.save(request.toShop(creator));
     }
 
     @Override
-    public GenericResponse deleteById(String id) {
-        Optional<Shop> shop = shopRepository.findById(id);
-
-        if(shop.isPresent()) {
-            shopRepository.deleteById(id);
-
-            return GenericResponse.builder().code(HttpStatus.NO_CONTENT).build();
+    public void update(ShopUpdateRequest request, String id) {
+        if(shopRepository.findFistByNameAndIdNot(request.getName(), id).isPresent()) {
+            throw new DataIntegrityViolationException(ErrorMessagesHelper.SHOP_NAME_ALREADY_EXIST + request.getName());
         }
 
-        return GenericResponse.builder().code(HttpStatus.BAD_REQUEST).message("NOT_FOUND_ERROR").build();
+        if(shopRepository.findFistBySlugAndIdNot(request.getSlug() , id).isPresent()) {
+            throw new DataIntegrityViolationException(ErrorMessagesHelper.SHOP_SLUG_ALREADY_EXIST + request.getSlug());
+        }
+
+        Shop shop = shopRepository.findById(id)
+                .orElseThrow(() -> new DataIntegrityViolationException(ErrorMessagesHelper.SHOP_ID_NOT_FOUND + id));
+
+        shop.setName(request.getName());
+        shop.setSlug(request.getSlug());
+        shop.setDescription(request.getDescription());
+
+        shopRepository.save(shop);
+    }
+
+    @Override
+    public void destroyById(String id) {
+        if(shopRepository.findById(id).isEmpty()) {
+            throw new DataIntegrityViolationException(ErrorMessagesHelper.SHOP_ID_NOT_FOUND + id);
+        }
+
+        shopRepository.deleteById(id);
     }
 }

@@ -1,11 +1,9 @@
 package com.shop.croquy.v1.repositories;
 
-import com.shop.croquy.v1.models.Category;
+import com.shop.croquy.v1.entities.Category;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, String> {

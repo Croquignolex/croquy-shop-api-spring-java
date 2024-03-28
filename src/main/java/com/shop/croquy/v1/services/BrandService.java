@@ -2,10 +2,7 @@ package com.shop.croquy.v1.services;
 
 import com.shop.croquy.v1.enums.MediaMorphType;
 import com.shop.croquy.v1.enums.MediaType;
-import com.shop.croquy.v1.enums.TaggableMorphType;
-import com.shop.croquy.v1.models.Media;
-import com.shop.croquy.v1.models.Tag;
-import com.shop.croquy.v1.models.Taggable;
+import com.shop.croquy.v1.entities.Media;
 import com.shop.croquy.v1.repositories.MediaRepository;
 import com.shop.croquy.v1.repositories.TaggableRepository;
 import com.shop.croquy.v1.services.interfaces.IBrandService;
@@ -14,8 +11,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @Slf4j

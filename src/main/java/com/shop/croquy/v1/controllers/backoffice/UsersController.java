@@ -1,6 +1,6 @@
 package com.shop.croquy.v1.controllers.backoffice;
 
-import com.shop.croquy.v1.models.User;
+import com.shop.croquy.v1.entities.User;
 import com.shop.croquy.v1.services.backoffice.UsersService;
 
 import lombok.RequiredArgsConstructor;

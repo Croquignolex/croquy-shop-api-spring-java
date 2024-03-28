@@ -1,6 +1,6 @@
 package com.shop.croquy.v1.services.interfaces;
 
-import com.shop.croquy.v1.models.User;
+import com.shop.croquy.v1.entities.User;
 import org.springframework.data.domain.Page;
 
 public interface IUsersService {

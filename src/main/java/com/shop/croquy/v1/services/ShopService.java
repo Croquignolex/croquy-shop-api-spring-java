@@ -2,10 +2,7 @@ package com.shop.croquy.v1.services;
 
 import com.shop.croquy.v1.enums.AddressMorphType;
 import com.shop.croquy.v1.enums.AddressType;
-import com.shop.croquy.v1.enums.TaggableMorphType;
-import com.shop.croquy.v1.models.Address;
-import com.shop.croquy.v1.models.Tag;
-import com.shop.croquy.v1.models.Taggable;
+import com.shop.croquy.v1.entities.Address;
 import com.shop.croquy.v1.repositories.AddressRepository;
 import com.shop.croquy.v1.repositories.TaggableRepository;
 import com.shop.croquy.v1.services.interfaces.IShopService;
@@ -14,8 +11,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @Slf4j

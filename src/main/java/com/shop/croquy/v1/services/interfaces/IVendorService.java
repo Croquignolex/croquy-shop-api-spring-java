@@ -1,10 +1,7 @@
 package com.shop.croquy.v1.services.interfaces;
 
-import com.shop.croquy.v1.models.Address;
-import com.shop.croquy.v1.models.Media;
-import com.shop.croquy.v1.models.Tag;
-
-import java.util.List;
+import com.shop.croquy.v1.entities.Address;
+import com.shop.croquy.v1.entities.Media;
 
 public interface IVendorService {
     Media getLogoById(String id);

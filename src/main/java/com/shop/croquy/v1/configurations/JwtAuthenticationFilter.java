@@ -1,5 +1,7 @@
 package com.shop.croquy.v1.configurations;
 
+import com.shop.croquy.v1.dto.GenericResponse;
+import com.shop.croquy.v1.helpers.GeneralHelper;
 import com.shop.croquy.v1.services.UserService;
 import com.shop.croquy.v1.services.JwtService;
 
@@ -65,10 +67,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     SecurityContextHolder.setContext(context);
                 }
             }
-        } catch (ExpiredJwtException e) {
-            log.warn("################################# [Access token expire] ===> " + e.getMessage());
+        } catch (ExpiredJwtException ex) {
+            GenericResponse rep = new GenericResponse(HttpStatus.UNAUTHORIZED.value(), ex.getMessage());
 
-            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            log.error("################################# [" + rep.getStatusCode() + "] ===> " + rep.getMessage());
+
+            response.setStatus(rep.getStatusCode());
+            response.getWriter().write(GeneralHelper.convertObjectToJson(rep));
             response.getWriter().flush();
 
             return;

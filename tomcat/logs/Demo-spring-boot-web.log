@@ -18,7 +18,7 @@
 2024-03-14T08:00:58.252+01:00  INFO 11860 --- [CroquyShopApi] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
 2024-03-14T08:00:58.317+01:00  WARN 11860 --- [CroquyShopApi] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
 2024-03-14T08:00:58.318+01:00  WARN 11860 --- [CroquyShopApi] [restartedMain] org.hibernate.orm.deprecation            : HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
-2024-03-14T08:00:58.462+01:00 ERROR 11860 --- [CroquyShopApi] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Failed to initialize JPA EntityManagerFactory: Property 'com.shop.croquy.v1.models.Media.path' is annotated '@Enumerated' but its type 'java.lang.String' is not an enum
+2024-03-14T08:00:58.462+01:00 ERROR 11860 --- [CroquyShopApi] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Failed to initialize JPA EntityManagerFactory: Property 'com.shop.croquy.v1.entities.Media.path' is annotated '@Enumerated' but its type 'java.lang.String' is not an enum
 2024-03-14T08:00:58.463+01:00 ERROR 11860 --- [CroquyShopApi] [restartedMain] o.s.b.web.embedded.tomcat.TomcatStarter  : Error starting Tomcat context. Exception: org.springframework.beans.factory.UnsatisfiedDependencyException. Message: Error creating bean with name 'jwtAuthenticationFilter' defined in file [C:\Users\angombol\repositories\croquy-shop-api-spring-java\target\classes\com\shop\croquy\v1\configurations\JwtAuthenticationFilter.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'userService' defined in file [C:\Users\angombol\repositories\croquy-shop-api-spring-java\target\classes\com\shop\croquy\v1\services\UserService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'userRepository' defined in com.shop.croquy.v1.repositories.UserRepository defined in @EnableJpaRepositories declared on JpaRepositoriesRegistrar.EnableJpaRepositoriesConfiguration: Cannot resolve reference to bean 'jpaSharedEM_entityManagerFactory' while setting bean property 'entityManager'
 2024-03-14T08:00:58.487+01:00  INFO 11860 --- [CroquyShopApi] [restartedMain] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
 2024-03-14T08:00:58.490+01:00  WARN 11860 --- [CroquyShopApi] [restartedMain] o.a.c.loader.WebappClassLoaderBase       : The web application [api] appears to have started a thread named [HikariPool-1 housekeeper] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
@@ -181,7 +181,7 @@ Caused by: org.springframework.beans.factory.BeanCreationException: Error creati
 	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199) ~[spring-beans-6.1.3.jar:6.1.3]
 	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:365) ~[spring-beans-6.1.3.jar:6.1.3]
 	... 85 common frames omitted
-Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Property 'com.shop.croquy.v1.models.Media.path' is annotated '@Enumerated' but its type 'java.lang.String' is not an enum
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Property 'com.shop.croquy.v1.entities.Media.path' is annotated '@Enumerated' but its type 'java.lang.String' is not an enum
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1773) ~[spring-beans-6.1.3.jar:6.1.3]
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:599) ~[spring-beans-6.1.3.jar:6.1.3]
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:521) ~[spring-beans-6.1.3.jar:6.1.3]
@@ -191,7 +191,7 @@ Caused by: org.springframework.beans.factory.BeanCreationException: Error creati
 	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199) ~[spring-beans-6.1.3.jar:6.1.3]
 	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:365) ~[spring-beans-6.1.3.jar:6.1.3]
 	... 97 common frames omitted
-Caused by: org.hibernate.AnnotationException: Property 'com.shop.croquy.v1.models.Media.path' is annotated '@Enumerated' but its type 'java.lang.String' is not an enum
+Caused by: org.hibernate.AnnotationException: Property 'com.shop.croquy.v1.entities.Media.path' is annotated '@Enumerated' but its type 'java.lang.String' is not an enum
 	at org.hibernate.boot.model.internal.BasicValueBinder.prepareBasicAttribute(BasicValueBinder.java:807) ~[hibernate-core-6.4.1.Final.jar:6.4.1.Final]
 	at org.hibernate.boot.model.internal.BasicValueBinder.setType(BasicValueBinder.java:376) ~[hibernate-core-6.4.1.Final.jar:6.4.1.Final]
 	at org.hibernate.boot.model.internal.PropertyBinder.makePropertyAndValue(PropertyBinder.java:261) ~[hibernate-core-6.4.1.Final.jar:6.4.1.Final]
@@ -1244,7 +1244,7 @@ Caused by: java.lang.NoClassDefFoundError: com/shop/croquy/v1/models/UserInforma
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1820) ~[spring-beans-6.1.3.jar:6.1.3]
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1769) ~[spring-beans-6.1.3.jar:6.1.3]
 	... 104 common frames omitted
-Caused by: java.lang.ClassNotFoundException: com.shop.croquy.v1.models.UserInformation
+Caused by: java.lang.ClassNotFoundException: com.shop.croquy.v1.entities.UserInformation
 	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:641) ~[na:na]
 	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:188) ~[na:na]
 	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:526) ~[na:na]

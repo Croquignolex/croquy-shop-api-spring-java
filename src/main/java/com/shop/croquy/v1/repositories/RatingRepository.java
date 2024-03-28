@@ -1,7 +1,7 @@
 package com.shop.croquy.v1.repositories;
 
 import com.shop.croquy.v1.enums.RatingMorphType;
-import com.shop.croquy.v1.models.Rating;
+import com.shop.croquy.v1.entities.Rating;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

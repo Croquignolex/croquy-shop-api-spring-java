@@ -1,9 +1,7 @@
 package com.shop.croquy.v1.services.interfaces;
 
-import com.shop.croquy.v1.models.Attribute;
-import com.shop.croquy.v1.models.Media;
-import com.shop.croquy.v1.models.Rating;
-import com.shop.croquy.v1.models.Tag;
+import com.shop.croquy.v1.entities.Media;
+import com.shop.croquy.v1.entities.Rating;
 
 import java.util.List;
 

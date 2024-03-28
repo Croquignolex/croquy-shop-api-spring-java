@@ -1,8 +1,8 @@
 package com.shop.croquy.v1.controllers.backoffice;
 
-import com.shop.croquy.v1.dao.backoffice.GenericResponse;
-import com.shop.croquy.v1.dao.backoffice.shop.ShopStoreRequest;
-import com.shop.croquy.v1.models.Shop;
+import com.shop.croquy.v1.dto.backoffice.shop.ShopStoreRequest;
+import com.shop.croquy.v1.dto.backoffice.shop.ShopUpdateRequest;
+import com.shop.croquy.v1.entities.Shop;
 import com.shop.croquy.v1.services.backoffice.ShopsService;
 
 import jakarta.validation.Valid;
@@ -35,16 +35,23 @@ public class ShopsController {
     }
 
     @PostMapping
-    public ResponseEntity<GenericResponse> store(@Valid @RequestBody ShopStoreRequest request, Principal principal) {
-        GenericResponse createResponse = shopsService.create(request, principal.getName());
+    public ResponseEntity<Object> store(@Valid @RequestBody ShopStoreRequest request, Principal principal) {
+        shopsService.store(request, principal.getName());
 
-        return ResponseEntity.status(createResponse.getCode()).body(createResponse);
+        return ResponseEntity.status(HttpStatus.CREATED.value()).build();
+    }
+
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<Object> store(@Valid @RequestBody ShopUpdateRequest request, @PathVariable String id) {
+        shopsService.update(request, id);
+
+        return ResponseEntity.status(HttpStatus.ACCEPTED.value()).build();
     }
 
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity<GenericResponse> delete(@PathVariable String id) {
-        GenericResponse deleteByIdResponse = shopsService.deleteById(id);
+    public ResponseEntity<Object> destroy(@PathVariable String id) {
+        shopsService.destroyById(id);
 
-        return ResponseEntity.status(deleteByIdResponse.getCode()).body(deleteByIdResponse);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT.value()).build();
     }
 }

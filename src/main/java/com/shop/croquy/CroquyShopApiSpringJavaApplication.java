@@ -1,8 +1,8 @@
 package com.shop.croquy;
 
 import com.shop.croquy.v1.enums.Role;
-import com.shop.croquy.v1.models.Shop;
-import com.shop.croquy.v1.models.User;
+import com.shop.croquy.v1.entities.Shop;
+import com.shop.croquy.v1.entities.User;
 import com.shop.croquy.v1.repositories.ShopRepository;
 import com.shop.croquy.v1.repositories.UserRepository;
 

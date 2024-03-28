@@ -1,7 +1,7 @@
 package com.shop.croquy.v1.repositories;
 
 import com.shop.croquy.v1.enums.Role;
-import com.shop.croquy.v1.models.User;
+import com.shop.croquy.v1.entities.User;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

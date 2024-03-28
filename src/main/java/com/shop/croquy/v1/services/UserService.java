@@ -1,8 +1,8 @@
 package com.shop.croquy.v1.services;
 
 import com.shop.croquy.v1.enums.*;
-import com.shop.croquy.v1.models.Address;
-import com.shop.croquy.v1.models.Media;
+import com.shop.croquy.v1.entities.Address;
+import com.shop.croquy.v1.entities.Media;
 import com.shop.croquy.v1.repositories.AddressRepository;
 import com.shop.croquy.v1.repositories.MediaRepository;
 import com.shop.croquy.v1.repositories.UserRepository;

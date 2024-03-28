@@ -1,7 +1,7 @@
 package com.shop.croquy.v1.services.backoffice;
 
 import com.shop.croquy.v1.enums.Role;
-import com.shop.croquy.v1.models.User;
+import com.shop.croquy.v1.entities.User;
 import com.shop.croquy.v1.repositories.UserPagingAndSortingRepository;
 import com.shop.croquy.v1.repositories.UserRepository;
 import com.shop.croquy.v1.services.interfaces.IUsersService;

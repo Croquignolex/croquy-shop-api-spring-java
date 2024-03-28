@@ -1,6 +1,5 @@
 package com.shop.croquy.v1.services;
 
-import com.shop.croquy.v1.models.*;
 import com.shop.croquy.v1.repositories.ProductAttributeRepository;
 import com.shop.croquy.v1.services.interfaces.IAttributeService;
 
@@ -8,8 +7,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @Slf4j

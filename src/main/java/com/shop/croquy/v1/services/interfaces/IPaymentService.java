@@ -1,6 +1,6 @@
 package com.shop.croquy.v1.services.interfaces;
 
-import com.shop.croquy.v1.models.Media;
+import com.shop.croquy.v1.entities.Media;
 
 public interface IPaymentService {
     Media getPDFHardCopyById(String id);
