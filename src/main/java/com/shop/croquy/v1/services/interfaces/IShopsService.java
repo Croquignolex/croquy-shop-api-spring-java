@@ -8,7 +8,9 @@ import org.springframework.data.domain.Page;
 
 public interface IShopsService {
     Page<Shop> getPaginatedShops(int pageNumber, int pageSize, String needle);
-    void store(ShopStoreRequest request, String userUsername);
-    void update(ShopUpdateRequest request, String id);
+    Shop getShopById(String id);
+    void storeShopWithCreator(ShopStoreRequest request, String creatorUsername);
+    void updateShopById(ShopUpdateRequest request, String id);
     void destroyById(String id);
+    void toggleStatusById(String id);
 }

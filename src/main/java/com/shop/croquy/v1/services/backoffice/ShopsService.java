@@ -49,7 +49,12 @@ public class ShopsService implements IShopsService {
     }
 
     @Override
-    public void store(ShopStoreRequest request, String creatorUsername) {
+    public Shop getShopById(String id) {
+        return shopRepository.findById(id).orElseThrow(() -> new DataIntegrityViolationException(ErrorMessagesHelper.SHOP_ID_NOT_FOUND + id));
+    }
+
+    @Override
+    public void storeShopWithCreator(ShopStoreRequest request, String creatorUsername) {
         if(shopRepository.findFistByName(request.getName()).isPresent()) {
             throw new DataIntegrityViolationException(ErrorMessagesHelper.SHOP_NAME_ALREADY_EXIST + request.getName());
         }
@@ -63,7 +68,7 @@ public class ShopsService implements IShopsService {
     }
 
     @Override
-    public void update(ShopUpdateRequest request, String id) {
+    public void updateShopById(ShopUpdateRequest request, String id) {
         if(shopRepository.findFistByNameAndIdNot(request.getName(), id).isPresent()) {
             throw new DataIntegrityViolationException(ErrorMessagesHelper.SHOP_NAME_ALREADY_EXIST + request.getName());
         }
@@ -89,5 +94,15 @@ public class ShopsService implements IShopsService {
         }
 
         shopRepository.deleteById(id);
+    }
+
+    @Override
+    public void toggleStatusById(String id) {
+        Shop shop = shopRepository.findById(id)
+                .orElseThrow(() -> new DataIntegrityViolationException(ErrorMessagesHelper.SHOP_ID_NOT_FOUND + id));
+
+        shop.setEnabled(!shop.getEnabled());
+
+        shopRepository.save(shop);
     }
 }

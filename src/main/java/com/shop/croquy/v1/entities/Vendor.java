@@ -25,8 +25,8 @@ public class Vendor {
     @Column(name = "is_enabled", nullable = false)
     private Boolean enabled = true;
 
-    @Column(name = "description")
-    private String description;
+    @Column(name = "description", nullable = false, columnDefinition = "TEXT")
+    private String description = "";
 
     @Column(name = "created_at")
     private Date createdAt = new Date();

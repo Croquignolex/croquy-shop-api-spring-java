@@ -23,8 +23,8 @@ public class InventoryHistory {
     @Column(name = "old_quantity", nullable = false)
     private Integer oldQuantity = 0;
 
-    @Column(name = "description")
-    private String description;
+    @Column(name = "description", nullable = false, columnDefinition = "TEXT")
+    private String description = "";
 
     @Column(name = "created_at")
     private Date createdAt = new Date();

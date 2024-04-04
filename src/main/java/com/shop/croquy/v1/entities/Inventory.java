@@ -44,8 +44,8 @@ public class Inventory {
     @Column(name = "promotion_price", nullable = false)
     private Integer promotionPrice = 0;
 
-    @Column(name = "description")
-    private String description;
+    @Column(name = "description", nullable = false, columnDefinition = "TEXT")
+    private String description = "";
 
     @Column(name = "promotion_started_at")
     private Date promotionStartedAt;

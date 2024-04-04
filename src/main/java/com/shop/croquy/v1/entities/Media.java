@@ -30,8 +30,8 @@ public class Media {
     @Column(name = "path", nullable = false)
     private String path;
 
-    @Column(name = "description")
-    private String description;
+    @Column(name = "description", nullable = false, columnDefinition = "TEXT")
+    private String description = "";
 
     @Enumerated(EnumType.STRING)
     @Column(name = "media_morph_type", nullable = false)

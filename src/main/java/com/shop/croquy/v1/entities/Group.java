@@ -35,8 +35,8 @@ public class Group {
     @Column(name = "seo_description")
     private String seoDescription;
 
-    @Column(name = "description")
-    private String description;
+    @Column(name = "description", nullable = false, columnDefinition = "TEXT")
+    private String description = "";
 
     @Column(name = "created_at")
     private Date createdAt = new Date();

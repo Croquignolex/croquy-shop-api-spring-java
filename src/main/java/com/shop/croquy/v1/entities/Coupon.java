@@ -35,8 +35,8 @@ public class Coupon {
     @Column(name = "promotion_ended_at")
     private Date promotionEndedAt;
 
-    @Column(name = "description")
-    private String description;
+    @Column(name = "description", nullable = false, columnDefinition = "TEXT")
+    private String description = "";
 
     @Column(name = "created_at")
     private Date createdAt = new Date();

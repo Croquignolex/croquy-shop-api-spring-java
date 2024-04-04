@@ -34,16 +34,23 @@ public class ShopsController {
         return ResponseEntity.status(HttpStatus.OK).body(paginatedSopsResponse);
     }
 
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<Shop> show(@PathVariable String id) {
+        Shop shop = shopsService.getShopById(id);
+
+        return ResponseEntity.status(HttpStatus.OK.value()).body(shop);
+    }
+
     @PostMapping
     public ResponseEntity<Object> store(@Valid @RequestBody ShopStoreRequest request, Principal principal) {
-        shopsService.store(request, principal.getName());
+        shopsService.storeShopWithCreator(request, principal.getName());
 
         return ResponseEntity.status(HttpStatus.CREATED.value()).build();
     }
 
     @PutMapping(path = "/{id}")
-    public ResponseEntity<Object> store(@Valid @RequestBody ShopUpdateRequest request, @PathVariable String id) {
-        shopsService.update(request, id);
+    public ResponseEntity<Object> update(@Valid @RequestBody ShopUpdateRequest request, @PathVariable String id) {
+        shopsService.updateShopById(request, id);
 
         return ResponseEntity.status(HttpStatus.ACCEPTED.value()).build();
     }
@@ -51,6 +58,13 @@ public class ShopsController {
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Object> destroy(@PathVariable String id) {
         shopsService.destroyById(id);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT.value()).build();
+    }
+
+    @PatchMapping(path = "/{id}/toggle")
+    public ResponseEntity<Object> toggle(@PathVariable String id) {
+        shopsService.toggleStatusById(id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT.value()).build();
     }

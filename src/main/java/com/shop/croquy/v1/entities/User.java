@@ -46,8 +46,8 @@ public class User implements UserDetails {
     @Column(name = "profession")
     private String profession;
 
-    @Column(name = "description")
-    private String description;
+    @Column(name = "description", nullable = false, columnDefinition = "TEXT")
+    private String description = "";
 
     @Column(name = "gender", nullable = false)
     @Enumerated(EnumType.STRING)
