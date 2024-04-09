@@ -34,21 +34,24 @@ public class ProductService implements IProductService {
 
     @Override
     public Media getAboutNoticeById(String id) {
-        return mediaRepository
+        /*return mediaRepository
                 .findByMediaMorphIdAndMediaMorphTypeAndType(id, MediaMorphType.PRODUCT, MediaType.TXT)
-                .orElse(null);
+                .orElse(null);*/
+        return null;
     }
 
     @Override
     public Media getPresentationVideoById(String id) {
-        return mediaRepository
+        /*return mediaRepository
                 .findByMediaMorphIdAndMediaMorphTypeAndType(id, MediaMorphType.PRODUCT, MediaType.VIDEO)
-                .orElse(null);
+                .orElse(null);*/
+        return null;
     }
 
     @Override
     public List<Media> getGalleryImagesById(String id) {
-        return mediaRepository.findAllByMediaMorphIdAndMediaMorphTypeAndType(id, MediaMorphType.PRODUCT, MediaType.IMAGE);
+//        return mediaRepository.findAllByMediaMorphIdAndMediaMorphTypeAndType(id, MediaMorphType.PRODUCT, MediaType.IMAGE);
+        return null;
     }
 
     @Override

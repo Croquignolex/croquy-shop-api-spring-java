@@ -19,15 +19,17 @@ public class PaymentService implements IPaymentService {
 
     @Override
     public Media getPDFHardCopyById(String id) {
-         return mediaRepository
+         /*return mediaRepository
                  .findByMediaMorphIdAndMediaMorphTypeAndType(id, MediaMorphType.PAYMENT, MediaType.PDF)
-                 .orElse(null);
+                 .orElse(null);*/
+        return null;
     }
 
     @Override
     public Media getImageHardCopyById(String id) {
-        return mediaRepository
+        /*return mediaRepository
                 .findByMediaMorphIdAndMediaMorphTypeAndType(id, MediaMorphType.PAYMENT, MediaType.IMAGE)
-                .orElse(null);
+                .orElse(null);*/
+        return null;
     }
 }

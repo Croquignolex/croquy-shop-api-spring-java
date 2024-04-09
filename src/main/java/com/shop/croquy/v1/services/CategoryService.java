@@ -21,9 +21,10 @@ public class CategoryService implements ICategoryService {
 
     @Override
     public Media getBannerById(String id) {
-         return mediaRepository
+         /*return mediaRepository
                  .findByMediaMorphIdAndMediaMorphTypeAndType(id, MediaMorphType.CATEGORY, MediaType.BANNER)
-                 .orElse(null);
+                 .orElse(null);*/
+        return null;
     }
 
 //    @Override

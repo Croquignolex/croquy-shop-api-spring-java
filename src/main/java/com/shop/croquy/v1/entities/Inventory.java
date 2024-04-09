@@ -4,27 +4,21 @@ import com.shop.croquy.v1.enums.InventoryCondition;
 
 import jakarta.persistence.*;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Date;
 
-@Data
-//@Entity
+@Getter
+@Setter
+@Entity
 @NoArgsConstructor
-//@Table(name = "inventories")
-public class Inventory {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id", nullable = false)
-    private String id;
-
+@Table(name = "inventories")
+public class Inventory extends BaseEntity {
     @Column(name = "condition", nullable = false)
     @Enumerated(EnumType.STRING)
     private InventoryCondition condition = InventoryCondition.NEW;
-
-    @Column(name = "is_enabled", nullable = false)
-    private Boolean enabled = true;
 
     @Column(name = "quantity", nullable = false)
     private Integer quantity = 0;
@@ -44,39 +38,21 @@ public class Inventory {
     @Column(name = "promotion_price", nullable = false)
     private Integer promotionPrice = 0;
 
-    @Column(name = "description", nullable = false, columnDefinition = "TEXT")
-    private String description = "";
-
     @Column(name = "promotion_started_at")
     private Date promotionStartedAt;
 
     @Column(name = "promotion_ended_at")
     private Date promotionEndedAt;
 
-    @Column(name = "created_at")
-    private Date createdAt = new Date();
+//    @ManyToOne
+//    @JoinColumn(name = "product_id")
+//    private Product product;
 
-    @Column(name = "updated_at")
-    private Date updatedAt = new Date();
-
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
-
-    @ManyToOne
-    @JoinColumn(name = "creator_id")
-    private User creator;
-
-    @ManyToOne
-    @JoinColumn(name = "vendor_id")
-    private Vendor vendor;
+//    @ManyToOne
+//    @JoinColumn(name = "vendor_id")
+//    private Vendor vendor;
 
     @ManyToOne
     @JoinColumn(name = "country_id")
     private Country country;
-
-    @PreUpdate
-    public void updateTrigger() {
-        this.updatedAt = new Date();
-    }
 }

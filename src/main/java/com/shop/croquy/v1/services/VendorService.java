@@ -23,9 +23,10 @@ public class VendorService implements IVendorService {
 
     @Override
     public Media getLogoById(String id) {
-         return mediaRepository
+         /*return mediaRepository
                  .findByMediaMorphIdAndMediaMorphTypeAndType(id, MediaMorphType.VENDOR, MediaType.LOGO)
-                 .orElse(null);
+                 .orElse(null);*/
+        return null;
     }
 
     @Override

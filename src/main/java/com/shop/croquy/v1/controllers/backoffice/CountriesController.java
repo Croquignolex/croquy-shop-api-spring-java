@@ -1,13 +1,11 @@
 package com.shop.croquy.v1.controllers.backoffice;
 
-import com.shop.croquy.v1.dto.backoffice.shop.ShopStoreRequest;
-import com.shop.croquy.v1.dto.backoffice.shop.ShopUpdateRequest;
-import com.shop.croquy.v1.entities.Shop;
-import com.shop.croquy.v1.services.backoffice.ShopsService;
-
+import com.shop.croquy.v1.dto.backoffice.country.CountryStoreRequest;
+import com.shop.croquy.v1.dto.backoffice.country.CountryUpdateRequest;
+import com.shop.croquy.v1.entities.Country;
+import com.shop.croquy.v1.services.backoffice.CountriesService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,52 +17,52 @@ import java.security.Principal;
 @RestController
 @RequiredArgsConstructor
 @PreAuthorize("hasAnyAuthority('SUPER_ADMIN')")
-@RequestMapping(path = "/v1/backoffice/shops")
-public class ShopsController {
-    private final ShopsService shopsService;
+@RequestMapping(path = "/v1/backoffice/countries")
+public class CountriesController {
+    private final CountriesService countriesService;
 
     @GetMapping
-    public ResponseEntity<Page<Shop>> index(
+    public ResponseEntity<Page<Country>> index(
             @RequestParam(defaultValue = "") String needle,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
-        Page<Shop> paginatedShopsResponse = shopsService.getPaginatedShops(page, size, needle);
+        Page<Country> paginatedCountriesResponse = countriesService.getPaginatedCountries(page, size, needle);
 
-        return ResponseEntity.status(HttpStatus.OK).body(paginatedShopsResponse);
+        return ResponseEntity.status(HttpStatus.OK).body(paginatedCountriesResponse);
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<Shop> show(@PathVariable String id) {
-        Shop shop = shopsService.getShopById(id);
+    public ResponseEntity<Country> show(@PathVariable String id) {
+        Country country = countriesService.getCountryById(id);
 
-        return ResponseEntity.status(HttpStatus.OK.value()).body(shop);
+        return ResponseEntity.status(HttpStatus.OK.value()).body(country);
     }
 
     @PostMapping
-    public ResponseEntity<Object> store(@Valid @RequestBody ShopStoreRequest request, Principal principal) {
-        shopsService.storeShopWithCreator(request, principal.getName());
+    public ResponseEntity<Object> store(@Valid @RequestBody CountryStoreRequest request, Principal principal) {
+        countriesService.storeCountryWithCreator(request, principal.getName());
 
         return ResponseEntity.status(HttpStatus.CREATED.value()).build();
     }
 
     @PutMapping(path = "/{id}")
-    public ResponseEntity<Object> update(@Valid @RequestBody ShopUpdateRequest request, @PathVariable String id) {
-        shopsService.updateShopById(request, id);
+    public ResponseEntity<Object> update(@Valid @RequestBody CountryUpdateRequest request, @PathVariable String id) {
+        countriesService.updateCountryById(request, id);
 
         return ResponseEntity.status(HttpStatus.ACCEPTED.value()).build();
     }
 
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Object> destroy(@PathVariable String id) {
-        shopsService.destroyById(id);
+        countriesService.destroyById(id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT.value()).build();
     }
 
     @PatchMapping(path = "/{id}/toggle")
     public ResponseEntity<Object> toggle(@PathVariable String id) {
-        shopsService.toggleStatusById(id);
+        countriesService.toggleStatusById(id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT.value()).build();
     }

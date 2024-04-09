@@ -23,9 +23,10 @@ public class GroupService implements IGroupService {
 
     @Override
     public Media getBannerById(String id) {
-         return mediaRepository
+         /*return mediaRepository
                  .findByMediaMorphIdAndMediaMorphTypeAndType(id, MediaMorphType.GROUP, MediaType.BANNER)
-                 .orElse(null);
+                 .orElse(null);*/
+        return null;
     }
 
 //    @Override

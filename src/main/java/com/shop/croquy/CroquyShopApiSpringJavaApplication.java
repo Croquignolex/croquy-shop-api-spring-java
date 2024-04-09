@@ -1,10 +1,12 @@
 package com.shop.croquy;
 
+import com.shop.croquy.v1.entities.Country;
 import com.shop.croquy.v1.enums.Role;
 import com.shop.croquy.v1.entities.Shop;
 import com.shop.croquy.v1.entities.User;
 import com.shop.croquy.v1.repositories.ShopRepository;
 import com.shop.croquy.v1.repositories.UserRepository;
+import com.shop.croquy.v1.repositories.CountryRepository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -23,6 +25,7 @@ import java.util.List;
 public class CroquyShopApiSpringJavaApplication {
     private final UserRepository userRepository;
     private final ShopRepository shopRepository;
+    private final CountryRepository countryRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(CroquyShopApiSpringJavaApplication.class, args);
@@ -38,6 +41,7 @@ public class CroquyShopApiSpringJavaApplication {
         return (String[] args) -> {
             List<User> users = new ArrayList<>();
             List<Shop> shops = new ArrayList<>();
+            List<Country> countries = new ArrayList<>();
 
             users.add(seedUsers(100, Role.SUPER_ADMIN));
             users.add(seedUsers(101, Role.CUSTOMER));
@@ -46,9 +50,11 @@ public class CroquyShopApiSpringJavaApplication {
 
             for (int i = 0; i < 20; i++) {
                 shops.add(seedShops(i, users.get(0)));
+                countries.add(seedCountries(i, users.get(0)));
             }
 
             shopRepository.saveAll(shops);
+            countryRepository.saveAll(countries);
         };
     }
 
@@ -68,5 +74,12 @@ public class CroquyShopApiSpringJavaApplication {
         shop.setSlug("shop-" + i);
         shop.setCreator(creator);
         return shop;
+    }
+
+    private Country seedCountries(int i, User creator) {
+        Country country = new Country();
+        country.setName("Country " + i);
+        country.setCreator(creator);
+        return country;
     }
 }

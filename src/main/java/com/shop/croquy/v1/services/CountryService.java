@@ -17,8 +17,9 @@ public class CountryService implements ICountryService {
 
     @Override
     public Media getFlagById(String id) {
-         return mediaRepository
+         /*return mediaRepository
                  .findByMediaMorphIdAndMediaMorphTypeAndType(id, MediaMorphType.COUNTRY, MediaType.FLAG)
-                 .orElse(null);
+                 .orElse(null);*/
+        return null;
     }
 }

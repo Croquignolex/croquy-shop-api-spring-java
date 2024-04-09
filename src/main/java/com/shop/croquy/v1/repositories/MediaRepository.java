@@ -13,6 +13,6 @@ import java.util.Optional;
 @Repository
 public interface MediaRepository extends JpaRepository<Media, String> {
     Optional<Media> findByName(String name);
-    Optional<Media> findByMediaMorphIdAndMediaMorphTypeAndType(String mediaMorphId, MediaMorphType mediaMorphType, MediaType type);
-    List<Media> findAllByMediaMorphIdAndMediaMorphTypeAndType(String mediaMorphId, MediaMorphType mediaMorphType, MediaType type);
+//    Optional<Media> findByMediaMorphIdAndMediaMorphTypeAndType(String mediaMorphId, MediaMorphType mediaMorphType, MediaType type);
+//    List<Media> findAllByMediaMorphIdAndMediaMorphTypeAndType(String mediaMorphId, MediaMorphType mediaMorphType, MediaType type);
 }

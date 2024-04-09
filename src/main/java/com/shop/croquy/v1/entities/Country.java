@@ -1,55 +1,36 @@
 package com.shop.croquy.v1.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
-//@Entity
+@Getter
+@Setter
+@Entity
 @NoArgsConstructor
-//@Table(name = "countries")
-public class Country {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id", nullable = false)
-    private String id;
-
+@Table(name = "countries")
+public class Country extends BaseEntity {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
     @Column(name = "phone_code")
     private String phoneCode;
 
-    @Column(name = "is_enabled", nullable = false)
-    private Boolean enabled = true;
+    @OneToOne(mappedBy = "country")
+    private CountryFlag flag;
 
-    @Column(name = "description", nullable = false, columnDefinition = "TEXT")
-    private String description = "";
-
-    @Column(name = "created_at")
-    private Date createdAt = new Date();
-
-    @Column(name = "updated_at")
-    private Date updatedAt = new Date();
-
-    @ManyToOne
-    @JoinColumn(name = "creator_id")
-    private User creator;
-
-    @OneToMany(mappedBy = "country")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "country", fetch = FetchType.LAZY)
     private Set<State> states = new HashSet<>();
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "country")
     private Set<Inventory> inventories = new HashSet<>();
-
-    @PreUpdate
-    public void updateTrigger() {
-        this.updatedAt = new Date();
-    }
 }
 

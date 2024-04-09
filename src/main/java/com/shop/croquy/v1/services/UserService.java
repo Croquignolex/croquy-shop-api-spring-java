@@ -34,9 +34,10 @@ public class UserService implements IUserService {
 
     @Override
     public Media getAvatarById(String id) {
-        return mediaRepository
+        /*return mediaRepository
                 .findByMediaMorphIdAndMediaMorphTypeAndType(id, MediaMorphType.USER, MediaType.AVATAR)
-                .orElse(null);
+                .orElse(null);*/
+        return null;
     }
 
     @Override

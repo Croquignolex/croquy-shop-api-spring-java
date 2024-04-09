@@ -21,9 +21,10 @@ public class BrandService implements IBrandService {
 
     @Override
     public Media getLogoById(String id) {
-         return mediaRepository
+         /*return mediaRepository
                  .findByMediaMorphIdAndMediaMorphTypeAndType(id, MediaMorphType.BRAND, MediaType.LOGO)
-                 .orElse(null);
+                 .orElse(null);*/
+        return null;
     }
 
 //    @Override

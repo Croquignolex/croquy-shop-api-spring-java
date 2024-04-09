@@ -6,8 +6,10 @@ import com.shop.croquy.v1.enums.Role;
 import jakarta.persistence.*;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,16 +17,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.*;
 
-@Data
+@Getter
+@Setter
 @Entity
 @NoArgsConstructor
 @Table(name = "users")
-public class User implements UserDetails {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id", nullable = false)
-    private String id;
-
+public class User extends BaseEntity implements UserDetails {
     @Column(name = "username", unique = true, nullable = false)
     private String username;
 
@@ -59,9 +57,6 @@ public class User implements UserDetails {
     @Column(name = "default_password", nullable = false)
     private Boolean default_password = true;
 
-    @Column(name = "is_enabled", nullable = false)
-    private Boolean enabled = true;
-
     @Column(name = "refresh_token")
     private String refreshToken;
 
@@ -78,15 +73,8 @@ public class User implements UserDetails {
     @Column(name = "email_verified_at")
     private Date emailVerifiedAt;
 
-    @Column(name = "created_at")
-    private Date createdAt = new Date();
-
-    @Column(name = "updated_at")
-    private Date updatedAt = new Date();
-
-//    @ManyToOne
-//    @JoinColumn(name = "creator_id")
-//    private User creator;
+    /*@OneToMany(mappedBy = "creator")
+    private Set<Country> createdCountries = new HashSet<>();*/
 //
 //    @OneToMany(mappedBy = "creator")
 //    private Set<InventoryHistory> createdInventoryHistories = new HashSet<>();
@@ -154,10 +142,5 @@ public class User implements UserDetails {
         if(role.equals(Role.CUSTOMER)) {
             username = email;
         }
-    }
-
-    @PreUpdate
-    public void updateTrigger() {
-        updatedAt = new Date();
     }
 }

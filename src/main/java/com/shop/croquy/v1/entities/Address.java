@@ -46,13 +46,13 @@ public class Address {
     @Column(name = "address_morph_id", nullable = false)
     private String addressMorphId;
 
-//    @ManyToOne
-//    @JoinColumn(name = "creator_id")
-//    private User creator;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "state_id")
-//    private State state;
+    @ManyToOne
+    @JoinColumn(name = "creator_id")
+    private User creator;
+
+    @ManyToOne
+    @JoinColumn(name = "state_id")
+    private State state;
 
     @Column(name = "created_at")
     private Date createdAt = new Date();

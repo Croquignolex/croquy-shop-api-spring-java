@@ -44,6 +44,9 @@ public class Media {
     @JoinColumn(name = "creator_id")
     private User creator;
 
+    /*@ManyToOne
+    private Country country;*/
+
     @Column(name = "created_at")
     private Date createdAt = new Date();
 
