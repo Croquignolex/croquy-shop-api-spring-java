@@ -1,12 +1,14 @@
 package com.shop.croquy;
 
 import com.shop.croquy.v1.entities.Country;
+import com.shop.croquy.v1.entities.State;
 import com.shop.croquy.v1.enums.Role;
 import com.shop.croquy.v1.entities.Shop;
 import com.shop.croquy.v1.entities.User;
 import com.shop.croquy.v1.repositories.ShopRepository;
 import com.shop.croquy.v1.repositories.UserRepository;
 import com.shop.croquy.v1.repositories.CountryRepository;
+import com.shop.croquy.v1.repositories.StateRepository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -26,6 +28,7 @@ public class CroquyShopApiSpringJavaApplication {
     private final UserRepository userRepository;
     private final ShopRepository shopRepository;
     private final CountryRepository countryRepository;
+    private final StateRepository stateRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(CroquyShopApiSpringJavaApplication.class, args);
@@ -42,6 +45,7 @@ public class CroquyShopApiSpringJavaApplication {
             List<User> users = new ArrayList<>();
             List<Shop> shops = new ArrayList<>();
             List<Country> countries = new ArrayList<>();
+            List<State> states = new ArrayList<>();
 
             users.add(seedUsers(100, Role.SUPER_ADMIN));
             users.add(seedUsers(101, Role.CUSTOMER));
@@ -51,10 +55,12 @@ public class CroquyShopApiSpringJavaApplication {
             for (int i = 0; i < 20; i++) {
                 shops.add(seedShops(i, users.get(0)));
                 countries.add(seedCountries(i, users.get(0)));
+                states.add(seedStates(i, countries.get(0), users.get(0)));
             }
 
             shopRepository.saveAll(shops);
             countryRepository.saveAll(countries);
+            stateRepository.saveAll(states);
         };
     }
 
@@ -81,5 +87,13 @@ public class CroquyShopApiSpringJavaApplication {
         country.setName("Country " + i);
         country.setCreator(creator);
         return country;
+    }
+
+    private State seedStates(int i, Country country, User creator) {
+        State state = new State();
+        state.setName("State " + i);
+        state.setCountry(country);
+        state.setCreator(creator);
+        return state;
     }
 }

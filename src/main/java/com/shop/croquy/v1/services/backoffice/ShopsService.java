@@ -50,7 +50,7 @@ public class ShopsService implements IShopsService {
 
     @Override
     public Shop getShopById(String id) {
-        return shopRepository.findById(id).orElseThrow(() -> new DataIntegrityViolationException(ErrorMessagesHelper.SHOP_ID_NOT_FOUND + id));
+        return shopRepository.findById(id).orElseThrow(() -> new DataIntegrityViolationException(ErrorMessagesHelper.SHOP_NOT_FOUND));
     }
 
     @Override
@@ -78,7 +78,7 @@ public class ShopsService implements IShopsService {
         }
 
         Shop shop = shopRepository.findById(id)
-                .orElseThrow(() -> new DataIntegrityViolationException(ErrorMessagesHelper.SHOP_ID_NOT_FOUND + id));
+                .orElseThrow(() -> new DataIntegrityViolationException(ErrorMessagesHelper.SHOP_NOT_FOUND));
 
         shop.setName(request.getName());
         shop.setSlug(request.getSlug());
@@ -90,7 +90,7 @@ public class ShopsService implements IShopsService {
     @Override
     public void destroyById(String id) {
         if(shopRepository.findById(id).isEmpty()) {
-            throw new DataIntegrityViolationException(ErrorMessagesHelper.SHOP_ID_NOT_FOUND + id);
+            throw new DataIntegrityViolationException(ErrorMessagesHelper.SHOP_NOT_FOUND);
         }
 
         shopRepository.deleteById(id);
@@ -99,7 +99,7 @@ public class ShopsService implements IShopsService {
     @Override
     public void toggleStatusById(String id) {
         Shop shop = shopRepository.findById(id)
-                .orElseThrow(() -> new DataIntegrityViolationException(ErrorMessagesHelper.SHOP_ID_NOT_FOUND + id));
+                .orElseThrow(() -> new DataIntegrityViolationException(ErrorMessagesHelper.SHOP_NOT_FOUND));
 
         shop.setEnabled(!shop.getEnabled());
 

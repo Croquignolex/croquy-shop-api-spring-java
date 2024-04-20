@@ -1,7 +1,6 @@
 package com.shop.croquy.v1.configurations;
 
 import com.shop.croquy.v1.dto.GenericResponse;
-import com.shop.croquy.v1.helpers.ErrorMessagesHelper;
 import com.shop.croquy.v1.helpers.GeneralHelper;
 
 import jakarta.validation.ConstraintViolation;
@@ -22,10 +21,13 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.shop.croquy.v1.helpers.ErrorMessagesHelper.*;
 
 @ControllerAdvice
 @Slf4j
@@ -33,12 +35,12 @@ public class GlobalExceptionHandler  {
 
     @ExceptionHandler(value = UsernameNotFoundException.class)
     public ResponseEntity<GenericResponse> handleUsernameNotFoundException() {
-        return GeneralHelper.errorResponse(HttpStatus.BAD_REQUEST, ErrorMessagesHelper.USER_USERNAME_NOT_FOUND);
+        return GeneralHelper.errorResponse(HttpStatus.BAD_REQUEST, USER_USERNAME_NOT_FOUND);
     }
 
     @ExceptionHandler(value = AuthenticationException.class)
     public ResponseEntity<GenericResponse> handleAuthenticationException() {
-        return GeneralHelper.errorResponse(HttpStatus.NOT_ACCEPTABLE, ErrorMessagesHelper.INCORRECT_LOGIN_PASSWORD);
+        return GeneralHelper.errorResponse(HttpStatus.NOT_ACCEPTABLE, INCORRECT_LOGIN_PASSWORD);
     }
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
@@ -92,6 +94,21 @@ public class GlobalExceptionHandler  {
     @ExceptionHandler(value = HttpMediaTypeNotSupportedException.class)
     public ResponseEntity<GenericResponse> handleUnsupportedMediaTypeException(HttpMediaTypeNotSupportedException ex) {
         return GeneralHelper.errorResponse(HttpStatus.UNSUPPORTED_MEDIA_TYPE, ex.getMessage());
+    }
+
+    @ExceptionHandler(value = MaxUploadSizeExceededException.class)
+    public ResponseEntity<GenericResponse> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException ex) {
+        return GeneralHelper.errorResponse(HttpStatus.PAYLOAD_TOO_LARGE, FILE_SIZE_EXCEEDS);
+    }
+
+    @ExceptionHandler(value = SecurityException.class)
+    public ResponseEntity<GenericResponse> handleSecurityException(SecurityException ex) {
+        return GeneralHelper.errorResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
+    }
+
+    @ExceptionHandler(value = RuntimeException.class)
+    public ResponseEntity<GenericResponse> handleRuntimeException(RuntimeException ex) {
+        return GeneralHelper.errorResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
     }
 
     @ExceptionHandler(value = Exception.class)

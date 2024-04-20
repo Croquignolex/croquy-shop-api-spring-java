@@ -14,7 +14,6 @@ public class CountryStoreRequest {
     @NotEmpty(message = "Name field is required")
     protected String name;
 
-    @NotEmpty(message = "Slug field is required")
     protected String phoneCode;
 
     protected String description;

@@ -2,53 +2,68 @@ package com.shop.croquy.v1.helpers;
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.ByteArrayOutputStream;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.zip.Deflater;
-import java.util.zip.Inflater;
+import java.io.*;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import static com.shop.croquy.v1.helpers.ErrorMessagesHelper.*;
+import static com.shop.croquy.v1.helpers.ErrorMessagesHelper.FILE_SYSTEM_ERROR;
+
+@Component
 @Slf4j
 public class ImageOptimisationHelper {
-    public static byte[] compressByteImage(byte[] data) {
-        Deflater deflater = new Deflater();
-        deflater.setLevel(Deflater.BEST_COMPRESSION);
-        deflater.setInput(data);
-        deflater.finish();
+    public static Map<String, String> saveFile(MultipartFile file, String folderPath, long maxiSize, List<String> acceptableExtensions) {
+        String originalName = StringUtils.defaultString(file.getOriginalFilename());
+        File folder = new File(folderPath);
 
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
-        byte[] tmp = new byte[4*1024];
-
-        while (!deflater.finished()) {
-            int size = deflater.deflate(tmp);
-            outputStream.write(tmp, 0, size);
-        }
+        if (!folder.exists() && !folder.mkdirs()) throw new SecurityException(FILE_SYSTEM_ERROR);
+        if (!StringUtils.isNotBlank(originalName) || originalName.contains("..")) throw new SecurityException(WRONG_ORIGINAL_FILE_NAME);
 
         try {
-            outputStream.close();
-        } catch (Exception e) {
-            log.info("Closing stream error ===> " + e.getMessage());
-        }
+            if (file.getSize() > maxiSize) throw new MaxUploadSizeExceededException(file.getSize());
+            if (!acceptableExtensions.contains(file.getContentType())) throw new IllegalArgumentException(WRONG_ORIGINAL_FILE_TYPE);
 
-        return outputStream.toByteArray();
+            String path = getUniquePath(folder);
+
+            File serverFile = new File(folder.getAbsolutePath() + File.separator + path);
+
+            file.transferTo(serverFile);
+
+            Map<String, String> map = new HashMap<>();
+            map.put("name", originalName);
+            map.put("path", path);
+
+            return map;
+        }
+        catch (IOException e) {
+            log.error("################################# [Saving file error] ===> " + e.getMessage());
+
+            throw new SecurityException(FILE_SYSTEM_ERROR);
+        }
     }
 
-    public static byte[] decompressByteImage(byte[] data) {
-        Inflater inflater = new Inflater();
-        inflater.setInput(data);
+    public static void deleteFile(String filePath, String folderPath) {
+        File folder = new File(folderPath);
+        File serverFile = new File(folder.getAbsolutePath() + File.separator + filePath);
+        if(!serverFile.delete()) throw new SecurityException(FILE_SYSTEM_ERROR);
+    }
 
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
-        byte[] tmp = new byte[4*1024];
+    private static String getUniquePath(File folder) {
+        String radomString = UUID.randomUUID().toString();
 
-        try {
-            while (!inflater.finished()) {
-                int count = inflater.inflate(tmp);
-                outputStream.write(tmp, 0, count);
-            }
-            outputStream.close();
-        } catch (Exception e) {
-            log.info("Closing stream error ===> " + e.getMessage());
-        }
+        File serverFile = new File(folder.getAbsolutePath() + File.separator + radomString);
+        if(serverFile.exists()) return getUniquePath(folder);
 
-        return outputStream.toByteArray();
+        return radomString;
     }
 }

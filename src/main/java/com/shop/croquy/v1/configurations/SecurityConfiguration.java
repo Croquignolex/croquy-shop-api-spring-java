@@ -54,6 +54,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/ping").permitAll()
                         .requestMatchers("/v1/backoffice/auth/**").permitAll()
+                        .requestMatchers("/v1/media/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
