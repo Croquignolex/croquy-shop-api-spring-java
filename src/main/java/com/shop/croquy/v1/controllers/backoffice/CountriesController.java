@@ -6,9 +6,12 @@ import com.shop.croquy.v1.entities.Country;
 import com.shop.croquy.v1.entities.CountryFlag;
 import com.shop.croquy.v1.entities.State;
 import com.shop.croquy.v1.services.backoffice.CountriesService;
+
 import jakarta.validation.Valid;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -61,14 +64,14 @@ public class CountriesController {
 
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Object> destroy(@PathVariable String id) {
-        countriesService.destroyById(id);
+        countriesService.destroyCountryById(id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT.value()).build();
     }
 
     @PatchMapping(path = "/{id}/toggle")
     public ResponseEntity<Object> toggle(@PathVariable String id) {
-        countriesService.toggleStatusById(id);
+        countriesService.toggleCountryStatusById(id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT.value()).build();
     }
@@ -91,14 +94,14 @@ public class CountriesController {
             @PathVariable String id,
             Principal principal
     ) {
-        CountryFlag countryFlag = countriesService.changeFlagById(image, id, principal.getName());
+        CountryFlag countryFlag = countriesService.changeCountryFlagById(image, id, principal.getName());
 
         return ResponseEntity.status(HttpStatus.OK).body(countryFlag);
     }
 
     @DeleteMapping(path = "/{id}/flag")
     public ResponseEntity<Object> removeFlag(@PathVariable String id) {
-        countriesService.destroyFlagById(id);
+        countriesService.destroyCountryFlagById(id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT.value()).build();
     }

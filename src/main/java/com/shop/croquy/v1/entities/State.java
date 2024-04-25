@@ -12,14 +12,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @Table(name = "states")
 public class State extends BaseEntity {
-    // Unique into Country
     @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "country_id")
     private Country country;
-
-//    @OneToMany(mappedBy = "state")
-//    private Set<Address> addresses = new HashSet<>();
 }

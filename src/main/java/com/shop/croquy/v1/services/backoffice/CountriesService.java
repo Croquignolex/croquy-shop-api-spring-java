@@ -24,9 +24,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.*;
-
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -114,7 +111,7 @@ public class CountriesService implements ICountriesService {
     }
 
     @Override
-    public void toggleStatusById(String id) {
+    public void toggleCountryStatusById(String id) {
         Country country = countryRepository.findById(id)
                 .orElseThrow(() -> new DataIntegrityViolationException(COUNTRY_NOT_FOUND));
 
@@ -124,9 +121,13 @@ public class CountriesService implements ICountriesService {
     }
 
     @Override
-    public void destroyById(String id) {
+    public void destroyCountryById(String id) {
         Country country = countryRepository.findById(id)
                 .orElseThrow(() -> new DataIntegrityViolationException(COUNTRY_NOT_FOUND));
+
+        if((long) country.getStates().size() > 0) {
+            throw new DataIntegrityViolationException(COUNTRY_CAN_NOT_BE_DELETED);
+        }
 
         if(country.getFlag() != null) {
             ImageOptimisationHelper.deleteFile(country.getFlag().getPath(), mediaFolderPath);
@@ -137,7 +138,7 @@ public class CountriesService implements ICountriesService {
     }
 
     @Override
-    public CountryFlag changeFlagById(MultipartFile image, String id, String creatorUsername) {
+    public CountryFlag changeCountryFlagById(MultipartFile image, String id, String creatorUsername) {
         Country country = countryRepository.findById(id)
                 .orElseThrow(() -> new DataIntegrityViolationException(COUNTRY_NOT_FOUND));
 
@@ -168,7 +169,7 @@ public class CountriesService implements ICountriesService {
     }
 
     @Override
-    public void destroyFlagById(String id) {
+    public void destroyCountryFlagById(String id) {
         Country country = countryRepository.findById(id)
                 .orElseThrow(() -> new DataIntegrityViolationException(COUNTRY_NOT_FOUND));
 
@@ -178,16 +179,5 @@ public class CountriesService implements ICountriesService {
         } else {
             throw new DataIntegrityViolationException(FLAG_NOT_FOUND);
         }
-    }
-
-    @Override
-    public Map<String, InputStream> getFlagResourceFileById(String id) {
-        Country country = countryRepository.findById(id)
-                .orElseThrow(() -> new DataIntegrityViolationException(COUNTRY_NOT_FOUND));
-
-        CountryFlag countryFlag = country.getFlag();
-        Map<String, InputStream> resource = new HashMap<>();
-
-        return resource;
     }
 }

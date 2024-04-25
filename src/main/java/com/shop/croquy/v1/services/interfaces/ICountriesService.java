@@ -17,9 +17,8 @@ public interface ICountriesService {
     Country getCountryById(String id);
     void storeCountryWithCreator(CountryStoreRequest request, String creatorUsername);
     void updateCountryById(CountryUpdateRequest request, String id);
-    CountryFlag changeFlagById(MultipartFile image, String id, String creatorUsername);
-    void toggleStatusById(String id);
-    void destroyById(String id);
-    void destroyFlagById(String id);
-    Map<String, InputStream> getFlagResourceFileById(String id);
+    CountryFlag changeCountryFlagById(MultipartFile image, String id, String creatorUsername);
+    void toggleCountryStatusById(String id);
+    void destroyCountryById(String id);
+    void destroyCountryFlagById(String id);
 }

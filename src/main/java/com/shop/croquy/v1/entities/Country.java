@@ -1,5 +1,6 @@
 package com.shop.croquy.v1.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
@@ -7,8 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
@@ -25,12 +25,12 @@ public class Country extends BaseEntity {
     @OneToOne(mappedBy = "country")
     private CountryFlag flag;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @OneToMany(mappedBy = "country", fetch = FetchType.LAZY)
-    private Set<State> states = new HashSet<>();
-
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonIgnore
     @OneToMany(mappedBy = "country")
-    private Set<Inventory> inventories = new HashSet<>();
+    private List<State> states = new ArrayList<>();
+
+//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+//    @OneToMany(mappedBy = "country", fetch = FetchType.EAGER)
+//    private Set<Inventory> inventories = new HashSet<>();
 }
 
