@@ -22,6 +22,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -121,11 +122,12 @@ public class CountriesService implements ICountriesService {
     }
 
     @Override
+    @Transactional
     public void destroyCountryById(String id) {
         Country country = countryRepository.findById(id)
                 .orElseThrow(() -> new DataIntegrityViolationException(COUNTRY_NOT_FOUND));
 
-        if((long) country.getStates().size() > 0) {
+        if(country.isNonDeletable()) {
             throw new DataIntegrityViolationException(COUNTRY_CAN_NOT_BE_DELETED);
         }
 

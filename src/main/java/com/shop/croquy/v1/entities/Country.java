@@ -1,7 +1,7 @@
 package com.shop.croquy.v1.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.*;
 
 import lombok.Getter;
@@ -27,10 +27,15 @@ public class Country extends BaseEntity {
 
     @JsonIgnore
     @OneToMany(mappedBy = "country")
-    private List<State> states = new ArrayList<>();
+    private Set<State> states = new HashSet<>();
 
-//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-//    @OneToMany(mappedBy = "country", fetch = FetchType.EAGER)
-//    private Set<Inventory> inventories = new HashSet<>();
+    @JsonIgnore
+    @OneToMany(mappedBy = "country")
+    private Set<Inventory> inventories = new HashSet<>();
+
+    @JsonIgnore
+    public boolean isNonDeletable() {
+        return (long) states.size() > 0 || (long) inventories.size() > 0;
+    }
 }
 
