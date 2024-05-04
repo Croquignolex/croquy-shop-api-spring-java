@@ -1,6 +1,7 @@
 package com.shop.croquy.v1.entities;
 
 import jakarta.persistence.*;
+
 import lombok.Getter;
 import lombok.Setter;
 

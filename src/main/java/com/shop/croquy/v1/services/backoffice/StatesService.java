@@ -1,5 +1,6 @@
 package com.shop.croquy.v1.services.backoffice;
 
+import com.shop.croquy.v1.dto.backoffice.state.StateStoreRequest;
 import com.shop.croquy.v1.entities.Country;
 import com.shop.croquy.v1.entities.State;
 import com.shop.croquy.v1.entities.User;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.shop.croquy.v1.helpers.ErrorMessagesHelper.STATE_NAME_ALREADY_EXIST;
 import static com.shop.croquy.v1.helpers.ErrorMessagesHelper.STATE_NOT_FOUND;
 
 @Service
@@ -49,21 +51,24 @@ public class StatesService implements IStatesService {
         return statePagingAndSortingRepository.findAll(pageable);
     }
 
-//    @Override
-//    public Country getCountryById(String id) {
-//        return countryRepository.findById(id).orElseThrow(() -> new DataIntegrityViolationException(COUNTRY_NOT_FOUND));
-//    }
-//
-//    @Override
-//    public void storeCountryWithCreator(CountryStoreRequest request, String creatorUsername) {
-//        if(countryRepository.findFistByName(request.getName()).isPresent()) {
-//            throw new DataIntegrityViolationException(COUNTRY_NAME_ALREADY_EXIST + request.getName());
-//        }
-//
-//        var creator = userRepository.findByUsername(creatorUsername).orElse(null);
-//        countryRepository.save(request.toCountry(creator));
-//    }
-//
+    @Override
+    public State getStateById(String id) {
+        return stateRepository.findById(id).orElseThrow(() -> new DataIntegrityViolationException(STATE_NOT_FOUND));
+    }
+
+    @Override
+    public void storeStateWithCountryAndCreator(StateStoreRequest request, String creatorUsername) {
+        var country = countryRepository.findById(request.getCountryId()).orElse(null);
+
+        if(stateRepository.findFistByNameAndCountry(request.getName(), country).isPresent()) {
+            throw new DataIntegrityViolationException(STATE_NAME_ALREADY_EXIST + request.getName());
+        }
+
+        var creator = userRepository.findByUsername(creatorUsername).orElse(null);
+
+        stateRepository.save(request.toState(country, creator));
+    }
+
 //    @Override
 //    public void updateCountryById(CountryUpdateRequest request, String id) {
 //        if(countryRepository.findFistByNameAndIdNot(request.getName(), id).isPresent()) {

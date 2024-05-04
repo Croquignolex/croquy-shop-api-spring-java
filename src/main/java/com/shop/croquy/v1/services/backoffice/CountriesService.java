@@ -64,6 +64,11 @@ public class CountriesService implements ICountriesService {
     }
 
     @Override
+    public List<Country> getAllEnabledCountries() {
+        return countryRepository.findByEnabled(true);
+    }
+
+    @Override
     public Page<State> getPaginatedStatesByCountryId(int pageNumber, int pageSize, String needle, String id) {
         Pageable pageable = PageRequest.of(
                 pageNumber,
@@ -92,6 +97,7 @@ public class CountriesService implements ICountriesService {
         }
 
         var creator = userRepository.findByUsername(creatorUsername).orElse(null);
+
         countryRepository.save(request.toCountry(creator));
     }
 

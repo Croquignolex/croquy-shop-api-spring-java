@@ -34,8 +34,11 @@ public class Country extends BaseEntity {
     private Set<Inventory> inventories = new HashSet<>();
 
     @JsonIgnore
+//    public boolean isNonDeletable() {
+//        return (long) states.size() > 0 || (long) inventories.size() > 0;
+//    }
     public boolean isNonDeletable() {
-        return (long) states.size() > 0 || (long) inventories.size() > 0;
+        return (long) states.size() > 0 ;
     }
 }
 

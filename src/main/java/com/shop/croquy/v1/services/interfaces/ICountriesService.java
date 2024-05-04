@@ -5,14 +5,15 @@ import com.shop.croquy.v1.dto.backoffice.country.CountryUpdateRequest;
 import com.shop.croquy.v1.entities.Country;
 import com.shop.croquy.v1.entities.CountryFlag;
 import com.shop.croquy.v1.entities.State;
+
 import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.InputStream;
-import java.util.Map;
+import java.util.List;
 
 public interface ICountriesService {
     Page<Country> getPaginatedCountries(int pageNumber, int pageSize, String needle);
+    List<Country> getAllEnabledCountries();
     Page<State> getPaginatedStatesByCountryId(int pageNumber, int pageSize, String needle, String id);
     Country getCountryById(String id);
     void storeCountryWithCreator(CountryStoreRequest request, String creatorUsername);

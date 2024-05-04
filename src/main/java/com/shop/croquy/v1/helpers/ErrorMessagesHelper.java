@@ -14,7 +14,7 @@ public class ErrorMessagesHelper {
     public static final String COUNTRY_NOT_FOUND = "Country not found";
     public static final String COUNTRY_CAN_NOT_BE_DELETED = "Country can not be deleted";
     public static final String FLAG_NOT_FOUND = "Flag not found";
-    public static final String STATE_NAME_ALREADY_EXIST = "State already exist with name: ";
+    public static final String STATE_NAME_ALREADY_EXIST = "State already exist in this country with name: ";
     public static final String STATE_NOT_FOUND = "State not found";
     public static final String FILE_SYSTEM_ERROR = "File system error";
     public static final String FILE_SIZE_EXCEEDS = "File size exceeds maximum limit";

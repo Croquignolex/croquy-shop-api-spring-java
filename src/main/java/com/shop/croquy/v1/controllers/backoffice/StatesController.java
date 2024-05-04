@@ -1,8 +1,10 @@
 package com.shop.croquy.v1.controllers.backoffice;
 
+import com.shop.croquy.v1.dto.backoffice.state.StateStoreRequest;
 import com.shop.croquy.v1.entities.State;
 import com.shop.croquy.v1.services.backoffice.StatesService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -11,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @Slf4j
 @RestController
@@ -31,20 +35,20 @@ public class StatesController {
         return ResponseEntity.status(HttpStatus.OK).body(paginatedStates);
     }
 
-//    @GetMapping(path = "/{id}")
-//    public ResponseEntity<Country> show(@PathVariable String id) {
-//        Country country = statesService.getCountryById(id);
-//
-//        return ResponseEntity.status(HttpStatus.OK.value()).body(country);
-//    }
-//
-//    @PostMapping
-//    public ResponseEntity<Object> store(@Valid @RequestBody CountryStoreRequest request, Principal principal) {
-//        statesService.storeCountryWithCreator(request, principal.getName());
-//
-//        return ResponseEntity.status(HttpStatus.CREATED.value()).build();
-//    }
-//
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<State> show(@PathVariable String id) {
+        State state = statesService.getStateById(id);
+
+        return ResponseEntity.status(HttpStatus.OK.value()).body(state);
+    }
+
+    @PostMapping
+    public ResponseEntity<Object> store(@Valid @RequestBody StateStoreRequest request, Principal principal) {
+        statesService.storeStateWithCountryAndCreator(request, principal.getName());
+
+        return ResponseEntity.status(HttpStatus.CREATED.value()).build();
+    }
+
 //    @PutMapping(path = "/{id}")
 //    public ResponseEntity<Object> update(@Valid @RequestBody CountryUpdateRequest request, @PathVariable String id) {
 //        statesService.updateCountryById(request, id);
