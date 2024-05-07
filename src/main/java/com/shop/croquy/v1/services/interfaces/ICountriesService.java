@@ -1,5 +1,6 @@
 package com.shop.croquy.v1.services.interfaces;
 
+import com.shop.croquy.v1.dto.backoffice.country.CountryStateStoreRequest;
 import com.shop.croquy.v1.dto.backoffice.country.CountryStoreRequest;
 import com.shop.croquy.v1.dto.backoffice.country.CountryUpdateRequest;
 import com.shop.croquy.v1.entities.Country;
@@ -14,7 +15,6 @@ import java.util.List;
 public interface ICountriesService {
     Page<Country> getPaginatedCountries(int pageNumber, int pageSize, String needle);
     List<Country> getAllEnabledCountries();
-    Page<State> getPaginatedStatesByCountryId(int pageNumber, int pageSize, String needle, String id);
     Country getCountryById(String id);
     void storeCountryWithCreator(CountryStoreRequest request, String creatorUsername);
     void updateCountryById(CountryUpdateRequest request, String id);
@@ -22,4 +22,6 @@ public interface ICountriesService {
     void toggleCountryStatusById(String id);
     void destroyCountryById(String id);
     void destroyCountryFlagById(String id);
+    Page<State> getPaginatedStatesByCountryId(int pageNumber, int pageSize, String needle, String id);
+    void addStateWithCreator(CountryStateStoreRequest request, String id, String creatorUsername);
 }

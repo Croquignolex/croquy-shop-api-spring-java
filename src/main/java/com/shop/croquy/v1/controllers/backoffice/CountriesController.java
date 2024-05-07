@@ -1,7 +1,9 @@
 package com.shop.croquy.v1.controllers.backoffice;
 
+import com.shop.croquy.v1.dto.backoffice.country.CountryStateStoreRequest;
 import com.shop.croquy.v1.dto.backoffice.country.CountryStoreRequest;
 import com.shop.croquy.v1.dto.backoffice.country.CountryUpdateRequest;
+import com.shop.croquy.v1.dto.backoffice.state.StateStoreRequest;
 import com.shop.croquy.v1.entities.Country;
 import com.shop.croquy.v1.entities.CountryFlag;
 import com.shop.croquy.v1.entities.State;
@@ -76,18 +78,6 @@ public class CountriesController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT.value()).build();
     }
 
-    @GetMapping(path = "/{id}/states")
-    public ResponseEntity<Page<State>> states(
-            @PathVariable String id,
-            @RequestParam(defaultValue = "") String needle,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
-    ) {
-        Page<State> paginatedStatesByCountryId = countriesService.getPaginatedStatesByCountryId(page, size, needle, id);
-
-        return ResponseEntity.status(HttpStatus.OK).body(paginatedStatesByCountryId);
-    }
-
     @PatchMapping(path = "/{id}/flag", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
     public ResponseEntity<CountryFlag> changeFlag(
             @RequestPart MultipartFile image,
@@ -104,5 +94,24 @@ public class CountriesController {
         countriesService.destroyCountryFlagById(id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT.value()).build();
+    }
+
+    @GetMapping(path = "/{id}/states")
+    public ResponseEntity<Page<State>> states(
+            @PathVariable String id,
+            @RequestParam(defaultValue = "") String needle,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        Page<State> paginatedStatesByCountryId = countriesService.getPaginatedStatesByCountryId(page, size, needle, id);
+
+        return ResponseEntity.status(HttpStatus.OK).body(paginatedStatesByCountryId);
+    }
+
+    @PostMapping(path = "/{id}/states")
+    public ResponseEntity<Object> addState(@Valid @RequestBody CountryStateStoreRequest request, @PathVariable String id, Principal principal) {
+        countriesService.addStateWithCreator(request, id, principal.getName());
+
+        return ResponseEntity.status(HttpStatus.CREATED.value()).build();
     }
 }
