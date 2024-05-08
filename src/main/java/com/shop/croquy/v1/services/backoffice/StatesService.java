@@ -1,6 +1,7 @@
 package com.shop.croquy.v1.services.backoffice;
 
 import com.shop.croquy.v1.dto.backoffice.state.StateStoreRequest;
+import com.shop.croquy.v1.dto.backoffice.state.StateUpdateRequest;
 import com.shop.croquy.v1.entities.Country;
 import com.shop.croquy.v1.entities.State;
 import com.shop.croquy.v1.entities.User;
@@ -69,31 +70,33 @@ public class StatesService implements IStatesService {
         stateRepository.save(request.toState(country, creator));
     }
 
-//    @Override
-//    public void updateCountryById(CountryUpdateRequest request, String id) {
-//        if(countryRepository.findFistByNameAndIdNot(request.getName(), id).isPresent()) {
-//            throw new DataIntegrityViolationException(COUNTRY_NAME_ALREADY_EXIST + request.getName());
-//        }
-//
-//        Country country = countryRepository.findById(id)
-//                .orElseThrow(() -> new DataIntegrityViolationException(COUNTRY_NOT_FOUND));
-//
-//        country.setName(request.getName());
-//        country.setPhoneCode(request.getPhoneCode());
-//        country.setDescription(request.getDescription());
-//
-//        countryRepository.save(country);
-//    }
-//
-//    @Override
-//    public void toggleStatusById(String id) {
-//        Country country = countryRepository.findById(id)
-//                .orElseThrow(() -> new DataIntegrityViolationException(COUNTRY_NOT_FOUND));
-//
-//        country.setEnabled(!country.getEnabled());
-//
-//        countryRepository.save(country);
-//    }
+    @Override
+    public void updateStateById(StateUpdateRequest request, String id) {
+        var country = countryRepository.findById(request.getCountryId()).orElse(null);
+
+        if(stateRepository.findFistByNameAndIdNotAndCountry(request.getName(), id, country).isPresent()) {
+            throw new DataIntegrityViolationException(STATE_NAME_ALREADY_EXIST + request.getName());
+        }
+
+        State state = stateRepository.findById(id)
+                .orElseThrow(() -> new DataIntegrityViolationException(STATE_NOT_FOUND));
+
+        state.setCountry(country);
+        state.setName(request.getName());
+        state.setDescription(request.getDescription());
+
+        stateRepository.save(state);
+    }
+
+    @Override
+    public void toggleStateStatusById(String id) {
+        State state = stateRepository.findById(id)
+                .orElseThrow(() -> new DataIntegrityViolationException(STATE_NOT_FOUND));
+
+        state.setEnabled(!state.getEnabled());
+
+        stateRepository.save(state);
+    }
 
     @Override
     public void destroyStateById(String id) {

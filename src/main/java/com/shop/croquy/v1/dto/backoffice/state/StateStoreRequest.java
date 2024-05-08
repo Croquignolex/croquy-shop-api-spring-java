@@ -17,6 +17,7 @@ public class StateStoreRequest {
     @NotEmpty(message = "Name field is required")
     protected String name;
 
+    @NotEmpty(message = "CountryId field is required")
     protected String countryId;
 
     protected String description;

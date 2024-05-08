@@ -14,7 +14,7 @@ import java.util.List;
 
 public interface ICountriesService {
     Page<Country> getPaginatedCountries(int pageNumber, int pageSize, String needle);
-    List<Country> getAllEnabledCountries();
+    List<Country> getAllEnabledCountriesOrderByName();
     Country getCountryById(String id);
     void storeCountryWithCreator(CountryStoreRequest request, String creatorUsername);
     void updateCountryById(CountryUpdateRequest request, String id);

@@ -12,6 +12,6 @@ import java.util.Optional;
 public interface CountryRepository extends JpaRepository<Country, String> {
     Optional<Country> findFistByName(String name);
     List<Country> findByNameContains(String name);
-    List<Country> findByEnabled(boolean enabled);
+    List<Country> findByEnabledOrderByName(boolean enabled);
     Optional<Country> findFistByNameAndIdNot(String name, String id);
 }

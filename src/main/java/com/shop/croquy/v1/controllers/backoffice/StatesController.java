@@ -1,6 +1,7 @@
 package com.shop.croquy.v1.controllers.backoffice;
 
 import com.shop.croquy.v1.dto.backoffice.state.StateStoreRequest;
+import com.shop.croquy.v1.dto.backoffice.state.StateUpdateRequest;
 import com.shop.croquy.v1.entities.State;
 import com.shop.croquy.v1.services.backoffice.StatesService;
 
@@ -49,12 +50,12 @@ public class StatesController {
         return ResponseEntity.status(HttpStatus.CREATED.value()).build();
     }
 
-//    @PutMapping(path = "/{id}")
-//    public ResponseEntity<Object> update(@Valid @RequestBody CountryUpdateRequest request, @PathVariable String id) {
-//        statesService.updateCountryById(request, id);
-//
-//        return ResponseEntity.status(HttpStatus.ACCEPTED.value()).build();
-//    }
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<Object> update(@Valid @RequestBody StateUpdateRequest request, @PathVariable String id) {
+        statesService.updateStateById(request, id);
+
+        return ResponseEntity.status(HttpStatus.ACCEPTED.value()).build();
+    }
 
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Object> destroy(@PathVariable String id) {
@@ -63,10 +64,10 @@ public class StatesController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT.value()).build();
     }
 
-//    @PatchMapping(path = "/{id}/toggle")
-//    public ResponseEntity<Object> toggle(@PathVariable String id) {
-//        statesService.toggleStatusById(id);
-//
-//        return ResponseEntity.status(HttpStatus.NO_CONTENT.value()).build();
-//    }
+    @PatchMapping(path = "/{id}/toggle")
+    public ResponseEntity<Object> toggle(@PathVariable String id) {
+        statesService.toggleStateStatusById(id);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT.value()).build();
+    }
 }

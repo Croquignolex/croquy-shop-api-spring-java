@@ -55,6 +55,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/ping").permitAll()
                         .requestMatchers("/v1/backoffice/auth/**").permitAll()
                         .requestMatchers("/v1/media/**").permitAll()
+                        .requestMatchers("/v1/select/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))

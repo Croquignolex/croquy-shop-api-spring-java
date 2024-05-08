@@ -67,8 +67,8 @@ public class CountriesService implements ICountriesService {
     }
 
     @Override
-    public List<Country> getAllEnabledCountries() {
-        return countryRepository.findByEnabled(true);
+    public List<Country> getAllEnabledCountriesOrderByName() {
+        return countryRepository.findByEnabledOrderByName(true);
     }
 
     @Override
