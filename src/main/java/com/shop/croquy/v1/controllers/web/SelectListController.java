@@ -19,7 +19,7 @@ import java.util.List;
 public class SelectListController {
     private final CountriesService countriesService;
 
-    @GetMapping(path = "countries")
+//    @GetMapping(path = "countries")
     public ResponseEntity<List<Country>> index() {
         List<Country> enabledCountries = countriesService.getAllEnabledCountriesOrderByName();
 

@@ -1,8 +1,10 @@
 package com.shop.croquy.v1.entities.address;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import com.shop.croquy.v1.entities.Shop;
 import com.shop.croquy.v1.entities.State;
 import com.shop.croquy.v1.entities.User;
-import com.shop.croquy.v1.enums.AddressType;
 
 import jakarta.persistence.*;
 
@@ -12,18 +14,14 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Data
-//@Entity
+@Entity
 @NoArgsConstructor
-//@Table(name = "shop_addresses")
+@Table(name = "shop_addresses")
 public class ShopAddress {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", nullable = false)
     private String id;
-
-    @Column(name = "type", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private AddressType type = AddressType.DEFAULT;
 
     @Column(name = "street_address", nullable = false)
     private String streetAddress;
@@ -40,13 +38,20 @@ public class ShopAddress {
     @Column(name = "description", nullable = false, columnDefinition = "TEXT")
     private String description = "";
 
-    @ManyToOne
-    @JoinColumn(name = "creator_id")
-    private User creator;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToOne
+    @JoinColumn(name = "shop_id")
+    private Shop shop;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne
     @JoinColumn(name = "state_id")
     private State state;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ManyToOne
+    @JoinColumn(name = "creator_id")
+    private User creator;
 
     @Column(name = "created_at")
     private Date createdAt = new Date();

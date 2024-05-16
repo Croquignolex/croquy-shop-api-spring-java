@@ -43,7 +43,7 @@ public class ShopsService implements IShopsService {
         if(StringUtils.isNotEmpty(needle)) {
             List<User> users = userRepository.findByUsernameContains(needle);
 
-            return shopPagingAndSortingRepository.findAllByNameContainsOrCreatorIsIn(needle, users, pageable);
+            return shopPagingAndSortingRepository.findAllByNameContainsOrSlugContainsOrCreatorIsIn(needle, needle, users, pageable);
         }
 
         return shopPagingAndSortingRepository.findAll(pageable);

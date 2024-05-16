@@ -31,7 +31,7 @@ import java.security.Principal;
 public class CountriesController {
     private final CountriesService countriesService;
 
-    @GetMapping
+//    @GetMapping
     public ResponseEntity<Page<Country>> index(
             @RequestParam(defaultValue = "") String needle,
             @RequestParam(defaultValue = "0") int page,

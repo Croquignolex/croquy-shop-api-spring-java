@@ -83,7 +83,7 @@ public class CountriesService implements ICountriesService {
 
         var creator = userRepository.findByUsername(creatorUsername).orElse(null);
 
-        countryRepository.save(request.toCountry(creator));
+        Country country = countryRepository.save(request.toCountry(creator));
     }
 
     @Override
@@ -135,10 +135,12 @@ public class CountriesService implements ICountriesService {
         Country country = countryRepository.findById(id)
                 .orElseThrow(() -> new DataIntegrityViolationException(COUNTRY_NOT_FOUND));
 
-        if(country.getFlag() != null) {
-            ImageOptimisationHelper.deleteFile(country.getFlag().getPath(), mediaFolderPath);
-            countryFlagRepository.delete(country.getFlag());
-        }
+        CountryFlag countryFlag = country.getFlag();
+
+        if(countryFlag != null) ImageOptimisationHelper.deleteFile(country.getFlag().getPath(), mediaFolderPath);
+        else countryFlag = new CountryFlag();
+
+        var creator = userRepository.findByUsername(creatorUsername).orElse(null);
 
         Map<String, String> savedFileDic = ImageOptimisationHelper.saveFile(
                 image,
@@ -147,9 +149,6 @@ public class CountriesService implements ICountriesService {
                 List.of(IMAGE_JPEG_VALUE, IMAGE_PNG_VALUE)
         );
 
-        var creator = userRepository.findByUsername(creatorUsername).orElse(null);
-
-        CountryFlag countryFlag = new CountryFlag();
         countryFlag.setSize(image.getSize());
         countryFlag.setOriginalName(savedFileDic.get("name"));
         countryFlag.setPath(savedFileDic.get("path"));

@@ -12,5 +12,5 @@ import java.util.Collection;
 
 @Repository
 public interface ShopPagingAndSortingRepository extends PagingAndSortingRepository<Shop, String> {
-    Page<Shop> findAllByNameContainsOrCreatorIsIn(String nameNeedle, Collection<User> creator, Pageable pageable);
+    Page<Shop> findAllByNameContainsOrSlugContainsOrCreatorIsIn(String nameNeedle, String slugNeedle, Collection<User> creator, Pageable pageable);
 }

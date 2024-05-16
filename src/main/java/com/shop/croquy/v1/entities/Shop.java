@@ -1,9 +1,12 @@
 package com.shop.croquy.v1.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
 
+import com.shop.croquy.v1.entities.address.ShopAddress;
+
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -18,6 +21,9 @@ public class Shop extends BaseEntity {
 
     @Column(name = "slug", nullable = false, unique = true)
     private String slug;
+
+    @OneToOne(mappedBy = "shop")
+    private ShopAddress address;
 
 //    @OneToMany(mappedBy = "shop")
 //    private Set<InventoryHistory> inventoryHistories = new HashSet<>();
