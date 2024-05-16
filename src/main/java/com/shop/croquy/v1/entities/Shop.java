@@ -1,5 +1,6 @@
 package com.shop.croquy.v1.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import jakarta.validation.constraints.NotNull;
@@ -20,6 +21,12 @@ public class Shop extends BaseEntity {
 
 //    @OneToMany(mappedBy = "shop")
 //    private Set<InventoryHistory> inventoryHistories = new HashSet<>();
+
+    @JsonIgnore
+    public boolean isNonDeletable() {
+//        return (long) inventoryHistories.size() > 0 ;
+        return false ;
+    }
 }
 
 

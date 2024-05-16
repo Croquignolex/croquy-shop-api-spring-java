@@ -8,9 +8,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Entity
+//@Entity
 @NoArgsConstructor
-@Table(name = "taggables")
+//@Table(name = "taggables")
 public class Taggable {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

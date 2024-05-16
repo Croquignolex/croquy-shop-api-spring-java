@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Data
-@Entity
+//@Entity
 @NoArgsConstructor
-@Table(name = "categories")
+//@Table(name = "categories")
 //@Table(name = "categories", uniqueConstraints = @UniqueConstraint(columnNames = {"group_id", "name"}))
 public class Category {
     @Id

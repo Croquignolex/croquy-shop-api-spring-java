@@ -10,6 +10,7 @@ public class ErrorMessagesHelper {
     public static final String SHOP_NAME_ALREADY_EXIST = "Shop already exist with name: ";
     public static final String SHOP_SLUG_ALREADY_EXIST = "Shop already exist with slug: ";
     public static final String SHOP_NOT_FOUND = "Shop not found ";
+    public static final String SHOP_CAN_NOT_BE_DELETED = "Shop can not be deleted";
     public static final String COUNTRY_NAME_ALREADY_EXIST = "Country already exist with name: ";
     public static final String COUNTRY_NOT_FOUND = "Country not found";
     public static final String COUNTRY_CAN_NOT_BE_DELETED = "Country can not be deleted";

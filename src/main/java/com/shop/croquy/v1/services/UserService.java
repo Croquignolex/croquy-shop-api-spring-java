@@ -1,10 +1,6 @@
 package com.shop.croquy.v1.services;
 
 import com.shop.croquy.v1.enums.*;
-import com.shop.croquy.v1.entities.Address;
-import com.shop.croquy.v1.entities.Media;
-import com.shop.croquy.v1.repositories.AddressRepository;
-import com.shop.croquy.v1.repositories.MediaRepository;
 import com.shop.croquy.v1.repositories.UserRepository;
 import com.shop.croquy.v1.services.interfaces.IUserService;
 
@@ -23,42 +19,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserService implements IUserService {
     private final UserRepository userRepository;
-    private final MediaRepository mediaRepository;
-    private final AddressRepository addressRepository;
 
     @Override
     public UserDetailsService userDetailsService() {
         return username -> userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-    }
-
-    @Override
-    public Media getAvatarById(String id) {
-        /*return mediaRepository
-                .findByMediaMorphIdAndMediaMorphTypeAndType(id, MediaMorphType.USER, MediaType.AVATAR)
-                .orElse(null);*/
-        return null;
-    }
-
-    @Override
-    public Address getDefaultAddressById(String id) {
-        return addressRepository
-                .findByAddressMorphIdAndAddressMorphTypeAndType(id, AddressMorphType.USER, AddressType.DEFAULT)
-                .orElse(null);
-    }
-
-    @Override
-    public Address getBillingAddressById(String id) {
-        return addressRepository
-                .findByAddressMorphIdAndAddressMorphTypeAndType(id, AddressMorphType.USER, AddressType.BILLING)
-                .orElse(null);
-    }
-
-    @Override
-    public Address getShippingAddressById(String id) {
-        return addressRepository
-                .findByAddressMorphIdAndAddressMorphTypeAndType(id, AddressMorphType.USER, AddressType.SHIPPING)
-                .orElse(null);
     }
 
     @Override

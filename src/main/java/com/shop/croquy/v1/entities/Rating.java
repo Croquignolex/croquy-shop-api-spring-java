@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Data
-@Entity
+//@Entity
 @NoArgsConstructor
-@Table(name = "ratings")
+//@Table(name = "ratings")
 public class Rating {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

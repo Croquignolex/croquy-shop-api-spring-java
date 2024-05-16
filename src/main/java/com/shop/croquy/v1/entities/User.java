@@ -5,11 +5,10 @@ import com.shop.croquy.v1.enums.Role;
 
 import jakarta.persistence.*;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import lombok.Setter;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -73,42 +72,6 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name = "email_verified_at")
     private Date emailVerifiedAt;
 
-    /*@OneToMany(mappedBy = "creator")
-    private Set<Country> createdCountries = new HashSet<>();*/
-//
-//    @OneToMany(mappedBy = "creator")
-//    private Set<InventoryHistory> createdInventoryHistories = new HashSet<>();
-//
-//    @OneToMany(mappedBy = "creator")
-//    private Set<Inventory> createdInventories = new HashSet<>();
-//
-//    @OneToMany(mappedBy = "creator")
-//    private Set<Product> createdProducts = new HashSet<>();
-//
-//    @OneToMany(mappedBy = "creator")
-//    private Set<User> createdUsers = new HashSet<>();
-//
-//    @OneToMany(mappedBy = "creator")
-//    private Set<User> createdMedia = new HashSet<>();
-//
-//    @OneToMany(mappedBy = "creator")
-//    private Set<Address> createdAddress = new HashSet<>();
-//
-//    @OneToMany(mappedBy = "creator")
-//    private Set<Tag> createdTags = new HashSet<>();
-//
-//    @OneToMany(mappedBy = "creator")
-//    private Set<Brand> createdBrands = new HashSet<>();
-//
-//    @OneToMany(mappedBy = "creator")
-//    private Set<Vendor> createdVendors = new HashSet<>();
-//
-//    @OneToMany(mappedBy = "viewer")
-//    private Set<View> views = new HashSet<>();
-//
-//    @OneToMany(mappedBy = "rater")
-//    private Set<Rating> rates = new HashSet<>();
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
@@ -136,7 +99,6 @@ public class User extends BaseEntity implements UserDetails {
 
     @PrePersist
     public void createTrigger() {
-
         password = new BCryptPasswordEncoder().encode(this.password);
 
         if(role.equals(Role.CUSTOMER)) {

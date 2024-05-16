@@ -57,14 +57,14 @@ public class ShopsController {
 
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Object> destroy(@PathVariable String id) {
-        shopsService.destroyById(id);
+        shopsService.destroyShopById(id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT.value()).build();
     }
 
     @PatchMapping(path = "/{id}/toggle")
     public ResponseEntity<Object> toggle(@PathVariable String id) {
-        shopsService.toggleStatusById(id);
+        shopsService.toggleShopStatusById(id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT.value()).build();
     }

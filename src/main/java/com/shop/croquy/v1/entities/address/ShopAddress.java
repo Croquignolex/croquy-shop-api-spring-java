@@ -1,6 +1,7 @@
-package com.shop.croquy.v1.entities;
+package com.shop.croquy.v1.entities.address;
 
-import com.shop.croquy.v1.enums.AddressMorphType;
+import com.shop.croquy.v1.entities.State;
+import com.shop.croquy.v1.entities.User;
 import com.shop.croquy.v1.enums.AddressType;
 
 import jakarta.persistence.*;
@@ -11,10 +12,10 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Data
-@Entity
+//@Entity
 @NoArgsConstructor
-@Table(name = "addresses")
-public class Address {
+//@Table(name = "shop_addresses")
+public class ShopAddress {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", nullable = false)
@@ -39,13 +40,6 @@ public class Address {
     @Column(name = "description", nullable = false, columnDefinition = "TEXT")
     private String description = "";
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "address_morph_type", nullable = false)
-    private AddressMorphType addressMorphType;
-
-    @Column(name = "address_morph_id", nullable = false)
-    private String addressMorphId;
-
     @ManyToOne
     @JoinColumn(name = "creator_id")
     private User creator;
@@ -56,13 +50,5 @@ public class Address {
 
     @Column(name = "created_at")
     private Date createdAt = new Date();
-
-    @Column(name = "updated_at")
-    private Date updatedAt = new Date();
-
-    @PreUpdate
-    public void updateTrigger() {
-        this.updatedAt = new Date();
-    }
 }
 

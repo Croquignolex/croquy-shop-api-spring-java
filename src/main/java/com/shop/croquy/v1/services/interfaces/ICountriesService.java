@@ -4,7 +4,7 @@ import com.shop.croquy.v1.dto.backoffice.country.CountryStateStoreRequest;
 import com.shop.croquy.v1.dto.backoffice.country.CountryStoreRequest;
 import com.shop.croquy.v1.dto.backoffice.country.CountryUpdateRequest;
 import com.shop.croquy.v1.entities.Country;
-import com.shop.croquy.v1.entities.CountryFlag;
+import com.shop.croquy.v1.entities.media.CountryFlag;
 import com.shop.croquy.v1.entities.State;
 
 import org.springframework.data.domain.Page;

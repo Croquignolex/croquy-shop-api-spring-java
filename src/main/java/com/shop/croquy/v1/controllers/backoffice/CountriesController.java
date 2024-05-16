@@ -3,9 +3,8 @@ package com.shop.croquy.v1.controllers.backoffice;
 import com.shop.croquy.v1.dto.backoffice.country.CountryStateStoreRequest;
 import com.shop.croquy.v1.dto.backoffice.country.CountryStoreRequest;
 import com.shop.croquy.v1.dto.backoffice.country.CountryUpdateRequest;
-import com.shop.croquy.v1.dto.backoffice.state.StateStoreRequest;
 import com.shop.croquy.v1.entities.Country;
-import com.shop.croquy.v1.entities.CountryFlag;
+import com.shop.croquy.v1.entities.media.CountryFlag;
 import com.shop.croquy.v1.entities.State;
 import com.shop.croquy.v1.services.backoffice.CountriesService;
 
