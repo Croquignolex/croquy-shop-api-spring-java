@@ -53,6 +53,11 @@ public class StatesService implements IStatesService {
     }
 
     @Override
+    public List<State> getAllEnabledStatesOrderByName() {
+        return stateRepository.findByEnabledOrderByName(true);
+    }
+
+    @Override
     public State getStateById(String id) {
         return stateRepository.findById(id).orElseThrow(() -> new DataIntegrityViolationException(STATE_NOT_FOUND));
     }

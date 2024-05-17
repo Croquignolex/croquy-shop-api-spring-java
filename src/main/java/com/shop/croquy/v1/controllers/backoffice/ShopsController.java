@@ -2,7 +2,9 @@ package com.shop.croquy.v1.controllers.backoffice;
 
 import com.shop.croquy.v1.dto.backoffice.shop.ShopStoreRequest;
 import com.shop.croquy.v1.dto.backoffice.shop.ShopUpdateRequest;
+import com.shop.croquy.v1.dto.web.AddressUpdateRequest;
 import com.shop.croquy.v1.entities.Shop;
+import com.shop.croquy.v1.entities.address.ShopAddress;
 import com.shop.croquy.v1.services.backoffice.ShopsService;
 
 import jakarta.validation.Valid;
@@ -68,4 +70,22 @@ public class ShopsController {
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT.value()).build();
     }
+
+    @PatchMapping(path = "/{id}/address")
+    public ResponseEntity<ShopAddress> updateAddress(
+            @Valid @RequestBody AddressUpdateRequest request,
+            @PathVariable String id,
+            Principal principal
+    ) {
+        ShopAddress shopAddress = shopsService.updateShopAddressById(request, id, principal.getName());
+
+        return ResponseEntity.status(HttpStatus.OK).body(shopAddress);
+    }
+
+//    @DeleteMapping(path = "/{id}/flag")
+//    public ResponseEntity<Object> removeFlag(@PathVariable String id) {
+//        countriesService.destroyCountryFlagById(id);
+//
+//        return ResponseEntity.status(HttpStatus.NO_CONTENT.value()).build();
+//    }
 }

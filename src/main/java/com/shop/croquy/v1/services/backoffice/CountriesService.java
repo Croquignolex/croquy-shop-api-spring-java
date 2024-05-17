@@ -83,7 +83,7 @@ public class CountriesService implements ICountriesService {
 
         var creator = userRepository.findByUsername(creatorUsername).orElse(null);
 
-        Country country = countryRepository.save(request.toCountry(creator));
+       countryRepository.save(request.toCountry(creator));
     }
 
     @Override

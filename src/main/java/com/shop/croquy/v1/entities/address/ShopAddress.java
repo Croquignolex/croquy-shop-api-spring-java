@@ -43,12 +43,10 @@ public class ShopAddress {
     @JoinColumn(name = "shop_id")
     private Shop shop;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne
     @JoinColumn(name = "state_id")
     private State state;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne
     @JoinColumn(name = "creator_id")
     private User creator;

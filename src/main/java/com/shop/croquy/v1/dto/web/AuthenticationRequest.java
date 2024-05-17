@@ -10,7 +10,7 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class AuthenticationRequest {
-    @Email(message = "The email address is invalid.", flags = { Pattern.Flag.CASE_INSENSITIVE })
+    @Email(message = "The email address is invalid", flags = { Pattern.Flag.CASE_INSENSITIVE })
     private String email;
 
     @NotEmpty(message = "Password field is required")
