@@ -14,6 +14,7 @@ public interface IShopsService {
     void storeShopWithCreator(ShopStoreRequest request, String creatorUsername);
     void updateShopById(ShopUpdateRequest request, String id);
     void destroyShopById(String id);
+    void destroyShopAddressById(String id);
     void toggleShopStatusById(String id);
     ShopAddress updateShopAddressById(AddressUpdateRequest request, String id, String creatorUsername);
 }

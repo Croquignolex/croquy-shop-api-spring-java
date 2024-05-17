@@ -6,7 +6,6 @@ import com.shop.croquy.v1.dto.web.AddressUpdateRequest;
 import com.shop.croquy.v1.entities.Shop;
 import com.shop.croquy.v1.entities.User;
 import com.shop.croquy.v1.entities.address.ShopAddress;
-import com.shop.croquy.v1.helpers.ImageOptimisationHelper;
 import com.shop.croquy.v1.repositories.ShopAddressRepository;
 import com.shop.croquy.v1.repositories.StateRepository;
 import com.shop.croquy.v1.repositories.ShopPagingAndSortingRepository;
@@ -148,16 +147,15 @@ public class ShopsService implements IShopsService {
         return shopAddress;
     }
 
-//    @Override
-//    public void destroyCountryFlagById(String id) {
-//        Country country = countryRepository.findById(id)
-//                .orElseThrow(() -> new DataIntegrityViolationException(COUNTRY_NOT_FOUND));
-//
-//        if(country.getFlag() != null) {
-//            ImageOptimisationHelper.deleteFile(country.getFlag().getPath(), mediaFolderPath);
-//            countryFlagRepository.delete(country.getFlag());
-//        } else {
-//            throw new DataIntegrityViolationException(FLAG_NOT_FOUND);
-//        }
-//    }
+    @Override
+    public void destroyShopAddressById(String id) {
+        Shop shop = shopRepository.findById(id)
+                .orElseThrow(() -> new DataIntegrityViolationException(STATE_NOT_FOUND));
+
+        if(shop.getAddress() != null) {
+            shopAddressRepository.delete(shop.getAddress());
+        } else {
+            throw new DataIntegrityViolationException(ADDRESS_NOT_FOUND);
+        }
+    }
 }

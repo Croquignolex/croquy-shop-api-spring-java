@@ -82,10 +82,10 @@ public class ShopsController {
         return ResponseEntity.status(HttpStatus.OK).body(shopAddress);
     }
 
-//    @DeleteMapping(path = "/{id}/flag")
-//    public ResponseEntity<Object> removeFlag(@PathVariable String id) {
-//        countriesService.destroyCountryFlagById(id);
-//
-//        return ResponseEntity.status(HttpStatus.NO_CONTENT.value()).build();
-//    }
+    @DeleteMapping(path = "/{id}/address")
+    public ResponseEntity<Object> removeFlag(@PathVariable String id) {
+        shopsService.destroyShopAddressById(id);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT.value()).build();
+    }
 }
