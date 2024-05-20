@@ -20,6 +20,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,6 +60,11 @@ public class CouponsService implements ICouponsService {
 
     @Override
     public void storeCouponWithCreator(CouponStoreRequest request, String creatorUsername) {
+        // Check dates
+        // Dans le validation check
+        // Totaltruc > 0
+        // Porcentage entre 0 et 100
+
         if(couponRepository.findFistByCode(request.getCode()).isPresent()) {
             throw new DataIntegrityViolationException(COUPON_CODE_ALREADY_EXIST + request.getCode());
         }
@@ -80,8 +86,8 @@ public class CouponsService implements ICouponsService {
         coupon.setCode(request.getCode());
         coupon.setDiscount(request.getDiscount());
         coupon.setTotalUse(request.getTotalUse());
-        coupon.setPromotionEndedAt(request.getPromotionEndedAt());
-        coupon.setPromotionStartedAt(request.getPromotionStartedAt());
+        coupon.setPromotionEndedAt(GeneralHelper.textToDate(request.getPromotionEndedAt()).orElse(new Date()));
+        coupon.setPromotionStartedAt(GeneralHelper.textToDate(request.getPromotionStartedAt()).orElse(new Date()));
         coupon.setDescription(request.getDescription());
 
         couponRepository.save(coupon);

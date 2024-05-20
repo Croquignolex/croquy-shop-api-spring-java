@@ -3,10 +3,16 @@ package com.shop.croquy.v1.helpers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shop.croquy.v1.dto.GenericResponse;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Optional;
 
 @Slf4j
@@ -36,4 +42,17 @@ public class GeneralHelper {
         }
         return opt;
     }
+
+    public static Optional<Date> textToDate(String str) {
+        Optional<Date> opt = Optional.empty();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+
+        try {
+            opt = Optional.of(formatter.parse(str));
+        } catch (ParseException e) {
+            log.error("################################# [String to Date error] ===> " + e.getMessage());
+        }
+        return opt;
+    }
+
 }

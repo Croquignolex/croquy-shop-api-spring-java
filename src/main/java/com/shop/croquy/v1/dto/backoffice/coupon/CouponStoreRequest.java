@@ -3,7 +3,10 @@ package com.shop.croquy.v1.dto.backoffice.coupon;
 import com.shop.croquy.v1.entities.Coupon;
 import com.shop.croquy.v1.entities.User;
 
+import com.shop.croquy.v1.helpers.GeneralHelper;
 import jakarta.validation.constraints.NotEmpty;
+
+import jakarta.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,17 +21,17 @@ public class CouponStoreRequest {
     @NotEmpty(message = "Code field is required")
     protected String code;
 
-    @NotEmpty(message = "Discount field is required")
+    @NotNull(message = "Discount field is required")
     protected Integer discount;
 
-    @NotEmpty(message = "Total Use field is required")
+    @NotNull(message = "Total Use field is required")
     protected Integer totalUse;
 
     @NotEmpty(message = "Promotion Started Date field is required")
-    protected Date promotionStartedAt;
+    protected String promotionStartedAt;
 
     @NotEmpty(message = "Promotion Ended Date field is required")
-    protected Date promotionEndedAt;
+    protected String promotionEndedAt;
 
     protected String description;
 
@@ -38,10 +41,10 @@ public class CouponStoreRequest {
         coupon.setCode(code);
         coupon.setDiscount(discount);
         coupon.setTotalUse(totalUse);
-        coupon.setPromotionStartedAt(promotionStartedAt);
-        coupon.setPromotionEndedAt(promotionEndedAt);
+        coupon.setPromotionStartedAt(GeneralHelper.textToDate(promotionStartedAt).orElse(new Date()));
+        coupon.setPromotionEndedAt(GeneralHelper.textToDate(promotionEndedAt).orElse(new Date()));
         coupon.setDescription(description);
-//        coupon.setCreator(creator);
+        coupon.setCreator(creator);
 
         return coupon;
     }
