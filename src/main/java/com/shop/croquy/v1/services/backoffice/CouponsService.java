@@ -1,0 +1,112 @@
+package com.shop.croquy.v1.services.backoffice;
+
+import com.shop.croquy.v1.dto.backoffice.coupon.CouponStoreRequest;
+import com.shop.croquy.v1.dto.backoffice.coupon.CouponUpdateRequest;
+import com.shop.croquy.v1.entities.Coupon;
+import com.shop.croquy.v1.entities.User;
+import com.shop.croquy.v1.helpers.GeneralHelper;
+import com.shop.croquy.v1.repositories.*;
+import com.shop.croquy.v1.services.interfaces.ICouponsService;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
+
+import static com.shop.croquy.v1.helpers.ErrorMessagesHelper.*;
+
+@Service
+@Slf4j
+@RequiredArgsConstructor
+public class CouponsService implements ICouponsService {
+    private final CouponPagingAndSortingRepository couponPagingAndSortingRepository;
+    private final CouponRepository couponRepository;
+    private final UserRepository userRepository;
+
+    @Override
+    public Page<Coupon> getPaginatedCoupons(int pageNumber, int pageSize, String needle) {
+        Pageable pageable = PageRequest.of(
+                pageNumber,
+                pageSize,
+                Sort.by(Sort.Direction.DESC, "createdAt")
+        );
+
+        if(StringUtils.isNotEmpty(needle)) {
+            List<User> users = userRepository.findByUsernameContains(needle);
+
+            int discount = GeneralHelper.stringToInt(needle).orElse(-1);
+
+            return couponPagingAndSortingRepository.findAllByCodeContainsOrDiscountOrCreatorIsIn(needle, discount, users, pageable);
+        }
+
+        return couponPagingAndSortingRepository.findAll(pageable);
+    }
+
+    @Override
+    public Coupon getCouponById(String id) {
+        return couponRepository.findById(id).orElseThrow(() -> new DataIntegrityViolationException(COUPON_NOT_FOUND));
+    }
+
+    @Override
+    public void storeCouponWithCreator(CouponStoreRequest request, String creatorUsername) {
+        if(couponRepository.findFistByCode(request.getCode()).isPresent()) {
+            throw new DataIntegrityViolationException(COUPON_CODE_ALREADY_EXIST + request.getCode());
+        }
+
+        var creator = userRepository.findByUsername(creatorUsername).orElse(null);
+
+        couponRepository.save(request.toCoupon(creator));
+    }
+
+    @Override
+    public void updateCouponById(CouponUpdateRequest request, String id) {
+        if(couponRepository.findFistByCodeAndIdNot(request.getCode(), id).isPresent()) {
+            throw new DataIntegrityViolationException(COUPON_CODE_ALREADY_EXIST + request.getCode());
+        }
+
+        Coupon coupon = couponRepository.findById(id)
+                .orElseThrow(() -> new DataIntegrityViolationException(COUPON_NOT_FOUND));
+
+        coupon.setCode(request.getCode());
+        coupon.setDiscount(request.getDiscount());
+        coupon.setTotalUse(request.getTotalUse());
+        coupon.setPromotionEndedAt(request.getPromotionEndedAt());
+        coupon.setPromotionStartedAt(request.getPromotionStartedAt());
+        coupon.setDescription(request.getDescription());
+
+        couponRepository.save(coupon);
+    }
+
+    @Override
+    @Transactional
+    public void destroyCouponById(String id) {
+        Coupon coupon = couponRepository.findById(id)
+                .orElseThrow(() -> new DataIntegrityViolationException(COUPON_NOT_FOUND));
+
+        if(coupon.isNonDeletable()) {
+            throw new DataIntegrityViolationException(COUPON_CAN_NOT_BE_DELETED);
+        }
+
+        couponRepository.deleteById(id);
+    }
+
+    @Override
+    public void toggleCouponStatusById(String id) {
+        Coupon coupon = couponRepository.findById(id)
+                .orElseThrow(() -> new DataIntegrityViolationException(COUPON_NOT_FOUND));
+
+        coupon.setEnabled(!coupon.getEnabled());
+
+        couponRepository.save(coupon);
+    }
+}

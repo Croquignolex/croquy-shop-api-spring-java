@@ -18,9 +18,11 @@ public class ErrorMessagesHelper {
     public static final String ADDRESS_NOT_FOUND = "Address not found";
     public static final String STATE_NAME_ALREADY_EXIST = "State already exist in this country with name: ";
     public static final String STATE_NOT_FOUND = "State not found";
+    public static final String COUPON_CODE_ALREADY_EXIST = "Coupon already exist in this country with code: ";
+    public static final String COUPON_CAN_NOT_BE_DELETED = "Coupon can not be deleted";
+    public static final String COUPON_NOT_FOUND = "Coupon not found";
     public static final String FILE_SYSTEM_ERROR = "File system error";
     public static final String FILE_SIZE_EXCEEDS = "File size exceeds maximum limit";
     public static final String WRONG_ORIGINAL_FILE_NAME = "Wrong original file name";
     public static final String WRONG_ORIGINAL_FILE_TYPE = "Wrong original file type";
-    public static final String FILE_NOT_FOUND = "File not found";
 }

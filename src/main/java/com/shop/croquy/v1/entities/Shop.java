@@ -5,17 +5,17 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.shop.croquy.v1.entities.address.ShopAddress;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Entity
 @NoArgsConstructor
 @Table(name = "shops")
 public class Shop extends BaseEntity {
-    @NotNull(message = "Shop name is required")
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 

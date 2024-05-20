@@ -1,7 +1,5 @@
 package com.shop.croquy.v1.entities;
 
-import com.shop.croquy.v1.enums.ViewMorphType;
-
 import jakarta.persistence.*;
 
 import lombok.Data;
@@ -19,9 +17,9 @@ public class View {
     @Column(name = "id", nullable = false)
     private String id;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "view_morph_type", nullable = false)
-    private ViewMorphType viewMorphType;
+//    @Enumerated(EnumType.STRING)
+//    @Column(name = "view_morph_type", nullable = false)
+//    private ViewMorphType viewMorphType;
 
     @Column(name = "view_morph_id", nullable = false)
     private String viewMorphId;

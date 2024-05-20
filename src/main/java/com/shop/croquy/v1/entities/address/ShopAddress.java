@@ -9,11 +9,14 @@ import com.shop.croquy.v1.entities.User;
 import jakarta.persistence.*;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Date;
 
-@Data
+@Getter
+@Setter
 @Entity
 @NoArgsConstructor
 @Table(name = "shop_addresses")

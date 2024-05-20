@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.Optional;
+
 @Slf4j
 public class GeneralHelper {
     public static String convertObjectToJson(Object object) throws JsonProcessingException {
@@ -23,5 +25,15 @@ public class GeneralHelper {
         log.error("################################# [" + rep.getStatusCode() + "] ===> " + rep.getMessage());
 
         return ResponseEntity.status(rep.getStatusCode()).body(rep);
+    }
+
+    public static Optional<Integer> stringToInt(String str) {
+        Optional<Integer> opt = Optional.empty();
+        try {
+            opt = Optional.of(Integer.parseInt(str));
+        } catch (NumberFormatException e) {
+            log.error("################################# [String to Integer error] ===> " + e.getMessage());
+        }
+        return opt;
     }
 }

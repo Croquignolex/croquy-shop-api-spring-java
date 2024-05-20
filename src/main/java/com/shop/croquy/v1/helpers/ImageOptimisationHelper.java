@@ -3,9 +3,7 @@ package com.shop.croquy.v1.helpers;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,7 +15,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import static com.shop.croquy.v1.helpers.ErrorMessagesHelper.*;
-import static com.shop.croquy.v1.helpers.ErrorMessagesHelper.FILE_SYSTEM_ERROR;
 
 @Component
 @Slf4j

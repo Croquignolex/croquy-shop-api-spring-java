@@ -12,9 +12,9 @@ import java.util.Date;
 
 @Getter
 @Setter
-@Entity
+//@Entity
 @NoArgsConstructor
-@Table(name = "inventories")
+//@Table(name = "inventories")
 public class Inventory extends BaseEntity {
     @Column(name = "condition", nullable = false)
     @Enumerated(EnumType.STRING)

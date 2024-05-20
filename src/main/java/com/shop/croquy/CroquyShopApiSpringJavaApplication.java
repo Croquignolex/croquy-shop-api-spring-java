@@ -1,12 +1,11 @@
 package com.shop.croquy;
 
-import com.shop.croquy.v1.entities.State;
 import com.shop.croquy.v1.enums.Role;
-import com.shop.croquy.v1.entities.Shop;
 import com.shop.croquy.v1.entities.User;
 import com.shop.croquy.v1.repositories.UserRepository;
 
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -35,14 +34,14 @@ public class CroquyShopApiSpringJavaApplication {
     @Bean
     public CommandLineRunner run() {
         return (String[] args) -> {
-            List<User> users = new ArrayList<>();
-            List<Shop> shops = new ArrayList<>();
-            List<State> states = new ArrayList<>();
+            if(userRepository.findByUsername("user100").isEmpty()) {
+                List<User> users = new ArrayList<>();
 
-            users.add(seedUsers(100, Role.SUPER_ADMIN));
-            users.add(seedUsers(101, Role.CUSTOMER));
+                users.add(seedUsers(100, Role.SUPER_ADMIN));
+                users.add(seedUsers(101, Role.CUSTOMER));
 
-            userRepository.saveAll(users);
+                userRepository.saveAll(users);
+            }
         };
     }
 

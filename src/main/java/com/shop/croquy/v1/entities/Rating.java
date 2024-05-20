@@ -1,7 +1,5 @@
 package com.shop.croquy.v1.entities;
 
-import com.shop.croquy.v1.enums.RatingMorphType;
-
 import jakarta.persistence.*;
 
 import lombok.Data;
@@ -25,9 +23,9 @@ public class Rating {
     @Column(name = "comment")
     private String comment;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "rating_morph_type", nullable = false)
-    private RatingMorphType ratingMorphType;
+//    @Enumerated(EnumType.STRING)
+//    @Column(name = "rating_morph_type", nullable = false)
+//    private RatingMorphType ratingMorphType;
 
     @Column(name = "rating_morph_id", nullable = false)
     private String ratingMorphId;
