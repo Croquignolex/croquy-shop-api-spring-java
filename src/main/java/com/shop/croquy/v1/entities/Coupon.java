@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -22,9 +23,6 @@ public class Coupon extends BaseEntity {
     @Column(name = "total_use", nullable = false)
     private Integer totalUse = 0;
 
-    @Column(name = "total_usage", nullable = false)
-    private Integer totalUsage = 0;
-
     @Column(name = "promotion_started_at")
     private Date promotionStartedAt;
 
@@ -33,7 +31,13 @@ public class Coupon extends BaseEntity {
 
     @JsonIgnore
     public boolean isNonDeletable() {
-        return totalUsage == 0 ;
+        return false;
+//        return Objects.equals(totalUsage, totalUse) && (totalUsage != 0);
+    }
+
+    @PrePersist
+    public void createTrigger() {
+        code = code.toUpperCase();
     }
 }
 

@@ -12,9 +12,6 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class CouponUpdateRequest {
-    @NotEmpty(message = "Code field is required")
-    protected String code;
-
     @NotNull(message = "Discount field is required")
     protected Integer discount;
 

@@ -4,6 +4,8 @@ import com.shop.croquy.v1.entities.Coupon;
 import com.shop.croquy.v1.entities.User;
 
 import com.shop.croquy.v1.helpers.GeneralHelper;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 
 import jakarta.validation.constraints.NotNull;
@@ -21,9 +23,12 @@ public class CouponStoreRequest {
     @NotEmpty(message = "Code field is required")
     protected String code;
 
+    @Min(value = 0, message = "Discount field should be greater than 0")
+    @Max(value = 100, message = "Discount field should be less than 100")
     @NotNull(message = "Discount field is required")
     protected Integer discount;
 
+    @Min(value = 0, message = "Total Use field should be greater than 0")
     @NotNull(message = "Total Use field is required")
     protected Integer totalUse;
 
@@ -38,11 +43,17 @@ public class CouponStoreRequest {
     public Coupon toCoupon(User creator) {
         Coupon coupon = new Coupon();
 
+        Date startedAt = GeneralHelper.textToDate(promotionStartedAt).orElse(new Date());
+        Date endedAt = GeneralHelper.textToDate(promotionEndedAt).orElse(new Date());
+        if(startedAt.after(endedAt) && startedAt.getTime() != endedAt.getTime()) {
+            startedAt = endedAt;
+        }
+
         coupon.setCode(code);
         coupon.setDiscount(discount);
         coupon.setTotalUse(totalUse);
-        coupon.setPromotionStartedAt(GeneralHelper.textToDate(promotionStartedAt).orElse(new Date()));
-        coupon.setPromotionEndedAt(GeneralHelper.textToDate(promotionEndedAt).orElse(new Date()));
+        coupon.setPromotionStartedAt(startedAt);
+        coupon.setPromotionEndedAt(endedAt);
         coupon.setDescription(description);
         coupon.setCreator(creator);
 

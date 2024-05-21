@@ -25,4 +25,5 @@ public class ErrorMessagesHelper {
     public static final String FILE_SIZE_EXCEEDS = "File size exceeds maximum limit";
     public static final String WRONG_ORIGINAL_FILE_NAME = "Wrong original file name";
     public static final String WRONG_ORIGINAL_FILE_TYPE = "Wrong original file type";
+    public static final String WRONG_COUPON_UPDATE_VALUE = "Wrong coupon discount/total usage update value";
 }

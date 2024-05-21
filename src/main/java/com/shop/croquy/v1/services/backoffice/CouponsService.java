@@ -60,11 +60,6 @@ public class CouponsService implements ICouponsService {
 
     @Override
     public void storeCouponWithCreator(CouponStoreRequest request, String creatorUsername) {
-        // Check dates
-        // Dans le validation check
-        // Totaltruc > 0
-        // Porcentage entre 0 et 100
-
         if(couponRepository.findFistByCode(request.getCode()).isPresent()) {
             throw new DataIntegrityViolationException(COUPON_CODE_ALREADY_EXIST + request.getCode());
         }
@@ -76,18 +71,23 @@ public class CouponsService implements ICouponsService {
 
     @Override
     public void updateCouponById(CouponUpdateRequest request, String id) {
-        if(couponRepository.findFistByCodeAndIdNot(request.getCode(), id).isPresent()) {
-            throw new DataIntegrityViolationException(COUPON_CODE_ALREADY_EXIST + request.getCode());
-        }
-
         Coupon coupon = couponRepository.findById(id)
                 .orElseThrow(() -> new DataIntegrityViolationException(COUPON_NOT_FOUND));
 
-        coupon.setCode(request.getCode());
+        if((coupon.getDiscount() > request.getDiscount()) || (coupon.getTotalUse() > request.getTotalUse())) {
+            throw new DataIntegrityViolationException(WRONG_COUPON_UPDATE_VALUE);
+        }
+
+        Date startedAt = GeneralHelper.textToDate(request.getPromotionStartedAt()).orElse(new Date());
+        Date endedAt = GeneralHelper.textToDate(request.getPromotionEndedAt()).orElse(new Date());
+        if(startedAt.after(endedAt) && startedAt.getTime() != endedAt.getTime()) {
+            startedAt = endedAt;
+        }
+
         coupon.setDiscount(request.getDiscount());
         coupon.setTotalUse(request.getTotalUse());
-        coupon.setPromotionEndedAt(GeneralHelper.textToDate(request.getPromotionEndedAt()).orElse(new Date()));
-        coupon.setPromotionStartedAt(GeneralHelper.textToDate(request.getPromotionStartedAt()).orElse(new Date()));
+        coupon.setPromotionStartedAt(startedAt);
+        coupon.setPromotionEndedAt(endedAt);
         coupon.setDescription(request.getDescription());
 
         couponRepository.save(coupon);
