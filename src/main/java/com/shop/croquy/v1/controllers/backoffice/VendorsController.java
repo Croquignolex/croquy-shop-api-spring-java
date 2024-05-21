@@ -1,14 +1,16 @@
 package com.shop.croquy.v1.controllers.backoffice;
 
-import com.shop.croquy.v1.dto.backoffice.shop.ShopStoreRequest;
-import com.shop.croquy.v1.dto.backoffice.shop.ShopUpdateRequest;
+import com.shop.croquy.v1.dto.backoffice.vendor.VendorStoreRequest;
+import com.shop.croquy.v1.dto.backoffice.vendor.VendorUpdateRequest;
 import com.shop.croquy.v1.dto.web.AddressUpdateRequest;
-import com.shop.croquy.v1.entities.Shop;
-import com.shop.croquy.v1.entities.address.ShopAddress;
-import com.shop.croquy.v1.services.backoffice.ShopsService;
+import com.shop.croquy.v1.entities.Vendor;
+import com.shop.croquy.v1.entities.address.VendorAddress;
+import com.shop.croquy.v1.services.backoffice.VendorsService;
 
 import jakarta.validation.Valid;
+
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -18,73 +20,74 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @PreAuthorize("hasAnyAuthority('SUPER_ADMIN')")
-@RequestMapping(path = "/v1/backoffice/shops")
-public class ShopsController {
-    private final ShopsService shopsService;
+@RequestMapping(path = "/v1/backoffice/vendors")
+public class VendorsController {
+    private final VendorsService vendorsService;
 
     @GetMapping
-    public ResponseEntity<Page<Shop>> index(
+    public ResponseEntity<Page<Vendor>> index(
             @RequestParam(defaultValue = "") String needle,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
-        Page<Shop> paginatedShops = shopsService.getPaginatedShops(page, size, needle);
+        Page<Vendor> paginatedVendors = vendorsService.getPaginatedVendors(page, size, needle);
 
-        return ResponseEntity.status(HttpStatus.OK).body(paginatedShops);
+        return ResponseEntity.status(HttpStatus.OK).body(paginatedVendors);
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<Shop> show(@PathVariable String id) {
-        Shop shop = shopsService.getShopById(id);
+    public ResponseEntity<Vendor> show(@PathVariable String id) {
+        Vendor state = vendorsService.getVendorById(id);
 
-        return ResponseEntity.status(HttpStatus.OK.value()).body(shop);
+        return ResponseEntity.status(HttpStatus.OK.value()).body(state);
     }
 
     @PostMapping
-    public ResponseEntity<Object> store(@Valid @RequestBody ShopStoreRequest request, Principal principal) {
-        shopsService.storeShopWithCreator(request, principal.getName());
+    public ResponseEntity<Object> store(@Valid @RequestBody VendorStoreRequest request, Principal principal) {
+        vendorsService.storeVendorCreator(request, principal.getName());
 
         return ResponseEntity.status(HttpStatus.CREATED.value()).build();
     }
 
     @PutMapping(path = "/{id}")
-    public ResponseEntity<Object> update(@Valid @RequestBody ShopUpdateRequest request, @PathVariable String id) {
-        shopsService.updateShopById(request, id);
+    public ResponseEntity<Object> update(@Valid @RequestBody VendorUpdateRequest request, @PathVariable String id) {
+        vendorsService.updateVendorById(request, id);
 
         return ResponseEntity.status(HttpStatus.ACCEPTED.value()).build();
     }
 
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Object> destroy(@PathVariable String id) {
-        shopsService.destroyShopById(id);
+        vendorsService.destroyVendorById(id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT.value()).build();
     }
 
     @PatchMapping(path = "/{id}/toggle")
     public ResponseEntity<Object> toggle(@PathVariable String id) {
-        shopsService.toggleShopStatusById(id);
+        vendorsService.toggleVendorStatusById(id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT.value()).build();
     }
 
     @PatchMapping(path = "/{id}/address")
-    public ResponseEntity<ShopAddress> updateAddress(
+    public ResponseEntity<VendorAddress> updateAddress(
             @Valid @RequestBody AddressUpdateRequest request,
             @PathVariable String id,
             Principal principal
     ) {
-        ShopAddress shopAddress = shopsService.updateShopAddressById(request, id, principal.getName());
+        VendorAddress vendorAddress = vendorsService.updateVendorAddressById(request, id, principal.getName());
 
-        return ResponseEntity.status(HttpStatus.OK).body(shopAddress);
+        return ResponseEntity.status(HttpStatus.OK).body(vendorAddress);
     }
 
     @DeleteMapping(path = "/{id}/address")
     public ResponseEntity<Object> removeAddress(@PathVariable String id) {
-        shopsService.destroyShopAddressById(id);
+        vendorsService.destroyVendorAddressById(id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT.value()).build();
     }

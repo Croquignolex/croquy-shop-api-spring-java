@@ -150,7 +150,7 @@ public class ShopsService implements IShopsService {
     @Override
     public void destroyShopAddressById(String id) {
         Shop shop = shopRepository.findById(id)
-                .orElseThrow(() -> new DataIntegrityViolationException(STATE_NOT_FOUND));
+                .orElseThrow(() -> new DataIntegrityViolationException(SHOP_NOT_FOUND));
 
         if(shop.getAddress() != null) {
             shopAddressRepository.delete(shop.getAddress());

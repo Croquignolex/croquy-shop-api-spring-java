@@ -2,8 +2,7 @@ package com.shop.croquy.v1.entities.address;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import com.shop.croquy.v1.entities.Shop;
-
+import com.shop.croquy.v1.entities.Vendor;
 import jakarta.persistence.*;
 
 import lombok.Getter;
@@ -14,11 +13,11 @@ import lombok.Setter;
 @Setter
 @Entity
 @NoArgsConstructor
-@Table(name = "shop_addresses")
-public class ShopAddress extends AddressBaseEntity {
+@Table(name = "vendor_addresses")
+public class VendorAddress extends AddressBaseEntity {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToOne
-    @JoinColumn(name = "shop_id")
-    private Shop shop;
+    @JoinColumn(name = "vendor_id")
+    private Vendor vendor;
 }
 

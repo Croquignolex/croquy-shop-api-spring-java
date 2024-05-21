@@ -1,29 +1,24 @@
 package com.shop.croquy.v1.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import com.shop.croquy.v1.entities.address.VendorAddress;
 import jakarta.persistence.*;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
-@Data
-//@Entity
+@Getter
+@Setter
+@Entity
 @NoArgsConstructor
-//@Table(name = "vendors")
-public class Vendor {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id", nullable = false)
-    private String id;
-
+@Table(name = "vendors")
+public class Vendor extends BaseEntity {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
-
-    @Column(name = "is_enabled", nullable = false)
-    private Boolean enabled = true;
 
     @Column(name = "description", nullable = false, columnDefinition = "TEXT")
     private String description = "";
@@ -34,16 +29,20 @@ public class Vendor {
     @Column(name = "updated_at")
     private Date updatedAt = new Date();
 
+    @OneToOne(mappedBy = "vendor")
+    private VendorAddress address;
+
     @ManyToOne
     @JoinColumn(name = "creator_id", nullable = false)
     private User creator;
 
-    @OneToMany(mappedBy = "vendor")
-    private Set<Inventory> inventories = new HashSet<>();
+//    @OneToMany(mappedBy = "vendor")
+//    private Set<Inventory> inventories = new HashSet<>();
 
-    @PreUpdate
-    public void updateTrigger() {
-        this.updatedAt = new Date();
+    @JsonIgnore
+    public boolean isNonDeletable() {
+//        return (long) inventoryHistories.size() > 0 ;
+        return false;
     }
 }
 
