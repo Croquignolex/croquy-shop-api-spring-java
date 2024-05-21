@@ -6,6 +6,9 @@ import com.shop.croquy.v1.dto.GenericResponse;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -55,4 +58,11 @@ public class GeneralHelper {
         return opt;
     }
 
+    public static Pageable buildPageable(int pageNumber, int pageSize) {
+        return PageRequest.of(
+                pageNumber,
+                pageSize,
+                Sort.by(Sort.Direction.DESC, "createdAt")
+        );
+    }
 }

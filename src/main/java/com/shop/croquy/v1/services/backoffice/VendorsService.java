@@ -7,6 +7,7 @@ import com.shop.croquy.v1.entities.User;
 import com.shop.croquy.v1.entities.Vendor;
 import com.shop.croquy.v1.entities.address.VendorAddress;
 import com.shop.croquy.v1.entities.media.VendorLogo;
+import com.shop.croquy.v1.helpers.GeneralHelper;
 import com.shop.croquy.v1.helpers.ImageOptimisationHelper;
 import com.shop.croquy.v1.repositories.*;
 import com.shop.croquy.v1.services.interfaces.IVendorService;
@@ -18,9 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -47,11 +46,7 @@ public class VendorsService implements IVendorService {
 
     @Override
     public Page<Vendor> getPaginatedVendors(int pageNumber, int pageSize, String needle) {
-        Pageable pageable = PageRequest.of(
-                pageNumber,
-                pageSize,
-                Sort.by(Sort.Direction.DESC, "createdAt")
-        );
+        Pageable pageable = GeneralHelper.buildPageable(pageNumber, pageSize);
 
         if(StringUtils.isNotEmpty(needle)) {
             List<User> users = userRepository.findByUsernameContains(needle);

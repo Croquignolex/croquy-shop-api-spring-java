@@ -5,6 +5,7 @@ import com.shop.croquy.v1.dto.backoffice.state.StateUpdateRequest;
 import com.shop.croquy.v1.entities.Country;
 import com.shop.croquy.v1.entities.State;
 import com.shop.croquy.v1.entities.User;
+import com.shop.croquy.v1.helpers.GeneralHelper;
 import com.shop.croquy.v1.repositories.*;
 import com.shop.croquy.v1.services.interfaces.IStatesService;
 
@@ -15,9 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,11 +35,7 @@ public class StatesService implements IStatesService {
 
     @Override
     public Page<State> getPaginatedStates(int pageNumber, int pageSize, String needle) {
-        Pageable pageable = PageRequest.of(
-                pageNumber,
-                pageSize,
-                Sort.by(Sort.Direction.DESC, "createdAt")
-        );
+        Pageable pageable = GeneralHelper.buildPageable(pageNumber, pageSize);
 
         if(StringUtils.isNotEmpty(needle)) {
             List<User> users = userRepository.findByUsernameContains(needle);

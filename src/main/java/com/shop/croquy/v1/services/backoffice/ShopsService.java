@@ -6,6 +6,7 @@ import com.shop.croquy.v1.dto.web.AddressUpdateRequest;
 import com.shop.croquy.v1.entities.Shop;
 import com.shop.croquy.v1.entities.User;
 import com.shop.croquy.v1.entities.address.ShopAddress;
+import com.shop.croquy.v1.helpers.GeneralHelper;
 import com.shop.croquy.v1.repositories.ShopAddressRepository;
 import com.shop.croquy.v1.repositories.StateRepository;
 import com.shop.croquy.v1.repositories.ShopPagingAndSortingRepository;
@@ -19,9 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,11 +39,7 @@ public class ShopsService implements IShopsService {
 
     @Override
     public Page<Shop> getPaginatedShops(int pageNumber, int pageSize, String needle) {
-        Pageable pageable = PageRequest.of(
-                pageNumber,
-                pageSize,
-                Sort.by(Sort.Direction.DESC, "createdAt")
-        );
+        Pageable pageable = GeneralHelper.buildPageable(pageNumber, pageSize);
 
         if(StringUtils.isNotEmpty(needle)) {
             List<User> users = userRepository.findByUsernameContains(needle);
