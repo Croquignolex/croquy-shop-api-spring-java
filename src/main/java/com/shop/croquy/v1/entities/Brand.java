@@ -27,8 +27,8 @@ public class Brand extends BaseEntity {
     @Column(name = "seo_title")
     private String seoTitle;
 
-    @Column(name = "seo_description")
-    private String seoDescription;
+    @Column(name = "seo_description", nullable = false, columnDefinition = "TEXT")
+    private String seoDescription = "";
 
     @OneToOne(mappedBy = "brand")
     private BrandLogo logo;

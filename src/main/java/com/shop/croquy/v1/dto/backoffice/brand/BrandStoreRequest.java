@@ -31,10 +31,10 @@ public class BrandStoreRequest {
         Brand brand = new Brand();
 
         brand.setName(name);
-        brand.setName(slug);
-        brand.setName(website);
-        brand.setName(seoTitle);
-        brand.setName(seoDescription);
+        brand.setSlug(slug);
+        brand.setWebsite(website);
+        brand.setSeoTitle(seoTitle);
+        brand.setSeoDescription(seoDescription);
         brand.setDescription(description);
         brand.setCreator(creator);
 
