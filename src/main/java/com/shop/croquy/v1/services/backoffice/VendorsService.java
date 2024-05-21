@@ -6,6 +6,8 @@ import com.shop.croquy.v1.dto.web.AddressUpdateRequest;
 import com.shop.croquy.v1.entities.User;
 import com.shop.croquy.v1.entities.Vendor;
 import com.shop.croquy.v1.entities.address.VendorAddress;
+import com.shop.croquy.v1.entities.media.VendorLogo;
+import com.shop.croquy.v1.helpers.ImageOptimisationHelper;
 import com.shop.croquy.v1.repositories.*;
 import com.shop.croquy.v1.services.interfaces.IVendorService;
 
@@ -13,16 +15,21 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 import static com.shop.croquy.v1.helpers.ErrorMessagesHelper.*;
+import static org.springframework.http.MediaType.IMAGE_JPEG_VALUE;
+import static org.springframework.http.MediaType.IMAGE_PNG_VALUE;
 
 @Service
 @Slf4j
@@ -30,9 +37,13 @@ import static com.shop.croquy.v1.helpers.ErrorMessagesHelper.*;
 public class VendorsService implements IVendorService {
     private final VendorPagingAndSortingRepository vendorPagingAndSortingRepository;
     private final VendorAddressRepository vendorAddressRepository;
+    private final VendorLogoRepository vendorLogoRepository;
     private final VendorRepository vendorRepository;
     private final StateRepository stateRepository;
     private final UserRepository userRepository;
+
+    @Value("${media.saving.directory}")
+    private String mediaFolderPath;
 
     @Override
     public Page<Vendor> getPaginatedVendors(int pageNumber, int pageSize, String needle) {
@@ -98,7 +109,12 @@ public class VendorsService implements IVendorService {
                 .orElseThrow(() -> new DataIntegrityViolationException(VENDOR_NOT_FOUND));
 
         if(vendor.isNonDeletable()) {
-            throw new DataIntegrityViolationException(VENDOR__CAN_NOT_BE_DELETED);
+            throw new DataIntegrityViolationException(VENDOR_CAN_NOT_BE_DELETED);
+        }
+
+        if(vendor.getLogo() != null) {
+            ImageOptimisationHelper.deleteFile(vendor.getLogo().getPath(), mediaFolderPath);
+            vendorLogoRepository.delete(vendor.getLogo());
         }
 
         if(vendor.getAddress() != null) {
@@ -106,6 +122,49 @@ public class VendorsService implements IVendorService {
         }
 
         vendorRepository.deleteById(id);
+    }
+
+    @Override
+    public VendorLogo changeVendorLogoById(MultipartFile image, String id, String creatorUsername) {
+        Vendor vendor = vendorRepository.findById(id)
+                .orElseThrow(() -> new DataIntegrityViolationException(COUNTRY_NOT_FOUND));
+
+        VendorLogo vendorLogo = vendor.getLogo();
+
+        if(vendorLogo != null) ImageOptimisationHelper.deleteFile(vendor.getLogo().getPath(), mediaFolderPath);
+        else vendorLogo = new VendorLogo();
+
+        var creator = userRepository.findByUsername(creatorUsername).orElse(null);
+
+        Map<String, String> savedFileDic = ImageOptimisationHelper.saveFile(
+                image,
+                mediaFolderPath,
+                1024 * 1024,
+                List.of(IMAGE_JPEG_VALUE, IMAGE_PNG_VALUE)
+        );
+
+        vendorLogo.setSize(image.getSize());
+        vendorLogo.setOriginalName(savedFileDic.get("name"));
+        vendorLogo.setPath(savedFileDic.get("path"));
+        vendorLogo.setVendor(vendor);
+        vendorLogo.setCreator(creator);
+
+        vendorLogoRepository.save(vendorLogo);
+
+        return vendorLogo;
+    }
+
+    @Override
+    public void destroyVendorLogoById(String id) {
+        Vendor vendor = vendorRepository.findById(id)
+                .orElseThrow(() -> new DataIntegrityViolationException(VENDOR_NOT_FOUND));
+
+        if(vendor.getLogo() != null) {
+            ImageOptimisationHelper.deleteFile(vendor.getLogo().getPath(), mediaFolderPath);
+            vendorLogoRepository.delete(vendor.getLogo());
+        } else {
+            throw new DataIntegrityViolationException(LOGO_NOT_FOUND);
+        }
     }
 
     @Override

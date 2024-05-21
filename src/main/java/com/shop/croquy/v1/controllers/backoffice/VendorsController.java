@@ -5,6 +5,7 @@ import com.shop.croquy.v1.dto.backoffice.vendor.VendorUpdateRequest;
 import com.shop.croquy.v1.dto.web.AddressUpdateRequest;
 import com.shop.croquy.v1.entities.Vendor;
 import com.shop.croquy.v1.entities.address.VendorAddress;
+import com.shop.croquy.v1.entities.media.VendorLogo;
 import com.shop.croquy.v1.services.backoffice.VendorsService;
 
 import jakarta.validation.Valid;
@@ -14,9 +15,11 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
 
@@ -70,6 +73,24 @@ public class VendorsController {
     @PatchMapping(path = "/{id}/toggle")
     public ResponseEntity<Object> toggle(@PathVariable String id) {
         vendorsService.toggleVendorStatusById(id);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT.value()).build();
+    }
+
+    @PatchMapping(path = "/{id}/logo", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    public ResponseEntity<VendorLogo> changeLogo(
+            @RequestPart MultipartFile image,
+            @PathVariable String id,
+            Principal principal
+    ) {
+        VendorLogo vendorLogo = vendorsService.changeVendorLogoById(image, id, principal.getName());
+
+        return ResponseEntity.status(HttpStatus.OK).body(vendorLogo);
+    }
+
+    @DeleteMapping(path = "/{id}/logo")
+    public ResponseEntity<Object> removeLogo(@PathVariable String id) {
+        vendorsService.destroyVendorLogoById(id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT.value()).build();
     }

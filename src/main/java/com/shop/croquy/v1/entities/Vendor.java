@@ -3,6 +3,7 @@ package com.shop.croquy.v1.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import com.shop.croquy.v1.entities.address.VendorAddress;
+import com.shop.croquy.v1.entities.media.VendorLogo;
 import jakarta.persistence.*;
 
 import lombok.Getter;
@@ -28,6 +29,9 @@ public class Vendor extends BaseEntity {
 
     @Column(name = "updated_at")
     private Date updatedAt = new Date();
+
+    @OneToOne(mappedBy = "vendor")
+    private VendorLogo logo;
 
     @OneToOne(mappedBy = "vendor")
     private VendorAddress address;
