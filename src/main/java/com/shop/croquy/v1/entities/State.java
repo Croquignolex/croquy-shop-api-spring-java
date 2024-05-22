@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @NoArgsConstructor
-@Table(name = "states")
+@Table(name = "cs_states")
 public class State extends BaseEntity {
     @Column(name = "name", nullable = false)
     private String name;

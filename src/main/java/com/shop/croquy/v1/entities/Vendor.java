@@ -16,7 +16,7 @@ import java.util.Date;
 @Setter
 @Entity
 @NoArgsConstructor
-@Table(name = "vendors")
+@Table(name = "cs_vendors")
 public class Vendor extends BaseEntity {
     @Column(name = "name", nullable = false, unique = true)
     private String name;

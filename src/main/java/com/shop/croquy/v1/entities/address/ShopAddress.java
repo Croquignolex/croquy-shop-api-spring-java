@@ -14,7 +14,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @NoArgsConstructor
-@Table(name = "shop_addresses")
+@Table(name = "cs_shop_addresses")
 public class ShopAddress extends AddressBaseEntity {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToOne

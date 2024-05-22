@@ -1,7 +1,8 @@
 package com.shop.croquy.v1.entities.media;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.shop.croquy.v1.entities.Brand;
+
+import com.shop.croquy.v1.entities.Group;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -16,10 +17,10 @@ import lombok.Setter;
 @Getter
 @Entity
 @NoArgsConstructor
-@Table(name = "cs_brand_logos")
-public class BrandLogo extends MediaBaseEntity {
+@Table(name = "cs_group_logos")
+public class GroupLogo extends MediaBaseEntity {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToOne
-    @JoinColumn(name = "brand_id")
-    private Brand brand;
+    @JoinColumn(name = "group_id")
+    private Group group;
 }

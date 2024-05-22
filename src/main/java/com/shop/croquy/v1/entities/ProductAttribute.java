@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @Data
 //@Entity
 @NoArgsConstructor
-//@Table(name = "product_attribute")
-//@Table(name = "product_attribute", uniqueConstraints = @UniqueConstraint(columnNames = {"product_id", "attribute_id", "attribute_value_id"}))
+//@Table(name = "cs_product_attribute")
+//@Table(name = "cs_product_attribute", uniqueConstraints = @UniqueConstraint(columnNames = {"product_id", "attribute_id", "attribute_value_id"}))
 public class ProductAttribute {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

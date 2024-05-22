@@ -127,7 +127,7 @@ public class BrandsService implements IBrandService {
     @Override
     public BrandLogo changeBrandLogoById(MultipartFile image, String id, String creatorUsername) {
         Brand brand = brandRepository.findById(id)
-                .orElseThrow(() -> new DataIntegrityViolationException(COUNTRY_NOT_FOUND));
+                .orElseThrow(() -> new DataIntegrityViolationException(BRAND_NOT_FOUND));
 
         BrandLogo brandLogo = brand.getLogo();
 

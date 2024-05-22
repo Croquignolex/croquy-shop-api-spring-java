@@ -10,7 +10,7 @@ import java.util.Date;
 @Data
 //@Entity
 @NoArgsConstructor
-//@Table(name = "password_resets")
+//@Table(name = "cs_password_resets")
 public class PasswordReset {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

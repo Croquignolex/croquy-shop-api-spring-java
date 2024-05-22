@@ -26,6 +26,14 @@ public class ErrorMessagesHelper {
     public static final String BRAND_CAN_NOT_BE_DELETED = "Brand can not be deleted";
     public static final String BRAND_NOT_FOUND = "Brand not found";
     public static final String BRAND_SLUG_ALREADY_EXIST = "Brand already exist with slug: ";
+    public static final String GROUP_NAME_ALREADY_EXIST = "Group already exist with name: ";
+    public static final String GROUP_CAN_NOT_BE_DELETED = "Group can not be deleted";
+    public static final String GROUP_NOT_FOUND = "Group not found";
+    public static final String GROUP_SLUG_ALREADY_EXIST = "Group already exist with slug: ";
+    public static final String CATEGORY_NAME_ALREADY_EXIST = "Category already exist with name: ";
+    public static final String CATEGORY_CAN_NOT_BE_DELETED = "Category can not be deleted";
+    public static final String CATEGORY_NOT_FOUND = "Category not found";
+    public static final String CATEGORY_SLUG_ALREADY_EXIST = "Category already exist with slug: ";
     public static final String COUPON_CODE_ALREADY_EXIST = "Coupon already exist in this country with code: ";
     public static final String COUPON_CAN_NOT_BE_DELETED = "Coupon can not be deleted";
     public static final String COUPON_NOT_FOUND = "Coupon not found";

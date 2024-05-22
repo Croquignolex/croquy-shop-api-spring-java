@@ -17,7 +17,7 @@ import lombok.Setter;
 @Getter
 @Entity
 @NoArgsConstructor
-@Table(name = "vendor_logos")
+@Table(name = "cs_vendor_logos")
 public class VendorLogo extends MediaBaseEntity {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToOne

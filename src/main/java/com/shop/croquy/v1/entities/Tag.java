@@ -10,7 +10,7 @@ import java.util.Date;
 @Data
 //@Entity
 @NoArgsConstructor
-//@Table(name = "tags")
+//@Table(name = "cs_tags")
 public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

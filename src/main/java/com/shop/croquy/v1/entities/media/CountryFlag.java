@@ -13,7 +13,7 @@ import lombok.Setter;
 @Getter
 @Entity
 @NoArgsConstructor
-@Table(name = "country_flags")
+@Table(name = "cs_country_flags")
 public class CountryFlag extends MediaBaseEntity {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToOne

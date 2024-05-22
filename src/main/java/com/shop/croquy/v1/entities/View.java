@@ -10,7 +10,7 @@ import java.util.Date;
 @Data
 //@Entity
 @NoArgsConstructor
-//@Table(name = "views", uniqueConstraints = @UniqueConstraint(columnNames = {"viewer_id", "vieww_morph_id", "vieww_morph_type"}))
+//@Table(name = "cs_views", uniqueConstraints = @UniqueConstraint(columnNames = {"viewer_id", "vieww_morph_id", "vieww_morph_type"}))
 public class View {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

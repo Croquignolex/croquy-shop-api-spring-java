@@ -13,7 +13,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @NoArgsConstructor
-@Table(name = "vendor_addresses")
+@Table(name = "cs_vendor_addresses")
 public class VendorAddress extends AddressBaseEntity {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToOne

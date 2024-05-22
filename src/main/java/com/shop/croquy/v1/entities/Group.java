@@ -1,33 +1,29 @@
 package com.shop.croquy.v1.entities;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import com.shop.croquy.v1.entities.media.GroupBanner;
+import com.shop.croquy.v1.entities.media.GroupLogo;
 import jakarta.persistence.*;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
-@Data
-//@Entity
+@Getter
+@Setter
+@Entity
 @NoArgsConstructor
-//@Table(name = "groups")
-public class Group {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id", nullable = false)
-    private String id;
-
+@Table(name = "cs_groups")
+public class Group extends BaseEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "slug", nullable = false, unique = true)
     private String slug;
-
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Column(name = "is_enabled", nullable = false)
-    private Boolean enabled = true;
 
     @Column(name = "seo_title")
     private String seoTitle;
@@ -35,25 +31,19 @@ public class Group {
     @Column(name = "seo_description")
     private String seoDescription;
 
-    @Column(name = "description", nullable = false, columnDefinition = "TEXT")
-    private String description = "";
+    @OneToOne(mappedBy = "group")
+    private GroupLogo logo;
 
-    @Column(name = "created_at")
-    private Date createdAt = new Date();
+    @OneToOne(mappedBy = "group")
+    private GroupBanner banner;
 
-    @Column(name = "updated_at")
-    private Date updatedAt = new Date();
+    @JsonIgnore
+    @OneToMany(mappedBy = "group")
+    private Set<Category> categories = new HashSet<>();
 
-//    @ManyToOne
-//    @JoinColumn(name = "creator_id")
-//    private User creator;
-//
-//    @OneToMany(mappedBy = "group")
-//    private Set<Category> categories = new HashSet<>();
-
-    @PreUpdate
-    public void updateTrigger() {
-        this.updatedAt = new Date();
+    @JsonIgnore
+    public boolean isNonDeletable() {
+        return (long) categories.size() > 0 ;
     }
 }
 

@@ -14,7 +14,7 @@ import java.util.Set;
 @Data
 //@Entity
 @NoArgsConstructor
-//@Table(name = "invoices")
+//@Table(name = "cs_invoices")
 public class Invoice {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

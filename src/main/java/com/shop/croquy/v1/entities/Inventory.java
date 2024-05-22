@@ -14,7 +14,7 @@ import java.util.Date;
 @Setter
 //@Entity
 @NoArgsConstructor
-//@Table(name = "inventories")
+//@Table(name = "cs_inventories")
 public class Inventory extends BaseEntity {
     @Column(name = "condition", nullable = false)
     @Enumerated(EnumType.STRING)

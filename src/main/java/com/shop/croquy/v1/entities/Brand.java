@@ -13,7 +13,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @NoArgsConstructor
-@Table(name = "brands")
+@Table(name = "cs_brands")
 public class Brand extends BaseEntity {
     @Column(name = "name", nullable = false, unique = true)
     private String name;

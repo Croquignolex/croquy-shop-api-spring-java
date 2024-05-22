@@ -11,7 +11,7 @@ import java.util.Date;
 @Setter
 @Entity
 @NoArgsConstructor
-@Table(name = "coupons")
+@Table(name = "cs_coupons")
 public class Coupon extends BaseEntity {
     @Column(name = "code", nullable = false, unique = true)
     private String code;

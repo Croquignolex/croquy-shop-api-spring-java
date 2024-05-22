@@ -10,7 +10,7 @@ import java.util.Date;
 @Data
 //@Entity
 @NoArgsConstructor
-//@Table(name = "inventory_histories")
+//@Table(name = "cs_inventory_histories")
 public class InventoryHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

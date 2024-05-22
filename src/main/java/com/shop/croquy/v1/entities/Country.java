@@ -15,7 +15,7 @@ import java.util.*;
 @Setter
 @Entity
 @NoArgsConstructor
-@Table(name = "countries")
+@Table(name = "cs_countries")
 public class Country extends BaseEntity {
     @Column(name = "name", nullable = false, unique = true)
     private String name;

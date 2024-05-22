@@ -20,7 +20,7 @@ import java.util.*;
 @Setter
 @Entity
 @NoArgsConstructor
-@Table(name = "users")
+@Table(name = "cs_users")
 public class User extends BaseEntity implements UserDetails {
     @Column(name = "username", unique = true, nullable = false)
     private String username;
@@ -42,9 +42,6 @@ public class User extends BaseEntity implements UserDetails {
 
     @Column(name = "profession")
     private String profession;
-
-    @Column(name = "description", nullable = false, columnDefinition = "TEXT")
-    private String description = "";
 
     @Column(name = "gender", nullable = false)
     @Enumerated(EnumType.STRING)

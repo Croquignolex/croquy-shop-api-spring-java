@@ -14,7 +14,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @NoArgsConstructor
-@Table(name = "shops")
+@Table(name = "cs_shops")
 public class Shop extends BaseEntity {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
