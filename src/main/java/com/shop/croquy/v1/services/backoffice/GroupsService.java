@@ -233,7 +233,7 @@ public class GroupsService implements IGroupService {
         if(StringUtils.isNotEmpty(needle)) {
             List<User> users = userRepository.findByUsernameContains(needle);
 
-            return categoryPagingAndSortingRepository.findAllByNameContainsOrCreatorIsInAndGroupId(needle, users, id, pageable);
+            return categoryPagingAndSortingRepository.findAllByNameContainsOrSlugContainsOrCreatorIsInAndGroupId(needle, needle, users, id, pageable);
         }
 
         return categoryPagingAndSortingRepository.findAllByGroupId(id, pageable);
@@ -245,6 +245,10 @@ public class GroupsService implements IGroupService {
 
         if(categoryRepository.findFistByNameAndGroup(request.getName(), group).isPresent()) {
             throw new DataIntegrityViolationException(CATEGORY_NAME_ALREADY_EXIST + request.getName());
+        }
+
+        if(categoryRepository.findFistBySlugAndGroup(request.getSlug(), group).isPresent()) {
+            throw new DataIntegrityViolationException(CATEGORY_SLUG_ALREADY_EXIST + request.getSlug());
         }
 
         var creator = userRepository.findByUsername(creatorUsername).orElse(null);

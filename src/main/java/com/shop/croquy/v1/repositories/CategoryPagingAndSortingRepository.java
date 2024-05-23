@@ -11,7 +11,7 @@ import java.util.Collection;
 
 @Repository
 public interface CategoryPagingAndSortingRepository extends PagingAndSortingRepository<Category, String> {
-    Page<Category> findAllByNameContainsOrGroupIsInOrCreatorIsIn(String nameNeedle, Collection<Group> groups, Collection<User> creator, Pageable pageable);
-    Page<Category> findAllByNameContainsOrCreatorIsInAndGroupId(String nameNeedle, Collection<User> creator, String groupId, Pageable pageable);
+    Page<Category> findAllByNameContainsOrSlugContainsOrCreatorIsIn(String nameNeedle, String slugNeedle, Collection<User> creator, Pageable pageable);
+    Page<Category> findAllByNameContainsOrSlugContainsOrCreatorIsInAndGroupId(String nameNeedle, String slugNeedle, Collection<User> creator, String groupId, Pageable pageable);
     Page<Category> findAllByGroupId(String groupId, Pageable pageable);
 }

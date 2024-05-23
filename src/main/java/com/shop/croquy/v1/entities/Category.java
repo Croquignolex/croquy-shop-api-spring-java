@@ -2,6 +2,8 @@ package com.shop.croquy.v1.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import com.shop.croquy.v1.entities.media.CategoryBanner;
+import com.shop.croquy.v1.entities.media.CategoryLogo;
 import jakarta.persistence.*;
 
 import lombok.Getter;
@@ -17,7 +19,7 @@ public class Category extends BaseEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "slug", nullable = false, unique = true)
+    @Column(name = "slug", nullable = false)
     private String slug;
 
     @Column(name = "seo_title")
@@ -25,6 +27,12 @@ public class Category extends BaseEntity {
 
     @Column(name = "seo_description")
     private String seoDescription;
+
+    @OneToOne(mappedBy = "category")
+    private CategoryLogo logo;
+
+    @OneToOne(mappedBy = "category")
+    private CategoryBanner banner;
 
     @ManyToOne
     @JoinColumn(name = "group_id")

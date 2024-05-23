@@ -126,7 +126,7 @@ public class GroupsController {
         return ResponseEntity.status(HttpStatus.OK).body(paginatedCategoriesByCountryId);
     }
 
-    @PostMapping(path = "/{id}/states")
+    @PostMapping(path = "/{id}/categories")
     public ResponseEntity<Object> addCategory(@Valid @RequestBody GroupCategoryStoreRequest request, @PathVariable String id, Principal principal) {
         groupsService.addCategoryWithCreator(request, id, principal.getName());
 
