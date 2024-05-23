@@ -1,4 +1,4 @@
-package com.shop.croquy.v1.services.interfaces;
+package com.shop.croquy.v1.services.backoffice.interfaces;
 
 import com.shop.croquy.v1.dto.backoffice.category.CategoryStoreRequest;
 import com.shop.croquy.v1.dto.backoffice.category.CategoryUpdateRequest;
@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-public interface ICategoryService {
+public interface ICategoriesService {
     Page<Category> getPaginatedCategories(int pageNumber, int pageSize, String needle);
     List<Category> getAllEnabledCategoriesOrderByName();
     Category getCategoryById(String id);

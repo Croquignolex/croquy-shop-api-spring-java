@@ -1,5 +1,8 @@
 package com.shop.croquy.v1.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.shop.croquy.v1.entities.address.UserAddress;
+import com.shop.croquy.v1.entities.media.UserAvatar;
 import com.shop.croquy.v1.enums.Gender;
 import com.shop.croquy.v1.enums.Role;
 
@@ -28,6 +31,7 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name = "email", unique = true)
     private String email;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "password", nullable = false)
     private String password;
 
@@ -53,6 +57,7 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name = "default_password", nullable = false)
     private Boolean default_password = true;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "refresh_token")
     private String refreshToken;
 
@@ -69,27 +74,44 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name = "email_verified_at")
     private Date emailVerifiedAt;
 
+    @OneToOne(mappedBy = "user")
+    private UserAvatar userAvatar;
+
+    @OneToOne(mappedBy = "user")
+    private UserAddress defaultAddress;
+
+    @OneToOne(mappedBy = "user")
+    private UserAddress billingAddress;
+
+    @OneToOne(mappedBy = "user")
+    private UserAddress shippingAddress;
+
     @Override
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     public boolean isAccountNonExpired() {
         return true;
     }
 
     @Override
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     public boolean isAccountNonLocked() {
         return true;
     }
 
     @Override
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
     @Override
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     public boolean isEnabled() {
         return enabled;
     }

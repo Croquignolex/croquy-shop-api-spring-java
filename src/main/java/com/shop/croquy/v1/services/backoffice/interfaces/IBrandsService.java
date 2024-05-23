@@ -1,4 +1,4 @@
-package com.shop.croquy.v1.services.interfaces;
+package com.shop.croquy.v1.services.backoffice.interfaces;
 
 import com.shop.croquy.v1.dto.backoffice.brand.BrandStoreRequest;
 import com.shop.croquy.v1.dto.backoffice.brand.BrandUpdateRequest;
@@ -8,7 +8,7 @@ import com.shop.croquy.v1.entities.media.BrandLogo;
 import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 
-public interface IBrandService {
+public interface IBrandsService {
     Page<Brand> getPaginatedBrands(int pageNumber, int pageSize, String needle);
     Brand getBrandById(String id);
     void storeBrandCreator(BrandStoreRequest request, String creatorUsername);

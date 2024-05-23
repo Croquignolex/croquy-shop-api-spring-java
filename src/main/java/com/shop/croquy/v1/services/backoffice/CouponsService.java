@@ -6,7 +6,7 @@ import com.shop.croquy.v1.entities.Coupon;
 import com.shop.croquy.v1.entities.User;
 import com.shop.croquy.v1.helpers.GeneralHelper;
 import com.shop.croquy.v1.repositories.*;
-import com.shop.croquy.v1.services.interfaces.ICouponsService;
+import com.shop.croquy.v1.services.backoffice.interfaces.ICouponsService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

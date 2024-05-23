@@ -8,7 +8,7 @@ import com.shop.croquy.v1.entities.media.BrandLogo;
 import com.shop.croquy.v1.helpers.GeneralHelper;
 import com.shop.croquy.v1.helpers.ImageOptimisationHelper;
 import com.shop.croquy.v1.repositories.*;
-import com.shop.croquy.v1.services.interfaces.IBrandService;
+import com.shop.croquy.v1.services.backoffice.interfaces.IBrandsService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +31,7 @@ import static org.springframework.http.MediaType.IMAGE_PNG_VALUE;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class BrandsService implements IBrandService {
+public class BrandsService implements IBrandsService {
     private final BrandPagingAndSortingRepository brandPagingAndSortingRepository; 
     private final BrandLogoRepository brandLogoRepository;
     private final BrandRepository brandRepository;

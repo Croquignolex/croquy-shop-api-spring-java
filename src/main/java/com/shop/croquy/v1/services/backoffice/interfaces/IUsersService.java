@@ -1,4 +1,4 @@
-package com.shop.croquy.v1.services.interfaces;
+package com.shop.croquy.v1.services.backoffice.interfaces;
 
 import com.shop.croquy.v1.entities.User;
 import org.springframework.data.domain.Page;

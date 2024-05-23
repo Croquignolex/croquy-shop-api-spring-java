@@ -1,8 +1,10 @@
 package com.shop.croquy.v1.controllers.web;
 
+import com.shop.croquy.v1.entities.Category;
 import com.shop.croquy.v1.entities.Country;
 import com.shop.croquy.v1.entities.Group;
 import com.shop.croquy.v1.entities.State;
+import com.shop.croquy.v1.services.backoffice.CategoriesService;
 import com.shop.croquy.v1.services.backoffice.CountriesService;
 import com.shop.croquy.v1.services.backoffice.GroupsService;
 import com.shop.croquy.v1.services.backoffice.StatesService;
@@ -24,6 +26,7 @@ public class SelectListController {
     private final CountriesService countriesService;
     private final GroupsService groupsService;
     private final StatesService statesService;
+    private final CategoriesService categoriesService;
 
     @GetMapping(path = "countries")
     public ResponseEntity<List<Country>> countries() {
@@ -37,6 +40,13 @@ public class SelectListController {
         List<Group> enabledGroups = groupsService.getAllEnabledGroupsOrderByName();
 
         return ResponseEntity.status(HttpStatus.OK).body(enabledGroups);
+    }
+
+    @GetMapping(path = "categories")
+    public ResponseEntity<List<Category>> categories() {
+        List<Category> enabledCategories = categoriesService.getAllEnabledCategoriesOrderByName();
+
+        return ResponseEntity.status(HttpStatus.OK).body(enabledCategories);
     }
 
     @GetMapping(path = "states")

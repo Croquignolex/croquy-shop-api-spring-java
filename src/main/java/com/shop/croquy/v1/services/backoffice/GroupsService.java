@@ -11,7 +11,7 @@ import com.shop.croquy.v1.entities.media.GroupLogo;
 import com.shop.croquy.v1.helpers.GeneralHelper;
 import com.shop.croquy.v1.helpers.ImageOptimisationHelper;
 import com.shop.croquy.v1.repositories.*;
-import com.shop.croquy.v1.services.interfaces.IGroupService;
+import com.shop.croquy.v1.services.backoffice.interfaces.IGroupService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

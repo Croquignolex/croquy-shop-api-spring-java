@@ -1,4 +1,4 @@
-package com.shop.croquy.v1.services.interfaces;
+package com.shop.croquy.v1.services.backoffice.interfaces;
 
 import com.shop.croquy.v1.dto.backoffice.country.CountryStateStoreRequest;
 import com.shop.croquy.v1.dto.backoffice.country.CountryStoreRequest;

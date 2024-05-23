@@ -1,4 +1,4 @@
-package com.shop.croquy.v1.services.interfaces;
+package com.shop.croquy.v1.services.backoffice.interfaces;
 
 import com.shop.croquy.v1.dto.backoffice.vendor.VendorStoreRequest;
 import com.shop.croquy.v1.dto.backoffice.vendor.VendorUpdateRequest;
@@ -10,7 +10,7 @@ import com.shop.croquy.v1.entities.media.VendorLogo;
 import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 
-public interface IVendorService {
+public interface IVendorsService {
     Page<Vendor> getPaginatedVendors(int pageNumber, int pageSize, String needle);
     Vendor getVendorById(String id);
     void storeVendorCreator(VendorStoreRequest request, String creatorUsername);

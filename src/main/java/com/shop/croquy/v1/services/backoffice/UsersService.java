@@ -4,7 +4,7 @@ import com.shop.croquy.v1.enums.Role;
 import com.shop.croquy.v1.entities.User;
 import com.shop.croquy.v1.repositories.UserPagingAndSortingRepository;
 import com.shop.croquy.v1.repositories.UserRepository;
-import com.shop.croquy.v1.services.interfaces.IUsersService;
+import com.shop.croquy.v1.services.backoffice.interfaces.IUsersService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

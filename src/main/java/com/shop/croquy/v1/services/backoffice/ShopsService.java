@@ -12,7 +12,7 @@ import com.shop.croquy.v1.repositories.StateRepository;
 import com.shop.croquy.v1.repositories.ShopPagingAndSortingRepository;
 import com.shop.croquy.v1.repositories.ShopRepository;
 import com.shop.croquy.v1.repositories.UserRepository;
-import com.shop.croquy.v1.services.interfaces.IShopsService;
+import com.shop.croquy.v1.services.backoffice.interfaces.IShopsService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

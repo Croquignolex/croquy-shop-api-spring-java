@@ -10,7 +10,7 @@ import com.shop.croquy.v1.entities.media.VendorLogo;
 import com.shop.croquy.v1.helpers.GeneralHelper;
 import com.shop.croquy.v1.helpers.ImageOptimisationHelper;
 import com.shop.croquy.v1.repositories.*;
-import com.shop.croquy.v1.services.interfaces.IVendorService;
+import com.shop.croquy.v1.services.backoffice.interfaces.IVendorsService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +33,7 @@ import static org.springframework.http.MediaType.IMAGE_PNG_VALUE;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class VendorsService implements IVendorService {
+public class VendorsService implements IVendorsService {
     private final VendorPagingAndSortingRepository vendorPagingAndSortingRepository;
     private final VendorAddressRepository vendorAddressRepository;
     private final VendorLogoRepository vendorLogoRepository;

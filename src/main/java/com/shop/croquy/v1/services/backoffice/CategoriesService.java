@@ -9,7 +9,7 @@ import com.shop.croquy.v1.entities.media.CategoryLogo;
 import com.shop.croquy.v1.helpers.GeneralHelper;
 import com.shop.croquy.v1.helpers.ImageOptimisationHelper;
 import com.shop.croquy.v1.repositories.*;
-import com.shop.croquy.v1.services.interfaces.ICategoryService;
+import com.shop.croquy.v1.services.backoffice.interfaces.ICategoriesService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -31,7 +31,7 @@ import static org.springframework.http.MediaType.IMAGE_PNG_VALUE;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class CategoriesService implements ICategoryService {
+public class CategoriesService implements ICategoriesService {
     private final CategoryPagingAndSortingRepository categoryPagingAndSortingRepository;  
     private final CategoryLogoRepository categoryLogoRepository;
     private final CategoryBannerRepository categoryBannerRepository;

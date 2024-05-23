@@ -10,7 +10,7 @@ import com.shop.croquy.v1.entities.User;
 import com.shop.croquy.v1.helpers.GeneralHelper;
 import com.shop.croquy.v1.helpers.ImageOptimisationHelper;
 import com.shop.croquy.v1.repositories.*;
-import com.shop.croquy.v1.services.interfaces.ICountriesService;
+import com.shop.croquy.v1.services.backoffice.interfaces.ICountriesService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
