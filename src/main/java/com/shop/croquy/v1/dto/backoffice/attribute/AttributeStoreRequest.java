@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.Objects;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -16,15 +18,21 @@ public class AttributeStoreRequest {
     protected String name;
 
     @NotEmpty(message = "Type field is required")
-    protected AttributeType type;
+    protected String type;
 
     protected String description;
 
     public Attribute toAttribute(User creator) {
         Attribute attribute = new Attribute();
 
+        AttributeType tempType;
+
+        if(Objects.equals(type, AttributeType.SELECT.toString())) tempType = AttributeType.SELECT;
+        else if(Objects.equals(type, AttributeType.COLOR.toString())) tempType = AttributeType.COLOR;
+        else tempType = AttributeType.TEXT;
+
         attribute.setName(name);
-        attribute.setType(type);
+        attribute.setType(tempType);
         attribute.setDescription(description);
         attribute.setCreator(creator);
 
