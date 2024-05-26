@@ -26,6 +26,12 @@ public class ErrorMessagesHelper {
     public static final String BRAND_CAN_NOT_BE_DELETED = "Brand can not be deleted";
     public static final String BRAND_NOT_FOUND = "Brand not found";
     public static final String BRAND_SLUG_ALREADY_EXIST = "Brand already exist with slug: ";
+    public static final String ATTRIBUTE_NAME_ALREADY_EXIST = "Attribute already exist with name: ";
+    public static final String ATTRIBUTE_CAN_NOT_BE_DELETED = "Attribute can not be deleted";
+    public static final String ATTRIBUTE_NOT_FOUND = "Attribute not found";
+    public static final String ATTRIBUTE_VALUE_NAME_ALREADY_EXIST = "Attribute value already exist with name: ";
+    public static final String ATTRIBUTE_VALUE_CAN_NOT_BE_DELETED = "Attribute value can not be deleted";
+    public static final String ATTRIBUTE_VALUE_NOT_FOUND = "Attribute value not found";
     public static final String GROUP_NAME_ALREADY_EXIST = "Group already exist with name: ";
     public static final String GROUP_CAN_NOT_BE_DELETED = "Group can not be deleted";
     public static final String GROUP_NOT_FOUND = "Group not found";
