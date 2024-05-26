@@ -1,7 +1,6 @@
 package com.shop.croquy.v1.repositories;
 
 import com.shop.croquy.v1.entities.Attribute;
-import com.shop.croquy.v1.entities.Brand;
 import com.shop.croquy.v1.entities.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
