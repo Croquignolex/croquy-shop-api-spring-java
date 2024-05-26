@@ -19,7 +19,7 @@ import java.security.Principal;
 @RestController
 @RequiredArgsConstructor
 @PreAuthorize("hasAnyAuthority('SUPER_ADMIN')")
-@RequestMapping(path = "/v1/backoffice/attributeValues")
+@RequestMapping(path = "/v1/backoffice/attribute-values")
 public class AttributeValuesController {
     private final AttributeValuesService attributeValuesService;
 
