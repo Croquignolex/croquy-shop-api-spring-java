@@ -11,5 +11,5 @@ import java.util.Collection;
 
 @Repository
 public interface AttributePagingAndSortingRepository extends PagingAndSortingRepository<Attribute, String> {
-    Page<Attribute> findAllByNameContainsOrTypeContainsOrCreatorIsIn(String nameNeedle, String typeNeedle, Collection<User> creator, Pageable pageable);
+    Page<Attribute> findAllByNameContainsOrCreatorIsIn(String nameNeedle, Collection<User> creator, Pageable pageable);
 }

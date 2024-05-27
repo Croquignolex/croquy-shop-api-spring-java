@@ -25,14 +25,8 @@ public class AttributeStoreRequest {
     public Attribute toAttribute(User creator) {
         Attribute attribute = new Attribute();
 
-        AttributeType tempType;
-
-        if(Objects.equals(type, AttributeType.SELECT.toString())) tempType = AttributeType.SELECT;
-        else if(Objects.equals(type, AttributeType.COLOR.toString())) tempType = AttributeType.COLOR;
-        else tempType = AttributeType.TEXT;
-
         attribute.setName(name);
-        attribute.setType(tempType);
+        attribute.setType(AttributeType.getEnumFromString(type));
         attribute.setDescription(description);
         attribute.setCreator(creator);
 

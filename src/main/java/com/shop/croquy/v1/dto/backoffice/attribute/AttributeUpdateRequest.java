@@ -1,6 +1,5 @@
 package com.shop.croquy.v1.dto.backoffice.attribute;
 
-import com.shop.croquy.v1.enums.AttributeType;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +13,7 @@ public class AttributeUpdateRequest {
     protected String name;
 
     @NotEmpty(message = "Type field is required")
-    protected AttributeType type;
+    protected String type;
 
     protected String description;
 }

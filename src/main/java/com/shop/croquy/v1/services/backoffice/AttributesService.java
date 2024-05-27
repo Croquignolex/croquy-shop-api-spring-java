@@ -35,7 +35,7 @@ public class AttributesService implements IAttributesService {
         if(StringUtils.isNotEmpty(needle)) {
             List<User> users = userRepository.findByUsernameContains(needle);
 
-            return attributePagingAndSortingRepository.findAllByNameContainsOrTypeContainsOrCreatorIsIn(needle, needle, users, pageable);
+            return attributePagingAndSortingRepository.findAllByNameContainsOrCreatorIsIn(needle, users, pageable);
         }
 
         return attributePagingAndSortingRepository.findAll(pageable);
@@ -67,7 +67,7 @@ public class AttributesService implements IAttributesService {
                 .orElseThrow(() -> new DataIntegrityViolationException(ATTRIBUTE_NOT_FOUND));
 
         attribute.setName(request.getName());
-        attribute.setType(request.getType());
+        attribute.setType(AttributeType.getEnumFromString(request.getType()));
         attribute.setDescription(request.getDescription());
 
         attributeRepository.save(attribute);
