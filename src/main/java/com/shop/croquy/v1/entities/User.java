@@ -41,9 +41,6 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "phone_number")
-    private String phoneNumber;
-
     @Column(name = "profession")
     private String profession;
 

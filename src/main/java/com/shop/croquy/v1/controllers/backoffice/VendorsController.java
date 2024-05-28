@@ -51,7 +51,7 @@ public class VendorsController {
 
     @PostMapping
     public ResponseEntity<Object> store(@Valid @RequestBody VendorStoreRequest request, Principal principal) {
-        vendorsService.storeVendorCreator(request, principal.getName());
+        vendorsService.storeVendorWithCreator(request, principal.getName());
 
         return ResponseEntity.status(HttpStatus.CREATED.value()).build();
     }

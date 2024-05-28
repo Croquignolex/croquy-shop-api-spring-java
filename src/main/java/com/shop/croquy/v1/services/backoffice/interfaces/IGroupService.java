@@ -17,7 +17,7 @@ public interface IGroupService {
     Page<Group> getPaginatedGroups(int pageNumber, int pageSize, String needle);
     List<Group> getAllEnabledGroupsOrderByName();
     Group getGroupById(String id);
-    void storeGroupCreator(GroupStoreRequest request, String creatorUsername);
+    void storeGroupWithCreator(GroupStoreRequest request, String creatorUsername);
     void updateGroupById(GroupUpdateRequest request, String id);
     void toggleGroupStatusById(String id);
     void destroyGroupById(String id);

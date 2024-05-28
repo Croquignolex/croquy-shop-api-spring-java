@@ -48,7 +48,7 @@ public class AttributeValuesService implements IAttributeValuesService {
     }
 
     @Override
-    public void storeAttributeValueCreator(AttributeValueStoreRequest request, String creatorUsername) {
+    public void storeAttributeValueWithCreator(AttributeValueStoreRequest request, String creatorUsername) {
         if(attributeValueRepository.findFistByName(request.getName()).isPresent()) {
             throw new DataIntegrityViolationException(ATTRIBUTE_VALUE_NAME_ALREADY_EXIST + request.getName());
         }

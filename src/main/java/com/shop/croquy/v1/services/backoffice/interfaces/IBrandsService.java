@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 public interface IBrandsService {
     Page<Brand> getPaginatedBrands(int pageNumber, int pageSize, String needle);
     Brand getBrandById(String id);
-    void storeBrandCreator(BrandStoreRequest request, String creatorUsername);
+    void storeBrandWithCreator(BrandStoreRequest request, String creatorUsername);
     void updateBrandById(BrandUpdateRequest request, String id);
     void toggleBrandStatusById(String id);
     void destroyBrandById(String id); 

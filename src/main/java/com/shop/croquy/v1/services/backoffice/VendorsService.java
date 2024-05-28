@@ -63,7 +63,7 @@ public class VendorsService implements IVendorsService {
     }
 
     @Override
-    public void storeVendorCreator(VendorStoreRequest request, String creatorUsername) {
+    public void storeVendorWithCreator(VendorStoreRequest request, String creatorUsername) {
         if(vendorRepository.findFistByName(request.getName()).isPresent()) {
             throw new DataIntegrityViolationException(VENDOR_NAME_ALREADY_EXIST + request.getName());
         }

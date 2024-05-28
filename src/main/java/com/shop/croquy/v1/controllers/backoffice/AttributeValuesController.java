@@ -43,7 +43,7 @@ public class AttributeValuesController {
 
     @PostMapping
     public ResponseEntity<Object> store(@Valid @RequestBody AttributeValueStoreRequest request, Principal principal) {
-        attributeValuesService.storeAttributeValueCreator(request, principal.getName());
+        attributeValuesService.storeAttributeValueWithCreator(request, principal.getName());
 
         return ResponseEntity.status(HttpStatus.CREATED.value()).build();
     }

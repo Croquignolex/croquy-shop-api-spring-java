@@ -49,7 +49,7 @@ public class BrandsController {
 
     @PostMapping
     public ResponseEntity<Object> store(@Valid @RequestBody BrandStoreRequest request, Principal principal) {
-        brandsService.storeBrandCreator(request, principal.getName());
+        brandsService.storeBrandWithCreator(request, principal.getName());
 
         return ResponseEntity.status(HttpStatus.CREATED.value()).build();
     }

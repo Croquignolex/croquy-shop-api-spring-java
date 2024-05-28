@@ -52,7 +52,7 @@ public class GroupsController {
 
     @PostMapping
     public ResponseEntity<Object> store(@Valid @RequestBody GroupStoreRequest request, Principal principal) {
-        groupsService.storeGroupCreator(request, principal.getName());
+        groupsService.storeGroupWithCreator(request, principal.getName());
 
         return ResponseEntity.status(HttpStatus.CREATED.value()).build();
     }

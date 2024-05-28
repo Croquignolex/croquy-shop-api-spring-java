@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 public interface IVendorsService {
     Page<Vendor> getPaginatedVendors(int pageNumber, int pageSize, String needle);
     Vendor getVendorById(String id);
-    void storeVendorCreator(VendorStoreRequest request, String creatorUsername);
+    void storeVendorWithCreator(VendorStoreRequest request, String creatorUsername);
     void updateVendorById(VendorUpdateRequest request, String id);
     void toggleVendorStatusById(String id);
     void destroyVendorById(String id);

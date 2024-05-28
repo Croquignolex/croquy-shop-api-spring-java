@@ -8,7 +8,7 @@ import org.springframework.data.domain.Page;
 public interface IAttributesService {
     Page<Attribute> getPaginatedAttributes(int pageNumber, int pageSize, String needle);
     Attribute getAttributeById(String id);
-    void storeAttributeCreator(AttributeStoreRequest request, String creatorUsername);
+    void storeAttributeWithCreator(AttributeStoreRequest request, String creatorUsername);
     void updateAttributeById(AttributeUpdateRequest request, String id);
     void toggleAttributeStatusById(String id);
     void destroyAttributeById(String id);

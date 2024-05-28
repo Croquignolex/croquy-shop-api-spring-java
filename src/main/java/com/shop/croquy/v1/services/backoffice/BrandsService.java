@@ -60,7 +60,7 @@ public class BrandsService implements IBrandsService {
     }
 
     @Override
-    public void storeBrandCreator(BrandStoreRequest request, String creatorUsername) {
+    public void storeBrandWithCreator(BrandStoreRequest request, String creatorUsername) {
         if(brandRepository.findFistByName(request.getName()).isPresent()) {
             throw new DataIntegrityViolationException(BRAND_NAME_ALREADY_EXIST + request.getName());
         }

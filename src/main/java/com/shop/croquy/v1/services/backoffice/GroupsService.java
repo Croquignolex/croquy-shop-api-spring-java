@@ -71,7 +71,7 @@ public class GroupsService implements IGroupService {
     }
 
     @Override
-    public void storeGroupCreator(GroupStoreRequest request, String creatorUsername) {
+    public void storeGroupWithCreator(GroupStoreRequest request, String creatorUsername) {
         if(groupRepository.findFistByName(request.getName()).isPresent()) {
             throw new DataIntegrityViolationException(GROUP_NAME_ALREADY_EXIST + request.getName());
         }
