@@ -40,13 +40,14 @@ public class UsersService implements IUsersService {
         Role role = user.getRole();
 
         Collection<Role> includedRoles = new ArrayList<>();
-        includedRoles.add(Role.CUSTOMER);
 
         switch (role) {
             case ADMIN -> includedRoles.add(Role.ADMIN);
             case SUPER_ADMIN -> {
                 includedRoles.add(Role.SUPER_ADMIN);
                 includedRoles.add(Role.ADMIN);
+                includedRoles.add(Role.SELLER);
+                includedRoles.add(Role.MANAGER);
             }
         }
 
@@ -77,10 +78,6 @@ public class UsersService implements IUsersService {
     public void storeUserWithCreator(UserStoreRequest request, String creatorUsername) {
         if(userRepository.findFistByUsername(request.getUsername()).isPresent()) {
             throw new DataIntegrityViolationException(USER_USERNAME_ALREADY_EXIST + request.getUsername());
-        }
-
-        if(userRepository.findFistByEmail(request.getEmail()).isPresent()) {
-            throw new DataIntegrityViolationException(USER_EMAIL_ALREADY_EXIST + request.getEmail());
         }
 
         var creator = userRepository.findByUsername(creatorUsername).orElse(null);

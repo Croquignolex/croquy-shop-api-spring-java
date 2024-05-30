@@ -1,6 +1,6 @@
 package com.shop.croquy.v1.entities.address;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.shop.croquy.v1.entities.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -16,7 +16,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Table(name = "cs_user_addresses")
 public class UserAddress extends AddressBaseEntity {
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;

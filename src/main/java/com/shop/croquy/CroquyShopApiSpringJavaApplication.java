@@ -47,7 +47,7 @@ public class CroquyShopApiSpringJavaApplication {
 
     private User seedUsers(int i, Role role) {
         User user = new User();
-        user.setEmail("user-" + i + "@croquy-shop.com");
+        user.setEmail("user" + i + "@croquy-shop.com");
         user.setFirstName("User " + i);
         user.setUsername("user" + i);
         user.setPassword("user");

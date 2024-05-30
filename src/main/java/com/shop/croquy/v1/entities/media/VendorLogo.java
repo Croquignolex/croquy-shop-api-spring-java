@@ -1,6 +1,6 @@
 package com.shop.croquy.v1.entities.media;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import com.shop.croquy.v1.entities.Vendor;
 
@@ -19,7 +19,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Table(name = "cs_vendor_logos")
 public class VendorLogo extends MediaBaseEntity {
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "vendor_id")
     private Vendor vendor;

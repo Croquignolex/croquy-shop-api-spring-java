@@ -1,6 +1,6 @@
 package com.shop.croquy.v1.entities.media;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.shop.croquy.v1.entities.Brand;
 
 import jakarta.persistence.Entity;
@@ -18,7 +18,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Table(name = "cs_brand_logos")
 public class BrandLogo extends MediaBaseEntity {
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "brand_id")
     private Brand brand;

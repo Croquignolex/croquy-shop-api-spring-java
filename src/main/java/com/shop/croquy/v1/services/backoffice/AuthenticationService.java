@@ -3,11 +3,13 @@ package com.shop.croquy.v1.services.backoffice;
 import com.shop.croquy.v1.dto.backoffice.authentication.AuthenticationRequest;
 import com.shop.croquy.v1.dto.backoffice.authentication.AuthenticationResponse;
 import com.shop.croquy.v1.dto.backoffice.authentication.RefreshTokenRequest;
+import com.shop.croquy.v1.enums.Role;
+import com.shop.croquy.v1.helpers.ErrorMessagesHelper;
 import com.shop.croquy.v1.repositories.UserRepository;
 import com.shop.croquy.v1.services.JwtService;
 import com.shop.croquy.v1.services.UserService;
-import com.shop.croquy.v1.services.backoffice.interfaces.IAuthenticationService;
 
+import com.shop.croquy.v1.services.backoffice.interfaces.IAuthenticationService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,7 +19,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import static com.shop.croquy.v1.helpers.ErrorMessagesHelper.*;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -34,8 +36,8 @@ public class AuthenticationService implements IAuthenticationService {
 
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
 
-        var user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new IllegalArgumentException(USER_USERNAME_NOT_FOUND));
+        var user = userRepository.findByUsernameAndRoleNotIn(username, List.of(Role.CUSTOMER))
+                .orElseThrow(() -> new IllegalArgumentException(ErrorMessagesHelper.CUSTOMER_NOT_AUTHORIZED));
 
         String accessToken = jwtService.generateToken(user, false);
         String refreshToken = jwtService.generateToken(user, true);
@@ -66,8 +68,8 @@ public class AuthenticationService implements IAuthenticationService {
             UserDetails userDetails = userService.userDetailsService().loadUserByUsername(username);
 
             if (jwtService.isTokenValid(jwtRefreshToken, userDetails, true)) {
-                var user = userRepository.findByUsernameAndRefreshToken(username, jwtRefreshToken)
-                        .orElseThrow(() -> new IllegalArgumentException(CUSTOMER_NOT_AUTHORIZED));
+                var user = userRepository.findByUsernameAndRefreshTokenAndRoleNotIn(username, jwtRefreshToken, List.of(Role.CUSTOMER))
+                        .orElseThrow(() -> new IllegalArgumentException(ErrorMessagesHelper.CUSTOMER_NOT_AUTHORIZED));
 
                 String accessToken = jwtService.generateToken(user, false);
 

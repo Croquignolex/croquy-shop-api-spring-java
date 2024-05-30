@@ -4,7 +4,9 @@ import com.shop.croquy.v1.entities.User;
 import com.shop.croquy.v1.enums.Gender;
 import com.shop.croquy.v1.enums.Role;
 import com.shop.croquy.v1.helpers.GeneralHelper;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,9 +14,12 @@ import lombok.Data;
 @Data
 @Builder
 @AllArgsConstructor
-public class UserStoreRequest {
+public class CustomerStoreRequest {
     @NotEmpty(message = "Username field is required")
     protected String username;
+
+    @Email(message = "The email address is invalid", flags = { Pattern.Flag.CASE_INSENSITIVE })
+    protected String email;
 
     @NotEmpty(message = "Password field is required")
     protected String password;
@@ -41,6 +46,7 @@ public class UserStoreRequest {
         if(gender != null) user.setGender(Gender.getEnumFromString(gender));
 
         user.setUsername(username);
+        user.setEmail(email);
         user.setPassword(password);
         user.setFirstName(firstName);
         user.setLastName(lastName);

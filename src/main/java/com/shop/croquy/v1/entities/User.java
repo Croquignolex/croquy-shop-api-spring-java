@@ -1,6 +1,6 @@
 package com.shop.croquy.v1.entities;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.shop.croquy.v1.entities.address.UserAddress;
 import com.shop.croquy.v1.entities.media.UserAvatar;
 import com.shop.croquy.v1.enums.Gender;
@@ -31,7 +31,7 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name = "email", unique = true)
     private String email;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonIgnore
     @Column(name = "password", nullable = false)
     private String password;
 
@@ -48,13 +48,15 @@ public class User extends BaseEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Gender gender = Gender.UNKNOWN;
 
+    @JsonIgnore
     @Column(name = "is_first_purchase", nullable = false)
     private Boolean firstPurchase = false;
 
+    @JsonIgnore
     @Column(name = "default_password", nullable = false)
     private Boolean default_password = true;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonIgnore
     @Column(name = "refresh_token")
     private String refreshToken;
 
@@ -68,11 +70,12 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name = "birthdate")
     private Date birthdate;
 
+    @JsonIgnore
     @Column(name = "email_verified_at")
     private Date emailVerifiedAt;
 
     @OneToOne(mappedBy = "user")
-    private UserAvatar userAvatar;
+    private UserAvatar avatar;
 
     @OneToOne(mappedBy = "user")
     private UserAddress defaultAddress;
@@ -83,32 +86,31 @@ public class User extends BaseEntity implements UserDetails {
     @OneToOne(mappedBy = "user")
     private UserAddress shippingAddress;
 
+    @JsonIgnore
     @Override
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
+    @JsonIgnore
     @Override
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    @JsonIgnore
     @Override
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
     @Override
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     public boolean isEnabled() {
         return enabled;
     }
@@ -120,5 +122,10 @@ public class User extends BaseEntity implements UserDetails {
         if(role.equals(Role.CUSTOMER)) {
             username = email;
         }
+    }
+
+    @JsonIgnore
+    public boolean isNonDeletable() { 
+        return true;
     }
 }

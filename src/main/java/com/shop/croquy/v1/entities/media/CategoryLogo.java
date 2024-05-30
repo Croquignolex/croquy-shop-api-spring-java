@@ -1,6 +1,6 @@
 package com.shop.croquy.v1.entities.media;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import com.shop.croquy.v1.entities.Category;
 
@@ -19,7 +19,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Table(name = "cs_category_logos")
 public class CategoryLogo extends MediaBaseEntity {
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "category_id")
     private Category category;
