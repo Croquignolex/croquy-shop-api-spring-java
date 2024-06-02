@@ -28,7 +28,7 @@ public class ErrorMessagesHelper {
     public static final String BRAND_SLUG_ALREADY_EXIST = "Brand already exist with slug: ";
     public static final String USER_CAN_NOT_BE_DELETED = "User can not be deleted";
     public static final String USER_USERNAME_ALREADY_EXIST = "User already exist with username: ";
-    public static final String USER_EMAIL_ALREADY_EXIST = "User already exist with email: ";
+    public static final String USER_WRONG_OLD_PASSWORD = "User wrong old password";
     public static final String USER_NOT_FOUND = "User not found";
     public static final String ATTRIBUTE_NAME_ALREADY_EXIST = "Attribute already exist with name: ";
     public static final String ATTRIBUTE_CAN_NOT_BE_DELETED = "Attribute can not be deleted";

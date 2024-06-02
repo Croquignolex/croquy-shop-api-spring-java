@@ -1,6 +1,7 @@
 package com.shop.croquy.v1.controllers.backoffice;
 
 import com.shop.croquy.v1.dto.backoffice.user.UserStoreRequest;
+import com.shop.croquy.v1.dto.backoffice.user.UserUpdateRequest;
 import com.shop.croquy.v1.entities.User;
 import com.shop.croquy.v1.services.backoffice.UsersService;
 
@@ -46,6 +47,13 @@ public class UsersController {
         usersService.storeUserWithCreator(request, principal.getName());
 
         return ResponseEntity.status(HttpStatus.CREATED.value()).build();
+    }
+
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<Object> update(@Valid @RequestBody UserUpdateRequest request, @PathVariable String id) {
+        usersService.updateUserById(request, id);
+
+        return ResponseEntity.status(HttpStatus.ACCEPTED.value()).build();
     }
 
     @PatchMapping(path = "/{id}/toggle")

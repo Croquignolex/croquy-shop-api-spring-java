@@ -1,6 +1,9 @@
 package com.shop.croquy.v1.services.backoffice;
 
 import com.shop.croquy.v1.dto.backoffice.user.UserStoreRequest;
+import com.shop.croquy.v1.dto.backoffice.user.UserUpdateRequest;
+import com.shop.croquy.v1.dto.backoffice.vendor.VendorUpdateRequest;
+import com.shop.croquy.v1.entities.Vendor;
 import com.shop.croquy.v1.enums.Role;
 import com.shop.croquy.v1.entities.User;
 import com.shop.croquy.v1.helpers.GeneralHelper;
@@ -15,6 +18,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -83,6 +87,21 @@ public class UsersService implements IUsersService {
         var creator = userRepository.findByUsername(creatorUsername).orElse(null);
 
         userRepository.save(request.toUser(creator));
+    }
+
+    @Override
+    public void updateUserById(UserUpdateRequest request, String id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new DataIntegrityViolationException(USER_NOT_FOUND));
+
+        if(!new BCryptPasswordEncoder().matches(request.getOldPassword(), user.getPassword())) {
+            throw new DataIntegrityViolationException(USER_WRONG_OLD_PASSWORD);
+        }
+
+        user.setRole(Role.getEnumFromString(request.getRole()));
+        user.setPassword(new BCryptPasswordEncoder().encode(request.getPassword()));
+
+        userRepository.save(user);
     }
 
     @Override
