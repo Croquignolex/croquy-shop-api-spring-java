@@ -40,7 +40,7 @@ public class GlobalExceptionHandler  {
 
     @ExceptionHandler(value = AuthenticationException.class)
     public ResponseEntity<GenericResponse> handleAuthenticationException() {
-        return GeneralHelper.errorResponse(HttpStatus.NOT_ACCEPTABLE, INCORRECT_LOGIN_PASSWORD);
+        return GeneralHelper.errorResponse(HttpStatus.NOT_ACCEPTABLE, INCORRECT_LOGIN_OR_PASSWORD);
     }
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
