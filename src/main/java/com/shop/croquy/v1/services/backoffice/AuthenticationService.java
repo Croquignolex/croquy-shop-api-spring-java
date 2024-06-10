@@ -55,6 +55,7 @@ public class AuthenticationService implements IAuthenticationService {
                 .role(user.getRole().name())
                 .username(user.getUsername())
                 .firstName(user.getFirstName())
+                .avatar(user.getAvatar())
                 .build();
     }
 

@@ -1,5 +1,6 @@
 package com.shop.croquy.v1.dto.backoffice.authentication;
 
+import com.shop.croquy.v1.entities.media.UserAvatar;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,4 +14,5 @@ public class AuthenticationResponse {
     private String accessToken;
     private String refreshToken;
     private String role;
+    private UserAvatar avatar;
 }
