@@ -1,8 +1,10 @@
 package com.shop.croquy;
 
+import com.shop.croquy.v1.entities.Country;
 import com.shop.croquy.v1.enums.Role;
 import com.shop.croquy.v1.entities.User;
 import com.shop.croquy.v1.repositories.UserRepository;
+import com.shop.croquy.v1.repositories.CountryRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,6 +23,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CroquyShopApiSpringJavaApplication {
     private final UserRepository userRepository;
+    private final CountryRepository countryRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(CroquyShopApiSpringJavaApplication.class, args);
@@ -36,11 +39,24 @@ public class CroquyShopApiSpringJavaApplication {
         return (String[] args) -> {
             if(userRepository.findByUsername("user100").isEmpty()) {
                 List<User> users = new ArrayList<>();
+                List<Country> countries = new ArrayList<>();
+
+                User user = userRepository.save(seedUsers(200, Role.CUSTOMER));
+
+                for(int i = 0; i < 25; i++){
+                    Country country = new Country();
+                    country.setName("Douala" + i);
+                    country.setPhoneCode("237" + i);
+                    country.setCreator(user);
+                    country.setDescription("This description is a well description for this country. Make sur you figure this well" + i);
+                    countries.add(country);
+                }
 
                 users.add(seedUsers(100, Role.SUPER_ADMIN));
                 users.add(seedUsers(101, Role.CUSTOMER));
 
                 userRepository.saveAll(users);
+                countryRepository.saveAll(countries);
             }
         };
     }
