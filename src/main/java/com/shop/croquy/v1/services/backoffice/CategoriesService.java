@@ -3,7 +3,6 @@ package com.shop.croquy.v1.services.backoffice;
 import com.shop.croquy.v1.dto.backoffice.category.CategoryStoreRequest;
 import com.shop.croquy.v1.dto.backoffice.category.CategoryUpdateRequest;
 import com.shop.croquy.v1.entities.Category;
-import com.shop.croquy.v1.entities.User;
 import com.shop.croquy.v1.entities.media.CategoryBanner;
 import com.shop.croquy.v1.entities.media.CategoryLogo;
 import com.shop.croquy.v1.helpers.GeneralHelper;
@@ -43,16 +42,12 @@ public class CategoriesService implements ICategoriesService {
     private String mediaFolderPath;
 
     @Override
-    public Page<Category> getPaginatedCategories(int pageNumber, int pageSize, String needle) {
-        Pageable pageable = GeneralHelper.buildPageable(pageNumber, pageSize);
+    public Page<Category> getPaginatedCategories(int pageNumber, int pageSize, String needle, String sort, String direction) {
+        Pageable pageable = GeneralHelper.buildPageable(pageNumber, pageSize, sort, direction);
 
-        if(StringUtils.isNotEmpty(needle)) {
-            List<User> users = userRepository.findByUsernameContains(needle);
-
-            return categoryPagingAndSortingRepository.findAllByNameContainsOrSlugContainsOrCreatorIsIn(needle, needle, users, pageable);
-        }
-
-        return categoryPagingAndSortingRepository.findAll(pageable);
+        return (StringUtils.isNotEmpty(needle))
+                ? categoryPagingAndSortingRepository.findAllByNameContainsOrSlugContains(needle, needle, pageable)
+                : categoryPagingAndSortingRepository.findAll(pageable);
     }
 
     @Override
@@ -70,11 +65,11 @@ public class CategoriesService implements ICategoriesService {
         var group = groupRepository.findById(request.getGroupId()).orElse(null);
 
         if(categoryRepository.findFistByNameAndGroup(request.getName(), group).isPresent()) {
-            throw new DataIntegrityViolationException(CATEGORY_NAME_ALREADY_EXIST + request.getName());
+            throw new DataIntegrityViolationException(CATEGORY_NAME_ALREADY_EXIST);
         }
 
         if(categoryRepository.findFistBySlugAndGroup(request.getSlug(), group).isPresent()) {
-            throw new DataIntegrityViolationException(CATEGORY_SLUG_ALREADY_EXIST + request.getSlug());
+            throw new DataIntegrityViolationException(CATEGORY_SLUG_ALREADY_EXIST);
         }
 
         var creator = userRepository.findByUsername(creatorUsername).orElse(null);
@@ -87,11 +82,11 @@ public class CategoriesService implements ICategoriesService {
         var group = groupRepository.findById(request.getGroupId()).orElse(null);
 
         if(categoryRepository.findFistByNameAndIdNotAndGroup(request.getName(), id, group).isPresent()) {
-            throw new DataIntegrityViolationException(CATEGORY_NAME_ALREADY_EXIST + request.getName());
+            throw new DataIntegrityViolationException(CATEGORY_NAME_ALREADY_EXIST);
         }
 
         if(categoryRepository.findFistBySlugAndIdNotAndGroup(request.getSlug() , id, group).isPresent()) {
-            throw new DataIntegrityViolationException(CATEGORY_SLUG_ALREADY_EXIST + request.getSlug());
+            throw new DataIntegrityViolationException(CATEGORY_SLUG_ALREADY_EXIST);
         }
 
         Category category = categoryRepository.findById(id)

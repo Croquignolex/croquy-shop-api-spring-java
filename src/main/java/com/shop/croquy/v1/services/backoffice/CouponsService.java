@@ -3,7 +3,6 @@ package com.shop.croquy.v1.services.backoffice;
 import com.shop.croquy.v1.dto.backoffice.coupon.CouponStoreRequest;
 import com.shop.croquy.v1.dto.backoffice.coupon.CouponUpdateRequest;
 import com.shop.croquy.v1.entities.Coupon;
-import com.shop.croquy.v1.entities.User;
 import com.shop.croquy.v1.helpers.GeneralHelper;
 import com.shop.croquy.v1.repositories.*;
 import com.shop.croquy.v1.services.backoffice.interfaces.ICouponsService;
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
-import java.util.List;
 
 import static com.shop.croquy.v1.helpers.ErrorMessagesHelper.*;
 
@@ -32,15 +30,13 @@ public class CouponsService implements ICouponsService {
     private final UserRepository userRepository;
 
     @Override
-    public Page<Coupon> getPaginatedCoupons(int pageNumber, int pageSize, String needle) {
-        Pageable pageable = GeneralHelper.buildPageable(pageNumber, pageSize);
+    public Page<Coupon> getPaginatedCoupons(int pageNumber, int pageSize, String needle, String sort, String direction) {
+        Pageable pageable = GeneralHelper.buildPageable(pageNumber, pageSize, sort, direction);
 
         if(StringUtils.isNotEmpty(needle)) {
-            List<User> users = userRepository.findByUsernameContains(needle);
-
             int discount = GeneralHelper.stringToInt(needle).orElse(-1);
 
-            return couponPagingAndSortingRepository.findAllByCodeContainsOrDiscountOrCreatorIsIn(needle, discount, users, pageable);
+            return couponPagingAndSortingRepository.findAllByCodeContainsOrDiscount(needle, discount, pageable);
         }
 
         return couponPagingAndSortingRepository.findAll(pageable);
@@ -54,7 +50,7 @@ public class CouponsService implements ICouponsService {
     @Override
     public void storeCouponWithCreator(CouponStoreRequest request, String creatorUsername) {
         if(couponRepository.findFistByCode(request.getCode()).isPresent()) {
-            throw new DataIntegrityViolationException(COUPON_CODE_ALREADY_EXIST + request.getCode());
+            throw new DataIntegrityViolationException(COUPON_CODE_ALREADY_EXIST);
         }
 
         var creator = userRepository.findByUsername(creatorUsername).orElse(null);

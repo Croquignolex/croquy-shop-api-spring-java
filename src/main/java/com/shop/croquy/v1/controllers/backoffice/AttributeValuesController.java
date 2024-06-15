@@ -27,9 +27,11 @@ public class AttributeValuesController {
     public ResponseEntity<Page<AttributeValue>> index(
             @RequestParam(defaultValue = "") String needle,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+            @RequestParam(defaultValue = "7") int size,
+            @RequestParam(defaultValue = "createdAt") String sort,
+            @RequestParam(defaultValue = "desc") String direction
     ) {
-        Page<AttributeValue> paginatedAttributeValues = attributeValuesService.getPaginatedAttributeValues(page, size, needle);
+        Page<AttributeValue> paginatedAttributeValues = attributeValuesService.getPaginatedAttributeValues(page, size, needle, sort, direction);
 
         return ResponseEntity.status(HttpStatus.OK).body(paginatedAttributeValues);
     }

@@ -9,7 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface IBrandsService {
-    Page<Brand> getPaginatedBrands(int pageNumber, int pageSize, String needle);
+    Page<Brand> getPaginatedBrands(int pageNumber, int pageSize, String needle, String sort, String direction);
     Brand getBrandById(String id);
     void storeBrandWithCreator(BrandStoreRequest request, String creatorUsername);
     void updateBrandById(BrandUpdateRequest request, String id);

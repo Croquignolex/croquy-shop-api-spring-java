@@ -2,7 +2,6 @@ package com.shop.croquy.v1.services.backoffice;
 
 import com.shop.croquy.v1.dto.backoffice.brand.BrandStoreRequest;
 import com.shop.croquy.v1.dto.backoffice.brand.BrandUpdateRequest;
-import com.shop.croquy.v1.entities.User;
 import com.shop.croquy.v1.entities.Brand;
 import com.shop.croquy.v1.entities.media.BrandLogo;
 import com.shop.croquy.v1.helpers.GeneralHelper;
@@ -35,23 +34,18 @@ public class BrandsService implements IBrandsService {
     private final BrandPagingAndSortingRepository brandPagingAndSortingRepository; 
     private final BrandLogoRepository brandLogoRepository;
     private final BrandRepository brandRepository;
-    private final StateRepository stateRepository;
     private final UserRepository userRepository;
 
     @Value("${media.saving.directory}")
     private String mediaFolderPath;
 
     @Override
-    public Page<Brand> getPaginatedBrands(int pageNumber, int pageSize, String needle) {
-        Pageable pageable = GeneralHelper.buildPageable(pageNumber, pageSize);
+    public Page<Brand> getPaginatedBrands(int pageNumber, int pageSize, String needle, String sort, String direction) {
+        Pageable pageable = GeneralHelper.buildPageable(pageNumber, pageSize, sort, direction);
 
-        if(StringUtils.isNotEmpty(needle)) {
-            List<User> users = userRepository.findByUsernameContains(needle);
-
-            return brandPagingAndSortingRepository.findAllByNameContainsOrSlugContainsOrCreatorIsIn(needle, needle, users, pageable);
-        }
-
-        return brandPagingAndSortingRepository.findAll(pageable);
+        return (StringUtils.isNotEmpty(needle))
+                ? brandPagingAndSortingRepository.findAllByNameContainsOrSlugContains(needle, needle, pageable)
+                : brandPagingAndSortingRepository.findAll(pageable);
     }
 
     @Override
@@ -62,11 +56,11 @@ public class BrandsService implements IBrandsService {
     @Override
     public void storeBrandWithCreator(BrandStoreRequest request, String creatorUsername) {
         if(brandRepository.findFistByName(request.getName()).isPresent()) {
-            throw new DataIntegrityViolationException(BRAND_NAME_ALREADY_EXIST + request.getName());
+            throw new DataIntegrityViolationException(BRAND_NAME_ALREADY_EXIST);
         }
 
         if(brandRepository.findFistBySlug(request.getSlug()).isPresent()) {
-            throw new DataIntegrityViolationException(BRAND_SLUG_ALREADY_EXIST + request.getSlug());
+            throw new DataIntegrityViolationException(BRAND_SLUG_ALREADY_EXIST);
         }
 
         var creator = userRepository.findByUsername(creatorUsername).orElse(null);
@@ -77,11 +71,11 @@ public class BrandsService implements IBrandsService {
     @Override
     public void updateBrandById(BrandUpdateRequest request, String id) {
         if(brandRepository.findFistByNameAndIdNot(request.getName(), id).isPresent()) {
-            throw new DataIntegrityViolationException(BRAND_NAME_ALREADY_EXIST + request.getName());
+            throw new DataIntegrityViolationException(BRAND_NAME_ALREADY_EXIST);
         }
 
         if(brandRepository.findFistBySlugAndIdNot(request.getSlug() , id).isPresent()) {
-            throw new DataIntegrityViolationException(BRAND_SLUG_ALREADY_EXIST + request.getSlug());
+            throw new DataIntegrityViolationException(BRAND_SLUG_ALREADY_EXIST);
         }
 
         Brand brand = brandRepository.findById(id)

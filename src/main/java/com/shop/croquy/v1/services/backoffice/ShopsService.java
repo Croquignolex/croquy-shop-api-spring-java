@@ -4,7 +4,6 @@ import com.shop.croquy.v1.dto.backoffice.shop.ShopStoreRequest;
 import com.shop.croquy.v1.dto.backoffice.shop.ShopUpdateRequest;
 import com.shop.croquy.v1.dto.web.AddressUpdateRequest;
 import com.shop.croquy.v1.entities.Shop;
-import com.shop.croquy.v1.entities.User;
 import com.shop.croquy.v1.entities.address.ShopAddress;
 import com.shop.croquy.v1.helpers.GeneralHelper;
 import com.shop.croquy.v1.repositories.ShopAddressRepository;
@@ -23,8 +22,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 import static com.shop.croquy.v1.helpers.ErrorMessagesHelper.*;
 
 @Service
@@ -38,16 +35,12 @@ public class ShopsService implements IShopsService {
     private final StateRepository stateRepository;
 
     @Override
-    public Page<Shop> getPaginatedShops(int pageNumber, int pageSize, String needle) {
-        Pageable pageable = GeneralHelper.buildPageable(pageNumber, pageSize);
+    public Page<Shop> getPaginatedShops(int pageNumber, int pageSize, String needle, String sort, String direction) {
+        Pageable pageable = GeneralHelper.buildPageable(pageNumber, pageSize, sort, direction);
 
-        if(StringUtils.isNotEmpty(needle)) {
-            List<User> users = userRepository.findByUsernameContains(needle);
-
-            return shopPagingAndSortingRepository.findAllByNameContainsOrSlugContainsOrCreatorIsIn(needle, needle, users, pageable);
-        }
-
-        return shopPagingAndSortingRepository.findAll(pageable);
+        return (StringUtils.isNotEmpty(needle))
+                ? shopPagingAndSortingRepository.findAllByNameContainsOrSlugContains(needle, needle, pageable)
+                : shopPagingAndSortingRepository.findAll(pageable);
     }
 
     @Override
@@ -58,11 +51,11 @@ public class ShopsService implements IShopsService {
     @Override
     public void storeShopWithCreator(ShopStoreRequest request, String creatorUsername) {
         if(shopRepository.findFistByName(request.getName()).isPresent()) {
-            throw new DataIntegrityViolationException(SHOP_NAME_ALREADY_EXIST + request.getName());
+            throw new DataIntegrityViolationException(SHOP_NAME_ALREADY_EXIST);
         }
 
         if(shopRepository.findFistBySlug(request.getSlug()).isPresent()) {
-            throw new DataIntegrityViolationException(SHOP_SLUG_ALREADY_EXIST + request.getSlug());
+            throw new DataIntegrityViolationException(SHOP_SLUG_ALREADY_EXIST);
         }
 
         var creator = userRepository.findByUsername(creatorUsername).orElse(null);
@@ -73,11 +66,11 @@ public class ShopsService implements IShopsService {
     @Override
     public void updateShopById(ShopUpdateRequest request, String id) {
         if(shopRepository.findFistByNameAndIdNot(request.getName(), id).isPresent()) {
-            throw new DataIntegrityViolationException(SHOP_NAME_ALREADY_EXIST + request.getName());
+            throw new DataIntegrityViolationException(SHOP_NAME_ALREADY_EXIST);
         }
 
         if(shopRepository.findFistBySlugAndIdNot(request.getSlug() , id).isPresent()) {
-            throw new DataIntegrityViolationException(SHOP_SLUG_ALREADY_EXIST + request.getSlug());
+            throw new DataIntegrityViolationException(SHOP_SLUG_ALREADY_EXIST);
         }
 
         Shop shop = shopRepository.findById(id)

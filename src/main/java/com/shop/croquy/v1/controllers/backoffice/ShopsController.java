@@ -29,9 +29,11 @@ public class ShopsController {
     public ResponseEntity<Page<Shop>> index(
             @RequestParam(defaultValue = "") String needle,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+            @RequestParam(defaultValue = "7") int size,
+            @RequestParam(defaultValue = "createdAt") String sort,
+            @RequestParam(defaultValue = "desc") String direction
     ) {
-        Page<Shop> paginatedShops = shopsService.getPaginatedShops(page, size, needle);
+        Page<Shop> paginatedShops = shopsService.getPaginatedShops(page, size, needle, sort, direction);
 
         return ResponseEntity.status(HttpStatus.OK).body(paginatedShops);
     }

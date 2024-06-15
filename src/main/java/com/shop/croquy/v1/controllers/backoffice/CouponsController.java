@@ -30,9 +30,11 @@ public class CouponsController {
     public ResponseEntity<Page<Coupon>> index(
             @RequestParam(defaultValue = "") String needle,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+            @RequestParam(defaultValue = "7") int size,
+            @RequestParam(defaultValue = "createdAt") String sort,
+            @RequestParam(defaultValue = "desc") String direction
     ) {
-        Page<Coupon> paginatedCoupons = couponsService.getPaginatedCoupons(page, size, needle);
+        Page<Coupon> paginatedCoupons = couponsService.getPaginatedCoupons(page, size, needle, sort, direction);
 
         return ResponseEntity.status(HttpStatus.OK).body(paginatedCoupons);
     }

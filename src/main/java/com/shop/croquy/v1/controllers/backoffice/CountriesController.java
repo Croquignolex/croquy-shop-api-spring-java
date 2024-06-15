@@ -35,9 +35,11 @@ public class CountriesController {
     public ResponseEntity<Page<Country>> index(
             @RequestParam(defaultValue = "") String needle,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+            @RequestParam(defaultValue = "7") int size,
+            @RequestParam(defaultValue = "createdAt") String sort,
+            @RequestParam(defaultValue = "desc") String direction
     ) {
-        Page<Country> paginatedCountries = countriesService.getPaginatedCountries(page, size, needle);
+        Page<Country> paginatedCountries = countriesService.getPaginatedCountries(page, size, needle, sort, direction);
 
         return ResponseEntity.status(HttpStatus.OK).body(paginatedCountries);
     }
@@ -100,9 +102,11 @@ public class CountriesController {
             @PathVariable String id,
             @RequestParam(defaultValue = "") String needle,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+            @RequestParam(defaultValue = "7") int size,
+            @RequestParam(defaultValue = "createdAt") String sort,
+            @RequestParam(defaultValue = "desc") String direction
     ) {
-        Page<State> paginatedStatesByCountryId = countriesService.getPaginatedStatesByCountryId(page, size, needle, id);
+        Page<State> paginatedStatesByCountryId = countriesService.getPaginatedStatesByCountryId(page, size, needle, sort, direction, id);
 
         return ResponseEntity.status(HttpStatus.OK).body(paginatedStatesByCountryId);
     }

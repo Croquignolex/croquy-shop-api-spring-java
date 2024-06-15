@@ -31,9 +31,11 @@ public class CategoriesController {
     public ResponseEntity<Page<Category>> index(
             @RequestParam(defaultValue = "") String needle,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+            @RequestParam(defaultValue = "7") int size,
+            @RequestParam(defaultValue = "createdAt") String sort,
+            @RequestParam(defaultValue = "desc") String direction
     ) {
-        Page<Category> paginatedCategories = categoriesService.getPaginatedCategories(page, size, needle);
+        Page<Category> paginatedCategories = categoriesService.getPaginatedCategories(page, size, needle, sort, direction);
 
         return ResponseEntity.status(HttpStatus.OK).body(paginatedCategories);
     }

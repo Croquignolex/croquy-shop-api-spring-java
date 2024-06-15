@@ -35,8 +35,8 @@ public class UsersService implements IUsersService {
     private final UserRepository userRepository;
 
     @Override
-    public Page<User> getPaginatedUsers(int pageNumber, int pageSize, String needle, String username) {
-        Pageable pageable = GeneralHelper.buildPageable(pageNumber, pageSize);
+    public Page<User> getPaginatedUsers(int pageNumber, int pageSize, String needle, String sort, String direction, String username) {
+        Pageable pageable = GeneralHelper.buildPageable(pageNumber, pageSize, sort, direction);
 
         var user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException(USER_NOT_FOUND));
@@ -56,14 +56,11 @@ public class UsersService implements IUsersService {
         }
 
         if(StringUtils.isNotEmpty(needle)) {
-            List<User> users = userRepository.findByUsernameContains(needle);
-
             return userPagingAndSortingRepository
-                    .findAllByUsernameContainsOrFirstNameContainsOrLastNameContainsOrCreatorIsInAndIdIsNotAndRoleIn(
+                    .findAllByUsernameContainsOrFirstNameContainsOrLastNameContainsAndIdIsNotAndRoleIn(
                             needle,
                             needle,
                             needle,
-                            users,
                             user.getId(),
                             includedRoles,
                             pageable
@@ -81,7 +78,7 @@ public class UsersService implements IUsersService {
     @Override
     public void storeUserWithCreator(UserStoreRequest request, String creatorUsername) {
         if(userRepository.findFistByUsername(request.getUsername()).isPresent()) {
-            throw new DataIntegrityViolationException(USER_USERNAME_ALREADY_EXIST + request.getUsername());
+            throw new DataIntegrityViolationException(USER_USERNAME_ALREADY_EXIST);
         }
 
         var creator = userRepository.findByUsername(creatorUsername).orElse(null);

@@ -14,11 +14,10 @@ import java.util.Collection;
 public interface UserPagingAndSortingRepository extends PagingAndSortingRepository<User, String> {
     Page<User> findAllByIdIsNotAndRoleIn(String id, Collection<Role> roles, Pageable pageable);
 
-    Page<User> findAllByUsernameContainsOrFirstNameContainsOrLastNameContainsOrCreatorIsInAndIdIsNotAndRoleIn(
+    Page<User> findAllByUsernameContainsOrFirstNameContainsOrLastNameContainsAndIdIsNotAndRoleIn(
             String nameNeedle,
             String firstNameNeedle,
             String lastNameNeedle,
-            Collection<User> creator,
             String id,
             Collection<Role> roles,
             Pageable pageable

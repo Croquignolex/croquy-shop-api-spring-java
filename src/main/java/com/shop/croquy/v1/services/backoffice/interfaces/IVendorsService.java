@@ -11,7 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface IVendorsService {
-    Page<Vendor> getPaginatedVendors(int pageNumber, int pageSize, String needle);
+    Page<Vendor> getPaginatedVendors(int pageNumber, int pageSize, String needle, String sort, String direction);
     Vendor getVendorById(String id);
     void storeVendorWithCreator(VendorStoreRequest request, String creatorUsername);
     void updateVendorById(VendorUpdateRequest request, String id);

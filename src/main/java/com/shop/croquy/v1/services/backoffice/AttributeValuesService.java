@@ -3,7 +3,6 @@ package com.shop.croquy.v1.services.backoffice;
 import com.shop.croquy.v1.dto.backoffice.attributeValue.AttributeValueStoreRequest;
 import com.shop.croquy.v1.dto.backoffice.attributeValue.AttributeValueUpdateRequest;
 import com.shop.croquy.v1.entities.AttributeValue;
-import com.shop.croquy.v1.entities.User;
 import com.shop.croquy.v1.helpers.GeneralHelper;
 import com.shop.croquy.v1.repositories.AttributeValuePagingAndSortingRepository;
 import com.shop.croquy.v1.repositories.AttributeValueRepository;
@@ -17,8 +16,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 import static com.shop.croquy.v1.helpers.ErrorMessagesHelper.*;
 
 @Service
@@ -30,16 +27,12 @@ public class AttributeValuesService implements IAttributeValuesService {
     private final UserRepository userRepository;
   
     @Override
-    public Page<AttributeValue> getPaginatedAttributeValues(int pageNumber, int pageSize, String needle) {
-        Pageable pageable = GeneralHelper.buildPageable(pageNumber, pageSize);
+    public Page<AttributeValue> getPaginatedAttributeValues(int pageNumber, int pageSize, String needle, String sort, String direction) {
+        Pageable pageable = GeneralHelper.buildPageable(pageNumber, pageSize, sort, direction);
 
-        if(StringUtils.isNotEmpty(needle)) {
-            List<User> users = userRepository.findByUsernameContains(needle);
-
-            return attributeValuePagingAndSortingRepository.findAllByNameContainsOrValueContainsOrCreatorIsIn(needle, needle, users, pageable);
-        }
-
-        return attributeValuePagingAndSortingRepository.findAll(pageable);
+        return (StringUtils.isNotEmpty(needle))
+                ? attributeValuePagingAndSortingRepository.findAllByNameContainsOrValueContains(needle, needle, pageable)
+                : attributeValuePagingAndSortingRepository.findAll(pageable);
     }
 
     @Override
@@ -50,7 +43,7 @@ public class AttributeValuesService implements IAttributeValuesService {
     @Override
     public void storeAttributeValueWithCreator(AttributeValueStoreRequest request, String creatorUsername) {
         if(attributeValueRepository.findFistByName(request.getName()).isPresent()) {
-            throw new DataIntegrityViolationException(ATTRIBUTE_VALUE_NAME_ALREADY_EXIST + request.getName());
+            throw new DataIntegrityViolationException(ATTRIBUTE_VALUE_NAME_ALREADY_EXIST);
         }
 
         var creator = userRepository.findByUsername(creatorUsername).orElse(null);
@@ -61,7 +54,7 @@ public class AttributeValuesService implements IAttributeValuesService {
     @Override
     public void updateAttributeValueById(AttributeValueUpdateRequest request, String id) {
         if(attributeValueRepository.findFistByNameAndIdNot(request.getName(), id).isPresent()) {
-            throw new DataIntegrityViolationException(ATTRIBUTE_VALUE_NAME_ALREADY_EXIST + request.getName());
+            throw new DataIntegrityViolationException(ATTRIBUTE_VALUE_NAME_ALREADY_EXIST);
         }
 
         AttributeValue attributeValue = attributeValueRepository.findById(id)

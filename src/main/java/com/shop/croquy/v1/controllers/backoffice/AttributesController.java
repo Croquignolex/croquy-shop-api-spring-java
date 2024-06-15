@@ -27,9 +27,11 @@ public class AttributesController {
     public ResponseEntity<Page<Attribute>> index(
             @RequestParam(defaultValue = "") String needle,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+            @RequestParam(defaultValue = "7") int size,
+            @RequestParam(defaultValue = "createdAt") String sort,
+            @RequestParam(defaultValue = "desc") String direction
     ) {
-        Page<Attribute> paginatedAttributes = attributesService.getPaginatedAttributes(page, size, needle);
+        Page<Attribute> paginatedAttributes = attributesService.getPaginatedAttributes(page, size, needle, sort, direction);
 
         return ResponseEntity.status(HttpStatus.OK).body(paginatedAttributes);
     }

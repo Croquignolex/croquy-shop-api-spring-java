@@ -29,9 +29,11 @@ public class StatesController {
     public ResponseEntity<Page<State>> index(
             @RequestParam(defaultValue = "") String needle,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+            @RequestParam(defaultValue = "7") int size,
+            @RequestParam(defaultValue = "createdAt") String sort,
+            @RequestParam(defaultValue = "desc") String direction
     ) {
-        Page<State> paginatedStates = statesService.getPaginatedStates(page, size, needle);
+        Page<State> paginatedStates = statesService.getPaginatedStates(page, size, needle, sort, direction);
 
         return ResponseEntity.status(HttpStatus.OK).body(paginatedStates);
     }

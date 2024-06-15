@@ -3,7 +3,6 @@ package com.shop.croquy.v1.services.backoffice;
 import com.shop.croquy.v1.dto.backoffice.attribute.AttributeStoreRequest;
 import com.shop.croquy.v1.dto.backoffice.attribute.AttributeUpdateRequest;
 import com.shop.croquy.v1.entities.Attribute;
-import com.shop.croquy.v1.entities.User;
 import com.shop.croquy.v1.enums.AttributeType;
 import com.shop.croquy.v1.helpers.GeneralHelper;
 import com.shop.croquy.v1.repositories.*;
@@ -16,8 +15,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 import static com.shop.croquy.v1.helpers.ErrorMessagesHelper.*;
 
 @Service
@@ -29,16 +26,12 @@ public class AttributesService implements IAttributesService {
     private final UserRepository userRepository;
   
     @Override
-    public Page<Attribute> getPaginatedAttributes(int pageNumber, int pageSize, String needle) {
-        Pageable pageable = GeneralHelper.buildPageable(pageNumber, pageSize);
+    public Page<Attribute> getPaginatedAttributes(int pageNumber, int pageSize, String needle, String sort, String direction) {
+        Pageable pageable = GeneralHelper.buildPageable(pageNumber, pageSize, sort, direction);
 
-        if(StringUtils.isNotEmpty(needle)) {
-            List<User> users = userRepository.findByUsernameContains(needle);
-
-            return attributePagingAndSortingRepository.findAllByNameContainsOrCreatorIsIn(needle, users, pageable);
-        }
-
-        return attributePagingAndSortingRepository.findAll(pageable);
+        return (StringUtils.isNotEmpty(needle))
+                ? attributePagingAndSortingRepository.findAllByNameContains(needle, pageable)
+                : attributePagingAndSortingRepository.findAll(pageable);
     }
 
     @Override
@@ -49,7 +42,7 @@ public class AttributesService implements IAttributesService {
     @Override
     public void storeAttributeWithCreator(AttributeStoreRequest request, String creatorUsername) {
         if(attributeRepository.findFistByName(request.getName()).isPresent()) {
-            throw new DataIntegrityViolationException(ATTRIBUTE_NAME_ALREADY_EXIST + request.getName());
+            throw new DataIntegrityViolationException(ATTRIBUTE_NAME_ALREADY_EXIST);
         }
 
         var creator = userRepository.findByUsername(creatorUsername).orElse(null);
@@ -60,7 +53,7 @@ public class AttributesService implements IAttributesService {
     @Override
     public void updateAttributeById(AttributeUpdateRequest request, String id) {
         if(attributeRepository.findFistByNameAndIdNot(request.getName(), id).isPresent()) {
-            throw new DataIntegrityViolationException(ATTRIBUTE_NAME_ALREADY_EXIST + request.getName());
+            throw new DataIntegrityViolationException(ATTRIBUTE_NAME_ALREADY_EXIST);
         }
 
         Attribute attribute = attributeRepository.findById(id)

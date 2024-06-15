@@ -33,9 +33,11 @@ public class BrandsController {
     public ResponseEntity<Page<Brand>> index(
             @RequestParam(defaultValue = "") String needle,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+            @RequestParam(defaultValue = "7") int size,
+            @RequestParam(defaultValue = "createdAt") String sort,
+            @RequestParam(defaultValue = "desc") String direction
     ) {
-        Page<Brand> paginatedBrands = brandsService.getPaginatedBrands(page, size, needle);
+        Page<Brand> paginatedBrands = brandsService.getPaginatedBrands(page, size, needle, sort, direction);
 
         return ResponseEntity.status(HttpStatus.OK).body(paginatedBrands);
     }

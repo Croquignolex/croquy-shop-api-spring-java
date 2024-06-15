@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface ICountriesService {
-    Page<Country> getPaginatedCountries(int pageNumber, int pageSize, String needle);
+    Page<Country> getPaginatedCountries(int pageNumber, int pageSize, String needle, String sort, String direction);
     List<Country> getAllEnabledCountriesOrderByName();
     Country getCountryById(String id);
     void storeCountryWithCreator(CountryStoreRequest request, String creatorUsername);
@@ -22,6 +22,6 @@ public interface ICountriesService {
     void toggleCountryStatusById(String id);
     void destroyCountryById(String id);
     void destroyCountryFlagById(String id);
-    Page<State> getPaginatedStatesByCountryId(int pageNumber, int pageSize, String needle, String id);
+    Page<State> getPaginatedStatesByCountryId(int pageNumber, int pageSize, String needle, String sort, String direction, String id);
     void addStateWithCreator(CountryStateStoreRequest request, String id, String creatorUsername);
 }

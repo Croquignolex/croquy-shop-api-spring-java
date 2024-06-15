@@ -36,7 +36,7 @@ import static org.springframework.http.MediaType.IMAGE_PNG_VALUE;
 @Slf4j
 @RequiredArgsConstructor
 public class GroupsService implements IGroupService {
-    private final GroupPagingAndSortingRepository groupPagingAndSortingRepository; 
+    private final GroupPagingAndSortingRepository groupPagingAndSortingRepository;
     private final CategoryPagingAndSortingRepository categoryPagingAndSortingRepository;
     private final GroupLogoRepository groupLogoRepository;
     private final GroupBannerRepository groupBannerRepository;
@@ -48,16 +48,12 @@ public class GroupsService implements IGroupService {
     private String mediaFolderPath;
 
     @Override
-    public Page<Group> getPaginatedGroups(int pageNumber, int pageSize, String needle) {
-        Pageable pageable = GeneralHelper.buildPageable(pageNumber, pageSize);
+    public Page<Group> getPaginatedGroups(int pageNumber, int pageSize, String needle, String sort, String direction) {
+        Pageable pageable = GeneralHelper.buildPageable(pageNumber, pageSize, sort, direction);
 
-        if(StringUtils.isNotEmpty(needle)) {
-            List<User> users = userRepository.findByUsernameContains(needle);
-
-            return groupPagingAndSortingRepository.findAllByNameContainsOrSlugContainsOrCreatorIsIn(needle, needle, users, pageable);
-        }
-
-        return groupPagingAndSortingRepository.findAll(pageable);
+        return (StringUtils.isNotEmpty(needle))
+                ? groupPagingAndSortingRepository.findAllByNameContainsOrSlugContains(needle, needle, pageable)
+                : groupPagingAndSortingRepository.findAll(pageable);
     }
 
     @Override
@@ -73,11 +69,11 @@ public class GroupsService implements IGroupService {
     @Override
     public void storeGroupWithCreator(GroupStoreRequest request, String creatorUsername) {
         if(groupRepository.findFistByName(request.getName()).isPresent()) {
-            throw new DataIntegrityViolationException(GROUP_NAME_ALREADY_EXIST + request.getName());
+            throw new DataIntegrityViolationException(GROUP_NAME_ALREADY_EXIST);
         }
 
         if(groupRepository.findFistBySlug(request.getSlug()).isPresent()) {
-            throw new DataIntegrityViolationException(GROUP_SLUG_ALREADY_EXIST + request.getSlug());
+            throw new DataIntegrityViolationException(GROUP_SLUG_ALREADY_EXIST);
         }
 
         var creator = userRepository.findByUsername(creatorUsername).orElse(null);
@@ -88,11 +84,11 @@ public class GroupsService implements IGroupService {
     @Override
     public void updateGroupById(GroupUpdateRequest request, String id) {
         if(groupRepository.findFistByNameAndIdNot(request.getName(), id).isPresent()) {
-            throw new DataIntegrityViolationException(GROUP_NAME_ALREADY_EXIST + request.getName());
+            throw new DataIntegrityViolationException(GROUP_NAME_ALREADY_EXIST);
         }
 
         if(groupRepository.findFistBySlugAndIdNot(request.getSlug() , id).isPresent()) {
-            throw new DataIntegrityViolationException(GROUP_SLUG_ALREADY_EXIST + request.getSlug());
+            throw new DataIntegrityViolationException(GROUP_SLUG_ALREADY_EXIST);
         }
 
         Group group = groupRepository.findById(id)
@@ -227,8 +223,8 @@ public class GroupsService implements IGroupService {
     }
 
     @Override
-    public Page<Category> getPaginatedCategoriesByGroupId(int pageNumber, int pageSize, String needle, String id) {
-        Pageable pageable = GeneralHelper.buildPageable(pageNumber, pageSize);
+    public Page<Category> getPaginatedCategoriesByGroupId(int pageNumber, int pageSize, String needle, String sort, String direction, String id) {
+        Pageable pageable = GeneralHelper.buildPageable(pageNumber, pageSize, sort, direction);
 
         if(StringUtils.isNotEmpty(needle)) {
             List<User> users = userRepository.findByUsernameContains(needle);
@@ -244,11 +240,11 @@ public class GroupsService implements IGroupService {
         var group = groupRepository.findById(id).orElse(null);
 
         if(categoryRepository.findFistByNameAndGroup(request.getName(), group).isPresent()) {
-            throw new DataIntegrityViolationException(CATEGORY_NAME_ALREADY_EXIST + request.getName());
+            throw new DataIntegrityViolationException(CATEGORY_NAME_ALREADY_EXIST);
         }
 
         if(categoryRepository.findFistBySlugAndGroup(request.getSlug(), group).isPresent()) {
-            throw new DataIntegrityViolationException(CATEGORY_SLUG_ALREADY_EXIST + request.getSlug());
+            throw new DataIntegrityViolationException(CATEGORY_SLUG_ALREADY_EXIST);
         }
 
         var creator = userRepository.findByUsername(creatorUsername).orElse(null);

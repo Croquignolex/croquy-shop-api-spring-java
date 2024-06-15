@@ -1,6 +1,5 @@
 package com.shop.croquy.v1.repositories;
 
-import com.shop.croquy.v1.entities.Country;
 import com.shop.croquy.v1.entities.State;
 import com.shop.croquy.v1.entities.User;
 
@@ -13,7 +12,7 @@ import java.util.Collection;
 
 @Repository
 public interface StatePagingAndSortingRepository extends PagingAndSortingRepository<State, String> {
-    Page<State> findAllByNameContainsOrCountryIsInOrCreatorIsIn(String nameNeedle, Collection<Country> country, Collection<User> creator, Pageable pageable);
+    Page<State> findAllByNameContains(String nameNeedle, Pageable pageable);
     Page<State> findAllByNameContainsOrCreatorIsInAndCountryId(String nameNeedle, Collection<User> creator, String countryId, Pageable pageable);
     Page<State> findAllByCountryId(String countryId, Pageable pageable);
 }

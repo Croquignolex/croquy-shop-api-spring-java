@@ -3,7 +3,6 @@ package com.shop.croquy.v1.services.backoffice;
 import com.shop.croquy.v1.dto.backoffice.vendor.VendorStoreRequest;
 import com.shop.croquy.v1.dto.backoffice.vendor.VendorUpdateRequest;
 import com.shop.croquy.v1.dto.web.AddressUpdateRequest;
-import com.shop.croquy.v1.entities.User;
 import com.shop.croquy.v1.entities.Vendor;
 import com.shop.croquy.v1.entities.address.VendorAddress;
 import com.shop.croquy.v1.entities.media.VendorLogo;
@@ -45,16 +44,12 @@ public class VendorsService implements IVendorsService {
     private String mediaFolderPath;
 
     @Override
-    public Page<Vendor> getPaginatedVendors(int pageNumber, int pageSize, String needle) {
-        Pageable pageable = GeneralHelper.buildPageable(pageNumber, pageSize);
+    public Page<Vendor> getPaginatedVendors(int pageNumber, int pageSize, String needle, String sort, String direction) {
+        Pageable pageable = GeneralHelper.buildPageable(pageNumber, pageSize, sort, direction);
 
-        if(StringUtils.isNotEmpty(needle)) {
-            List<User> users = userRepository.findByUsernameContains(needle);
-
-            return vendorPagingAndSortingRepository.findAllByNameContainsOrCreatorIsIn(needle, users, pageable);
-        }
-
-        return vendorPagingAndSortingRepository.findAll(pageable);
+        return (StringUtils.isNotEmpty(needle))
+                ? vendorPagingAndSortingRepository.findAllByNameContains(needle, pageable)
+                : vendorPagingAndSortingRepository.findAll(pageable);
     }
 
     @Override
@@ -65,7 +60,7 @@ public class VendorsService implements IVendorsService {
     @Override
     public void storeVendorWithCreator(VendorStoreRequest request, String creatorUsername) {
         if(vendorRepository.findFistByName(request.getName()).isPresent()) {
-            throw new DataIntegrityViolationException(VENDOR_NAME_ALREADY_EXIST + request.getName());
+            throw new DataIntegrityViolationException(VENDOR_NAME_ALREADY_EXIST);
         }
 
         var creator = userRepository.findByUsername(creatorUsername).orElse(null);
@@ -76,7 +71,7 @@ public class VendorsService implements IVendorsService {
     @Override
     public void updateVendorById(VendorUpdateRequest request, String id) {
         if(vendorRepository.findFistByNameAndIdNot(request.getName(), id).isPresent()) {
-            throw new DataIntegrityViolationException(VENDOR_NAME_ALREADY_EXIST + request.getName());
+            throw new DataIntegrityViolationException(VENDOR_NAME_ALREADY_EXIST);
         }
 
         Vendor vendor = vendorRepository.findById(id)

@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface IGroupService {
-    Page<Group> getPaginatedGroups(int pageNumber, int pageSize, String needle);
+    Page<Group> getPaginatedGroups(int pageNumber, int pageSize, String needle, String sort, String direction);
     List<Group> getAllEnabledGroupsOrderByName();
     Group getGroupById(String id);
     void storeGroupWithCreator(GroupStoreRequest request, String creatorUsername);
@@ -25,6 +25,6 @@ public interface IGroupService {
     GroupBanner changeGroupBannerById(MultipartFile image, String id, String creatorUsername);
     void destroyGroupLogoById(String id);
     void destroyGroupBannerById(String id);
-    Page<Category> getPaginatedCategoriesByGroupId(int pageNumber, int pageSize, String needle, String id);
+    Page<Category> getPaginatedCategoriesByGroupId(int pageNumber, int pageSize, String needle, String sort, String direction, String id);
     void addCategoryWithCreator(GroupCategoryStoreRequest request, String id, String creatorUsername);
 }

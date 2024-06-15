@@ -6,7 +6,7 @@ import com.shop.croquy.v1.entities.User;
 import org.springframework.data.domain.Page;
 
 public interface IUsersService {
-    Page<User> getPaginatedUsers(int pageNumber, int pageSize, String needle, String username);
+    Page<User> getPaginatedUsers(int pageNumber, int pageSize, String needle, String sort, String direction, String username);
     User getUserById(String id);
     void storeUserWithCreator(UserStoreRequest request, String creatorUsername);
     void updateUserById(UserUpdateRequest request, String id);

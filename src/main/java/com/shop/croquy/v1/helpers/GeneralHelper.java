@@ -16,6 +16,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Optional;
 
 @Slf4j
@@ -58,11 +59,12 @@ public class GeneralHelper {
         return opt;
     }
 
-    public static Pageable buildPageable(int pageNumber, int pageSize) {
+    public static Pageable buildPageable(int pageNumber, int pageSize, String sort, String dir) {
+        Sort.Direction direction = Objects.equals(dir, "desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         return PageRequest.of(
                 pageNumber,
                 pageSize,
-                Sort.by(Sort.Direction.DESC, "createdAt")
+                Sort.by(direction, sort)
         );
     }
 }

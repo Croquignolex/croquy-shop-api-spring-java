@@ -48,16 +48,12 @@ public class CountriesService implements ICountriesService {
     private String mediaFolderPath;
 
     @Override
-    public Page<Country> getPaginatedCountries(int pageNumber, int pageSize, String needle) {
-        Pageable pageable = GeneralHelper.buildPageable(pageNumber, pageSize);
+    public Page<Country> getPaginatedCountries(int pageNumber, int pageSize, String needle, String sort, String direction) {
+        Pageable pageable = GeneralHelper.buildPageable(pageNumber, pageSize, sort, direction);
 
-        if(StringUtils.isNotEmpty(needle)) {
-            List<User> users = userRepository.findByUsernameContains(needle);
-
-            return countryPagingAndSortingRepository.findAllByNameContainsOrPhoneCodeContainsOrCreatorIsIn(needle, needle, users, pageable);
-        }
-
-        return countryPagingAndSortingRepository.findAll(pageable);
+        return (StringUtils.isNotEmpty(needle))
+                ? countryPagingAndSortingRepository.findAllByNameContainsOrPhoneCodeContains(needle, needle, pageable)
+                : countryPagingAndSortingRepository.findAll(pageable);
     }
 
     @Override
@@ -73,7 +69,7 @@ public class CountriesService implements ICountriesService {
     @Override
     public void storeCountryWithCreator(CountryStoreRequest request, String creatorUsername) {
         if(countryRepository.findFistByName(request.getName()).isPresent()) {
-            throw new DataIntegrityViolationException(COUNTRY_NAME_ALREADY_EXIST + request.getName());
+            throw new DataIntegrityViolationException(COUNTRY_NAME_ALREADY_EXIST);
         }
 
         var creator = userRepository.findByUsername(creatorUsername).orElse(null);
@@ -84,7 +80,7 @@ public class CountriesService implements ICountriesService {
     @Override
     public void updateCountryById(CountryUpdateRequest request, String id) {
         if(countryRepository.findFistByNameAndIdNot(request.getName(), id).isPresent()) {
-            throw new DataIntegrityViolationException(COUNTRY_NAME_ALREADY_EXIST + request.getName());
+            throw new DataIntegrityViolationException(COUNTRY_NAME_ALREADY_EXIST);
         }
 
         Country country = countryRepository.findById(id)
@@ -169,8 +165,8 @@ public class CountriesService implements ICountriesService {
     }
 
     @Override
-    public Page<State> getPaginatedStatesByCountryId(int pageNumber, int pageSize, String needle, String id) {
-        Pageable pageable = GeneralHelper.buildPageable(pageNumber, pageSize);
+    public Page<State> getPaginatedStatesByCountryId(int pageNumber, int pageSize, String needle, String sort, String direction, String id) {
+        Pageable pageable = GeneralHelper.buildPageable(pageNumber, pageSize, sort, direction);
 
         if(StringUtils.isNotEmpty(needle)) {
             List<User> users = userRepository.findByUsernameContains(needle);
@@ -186,7 +182,7 @@ public class CountriesService implements ICountriesService {
         var country = countryRepository.findById(id).orElse(null);
 
         if(stateRepository.findFistByNameAndCountry(request.getName(), country).isPresent()) {
-            throw new DataIntegrityViolationException(STATE_NAME_ALREADY_EXIST + request.getName());
+            throw new DataIntegrityViolationException(STATE_NAME_ALREADY_EXIST);
         }
 
         var creator = userRepository.findByUsername(creatorUsername).orElse(null);

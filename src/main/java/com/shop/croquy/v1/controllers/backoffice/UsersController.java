@@ -27,10 +27,12 @@ public class UsersController {
     public ResponseEntity<Page<User>> index(
             @RequestParam(defaultValue = "") String needle,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "7") int size,
+            @RequestParam(defaultValue = "createdAt") String sort,
+            @RequestParam(defaultValue = "desc") String direction,
             Principal principal
     ) {
-        Page<User> paginatedUsers = usersService.getPaginatedUsers(page, size, needle, principal.getName());
+        Page<User> paginatedUsers = usersService.getPaginatedUsers(page, size, needle, sort, direction, principal.getName());
 
         return ResponseEntity.status(HttpStatus.OK).body(paginatedUsers);
     }

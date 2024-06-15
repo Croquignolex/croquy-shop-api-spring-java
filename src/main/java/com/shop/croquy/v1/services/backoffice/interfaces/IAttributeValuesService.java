@@ -6,7 +6,7 @@ import com.shop.croquy.v1.entities.AttributeValue;
 import org.springframework.data.domain.Page;
 
 public interface IAttributeValuesService {
-    Page<AttributeValue> getPaginatedAttributeValues(int pageNumber, int pageSize, String needle);
+    Page<AttributeValue> getPaginatedAttributeValues(int pageNumber, int pageSize, String needle, String sort, String direction);
     AttributeValue getAttributeValueById(String id);
     void storeAttributeValueWithCreator(AttributeValueStoreRequest request, String creatorUsername);
     void updateAttributeValueById(AttributeValueUpdateRequest request, String id);

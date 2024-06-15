@@ -36,9 +36,11 @@ public class GroupsController {
     public ResponseEntity<Page<Group>> index(
             @RequestParam(defaultValue = "") String needle,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+            @RequestParam(defaultValue = "7") int size,
+            @RequestParam(defaultValue = "createdAt") String sort,
+            @RequestParam(defaultValue = "desc") String direction
     ) {
-        Page<Group> paginatedGroups = groupsService.getPaginatedGroups(page, size, needle);
+        Page<Group> paginatedGroups = groupsService.getPaginatedGroups(page, size, needle, sort, direction);
 
         return ResponseEntity.status(HttpStatus.OK).body(paginatedGroups);
     }
@@ -119,9 +121,11 @@ public class GroupsController {
             @PathVariable String id,
             @RequestParam(defaultValue = "") String needle,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+            @RequestParam(defaultValue = "7") int size,
+            @RequestParam(defaultValue = "createdAt") String sort,
+            @RequestParam(defaultValue = "desc") String direction
     ) {
-        Page<Category> paginatedCategoriesByCountryId = groupsService.getPaginatedCategoriesByGroupId(page, size, needle, id);
+        Page<Category> paginatedCategoriesByCountryId = groupsService.getPaginatedCategoriesByGroupId(page, size, needle, sort, direction, id);
 
         return ResponseEntity.status(HttpStatus.OK).body(paginatedCategoriesByCountryId);
     }

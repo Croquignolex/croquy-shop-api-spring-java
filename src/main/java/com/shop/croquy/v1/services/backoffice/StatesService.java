@@ -2,9 +2,7 @@ package com.shop.croquy.v1.services.backoffice;
 
 import com.shop.croquy.v1.dto.backoffice.state.StateStoreRequest;
 import com.shop.croquy.v1.dto.backoffice.state.StateUpdateRequest;
-import com.shop.croquy.v1.entities.Country;
 import com.shop.croquy.v1.entities.State;
-import com.shop.croquy.v1.entities.User;
 import com.shop.croquy.v1.helpers.GeneralHelper;
 import com.shop.croquy.v1.repositories.*;
 import com.shop.croquy.v1.services.backoffice.interfaces.IStatesService;
@@ -34,17 +32,12 @@ public class StatesService implements IStatesService {
     private final UserRepository userRepository;
 
     @Override
-    public Page<State> getPaginatedStates(int pageNumber, int pageSize, String needle) {
-        Pageable pageable = GeneralHelper.buildPageable(pageNumber, pageSize);
+    public Page<State> getPaginatedStates(int pageNumber, int pageSize, String needle, String sort, String direction) {
+        Pageable pageable = GeneralHelper.buildPageable(pageNumber, pageSize, sort, direction);
 
-        if(StringUtils.isNotEmpty(needle)) {
-            List<User> users = userRepository.findByUsernameContains(needle);
-            List<Country> countries = countryRepository.findByNameContains(needle);
-
-            return statePagingAndSortingRepository.findAllByNameContainsOrCountryIsInOrCreatorIsIn(needle, countries, users, pageable);
-        }
-
-        return statePagingAndSortingRepository.findAll(pageable);
+        return (StringUtils.isNotEmpty(needle))
+                ? statePagingAndSortingRepository.findAllByNameContains(needle, pageable)
+                : statePagingAndSortingRepository.findAll(pageable);
     }
 
     @Override
@@ -62,7 +55,7 @@ public class StatesService implements IStatesService {
         var country = countryRepository.findById(request.getCountryId()).orElse(null);
 
         if(stateRepository.findFistByNameAndCountry(request.getName(), country).isPresent()) {
-            throw new DataIntegrityViolationException(STATE_NAME_ALREADY_EXIST + request.getName());
+            throw new DataIntegrityViolationException(STATE_NAME_ALREADY_EXIST);
         }
 
         var creator = userRepository.findByUsername(creatorUsername).orElse(null);
@@ -75,7 +68,7 @@ public class StatesService implements IStatesService {
         var country = countryRepository.findById(request.getCountryId()).orElse(null);
 
         if(stateRepository.findFistByNameAndIdNotAndCountry(request.getName(), id, country).isPresent()) {
-            throw new DataIntegrityViolationException(STATE_NAME_ALREADY_EXIST + request.getName());
+            throw new DataIntegrityViolationException(STATE_NAME_ALREADY_EXIST);
         }
 
         State state = stateRepository.findById(id)
