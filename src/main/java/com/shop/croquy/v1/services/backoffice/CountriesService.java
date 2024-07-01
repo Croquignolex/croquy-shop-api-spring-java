@@ -1,6 +1,5 @@
 package com.shop.croquy.v1.services.backoffice;
 
-import com.shop.croquy.v1.dto.backoffice.country.CountryStateStoreRequest;
 import com.shop.croquy.v1.dto.backoffice.country.CountryStoreRequest;
 import com.shop.croquy.v1.dto.backoffice.country.CountryUpdateRequest;
 import com.shop.croquy.v1.entities.Country;
@@ -42,7 +41,6 @@ public class CountriesService implements ICountriesService {
     private final CountryRepository countryRepository;
     private final CountryFlagRepository countryFlagRepository;
     private final UserRepository userRepository;
-    private final StateRepository stateRepository;
 
     @Value("${media.saving.directory}")
     private String mediaFolderPath;
@@ -175,18 +173,5 @@ public class CountriesService implements ICountriesService {
         }
 
         return statePagingAndSortingRepository.findAllByCountryId(id, pageable);
-    }
-
-    @Override
-    public void addStateWithCreator(CountryStateStoreRequest request, String id, String creatorUsername) {
-        var country = countryRepository.findById(id).orElse(null);
-
-        if(stateRepository.findFistByNameAndCountry(request.getName(), country).isPresent()) {
-            throw new DataIntegrityViolationException(STATE_NAME_ALREADY_EXIST);
-        }
-
-        var creator = userRepository.findByUsername(creatorUsername).orElse(null);
-
-        stateRepository.save(request.toState(country, creator));
     }
 }

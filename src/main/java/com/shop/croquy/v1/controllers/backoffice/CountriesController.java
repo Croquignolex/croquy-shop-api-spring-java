@@ -1,6 +1,5 @@
 package com.shop.croquy.v1.controllers.backoffice;
 
-import com.shop.croquy.v1.dto.backoffice.country.CountryStateStoreRequest;
 import com.shop.croquy.v1.dto.backoffice.country.CountryStoreRequest;
 import com.shop.croquy.v1.dto.backoffice.country.CountryUpdateRequest;
 import com.shop.croquy.v1.entities.Country;
@@ -109,12 +108,5 @@ public class CountriesController {
         Page<State> paginatedStatesByCountryId = countriesService.getPaginatedStatesByCountryId(page, size, needle, sort, direction, id);
 
         return ResponseEntity.status(HttpStatus.OK).body(paginatedStatesByCountryId);
-    }
-
-    @PostMapping(path = "/{id}/states")
-    public ResponseEntity<Object> addState(@Valid @RequestBody CountryStateStoreRequest request, @PathVariable String id, Principal principal) {
-        countriesService.addStateWithCreator(request, id, principal.getName());
-
-        return ResponseEntity.status(HttpStatus.CREATED.value()).build();
     }
 }
