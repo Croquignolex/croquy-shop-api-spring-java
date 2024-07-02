@@ -1,6 +1,5 @@
 package com.shop.croquy.v1.controllers.backoffice;
 
-import com.shop.croquy.v1.dto.backoffice.group.GroupCategoryStoreRequest;
 import com.shop.croquy.v1.dto.backoffice.group.GroupStoreRequest;
 import com.shop.croquy.v1.dto.backoffice.group.GroupUpdateRequest;
 import com.shop.croquy.v1.entities.Category;
@@ -128,12 +127,5 @@ public class GroupsController {
         Page<Category> paginatedCategoriesByCountryId = groupsService.getPaginatedCategoriesByGroupId(page, size, needle, sort, direction, id);
 
         return ResponseEntity.status(HttpStatus.OK).body(paginatedCategoriesByCountryId);
-    }
-
-    @PostMapping(path = "/{id}/categories")
-    public ResponseEntity<Object> addCategory(@Valid @RequestBody GroupCategoryStoreRequest request, @PathVariable String id, Principal principal) {
-        groupsService.addCategoryWithCreator(request, id, principal.getName());
-
-        return ResponseEntity.status(HttpStatus.CREATED.value()).build();
     }
 }

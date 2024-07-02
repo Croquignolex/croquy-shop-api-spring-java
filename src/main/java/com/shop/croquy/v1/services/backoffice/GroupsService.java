@@ -1,6 +1,5 @@
 package com.shop.croquy.v1.services.backoffice;
 
-import com.shop.croquy.v1.dto.backoffice.group.GroupCategoryStoreRequest;
 import com.shop.croquy.v1.dto.backoffice.group.GroupStoreRequest;
 import com.shop.croquy.v1.dto.backoffice.group.GroupUpdateRequest;
 import com.shop.croquy.v1.entities.Category;
@@ -233,22 +232,5 @@ public class GroupsService implements IGroupService {
         }
 
         return categoryPagingAndSortingRepository.findAllByGroupId(id, pageable);
-    }
-
-    @Override
-    public void addCategoryWithCreator(GroupCategoryStoreRequest request, String id, String creatorUsername) {
-        var group = groupRepository.findById(id).orElse(null);
-
-        if(categoryRepository.findFistByNameAndGroup(request.getName(), group).isPresent()) {
-            throw new DataIntegrityViolationException(CATEGORY_NAME_ALREADY_EXIST);
-        }
-
-        if(categoryRepository.findFistBySlugAndGroup(request.getSlug(), group).isPresent()) {
-            throw new DataIntegrityViolationException(CATEGORY_SLUG_ALREADY_EXIST);
-        }
-
-        var creator = userRepository.findByUsername(creatorUsername).orElse(null);
-
-        categoryRepository.save(request.toCategory(group, creator));
     }
 }

@@ -1,6 +1,5 @@
 package com.shop.croquy.v1.services.backoffice.interfaces;
 
-import com.shop.croquy.v1.dto.backoffice.group.GroupCategoryStoreRequest;
 import com.shop.croquy.v1.dto.backoffice.group.GroupStoreRequest;
 import com.shop.croquy.v1.dto.backoffice.group.GroupUpdateRequest;
 import com.shop.croquy.v1.entities.Category;
@@ -26,5 +25,4 @@ public interface IGroupService {
     void destroyGroupLogoById(String id);
     void destroyGroupBannerById(String id);
     Page<Category> getPaginatedCategoriesByGroupId(int pageNumber, int pageSize, String needle, String sort, String direction, String id);
-    void addCategoryWithCreator(GroupCategoryStoreRequest request, String id, String creatorUsername);
 }
