@@ -11,6 +11,7 @@ import com.shop.croquy.v1.repositories.GroupRepository;
 import com.shop.croquy.v1.repositories.CategoryRepository;
 import com.shop.croquy.v1.repositories.VendorRepository;
 import com.shop.croquy.v1.repositories.AttributeRepository;
+import com.shop.croquy.v1.repositories.AttributeValueRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -37,6 +38,7 @@ public class CroquyShopApiSpringJavaApplication {
     private final CategoryRepository categoryRepository;
     private final VendorRepository vendorRepository;
     private final AttributeRepository attributeRepository;
+    private final AttributeValueRepository attributeValueRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(CroquyShopApiSpringJavaApplication.class, args);
@@ -52,9 +54,11 @@ public class CroquyShopApiSpringJavaApplication {
         return (String[] args) -> {
             if(userRepository.findByUsername("user100").isEmpty()) {
                 List<User> users = new ArrayList<>();
-                List<Attribute> attributes = new ArrayList<>();
 
-                User user = userRepository.save(seedUsers(200, Role.CUSTOMER));
+                User user = userRepository.save(seedUsers(100, Role.SUPER_ADMIN));
+                users.add(seedUsers(101, Role.ADMIN));
+                users.add(seedUsers(102, Role.MANAGER));
+                users.add(seedUsers(103, Role.SELLER));
 
                 Country country = new Country();
                 country.setName("Cameroun");
@@ -105,16 +109,20 @@ public class CroquyShopApiSpringJavaApplication {
                 vendor.setCreator(user);
                 vendor.setDescription("This description is a well description for this vendor. Make sur you figure this well");
 
-                for(int i = 0; i < 25; i++){
-                    Attribute attribute = new Attribute();
-                    attribute.setName("Attribute" + i);
-                    attribute.setCreator(user);
-                    attribute.setDescription("This description is a well description for this attribute. Make sur you figure this well" + i);
-                    attributes.add(attribute);
-                }
+                Attribute attribute = new Attribute();
+                attribute.setName("Shape");
+                attribute.setCreator(user);
+                attribute.setDescription("This description is a well description for this attribute. Make sur you figure this well");
 
-                users.add(seedUsers(100, Role.SUPER_ADMIN));
-                users.add(seedUsers(101, Role.CUSTOMER));
+                AttributeValue attributeValue = new AttributeValue();
+                attributeValue.setName("Round");
+                attributeValue.setValue("Round");
+                attributeValue.setCreator(user);
+                attributeValue.setDescription("This description is a well description for this attribute value. Make sur you figure this well");
+
+                for(int i = 0; i < 25; i++){
+                    users.add(seedUsers(i + 104, Role.CUSTOMER));
+                }
 
                 userRepository.saveAll(users);
                 countryRepository.save(country);
@@ -124,7 +132,8 @@ public class CroquyShopApiSpringJavaApplication {
                 groupRepository.save(group);
                 categoryRepository.save(category);
                 vendorRepository.save(vendor);
-                attributeRepository.saveAll(attributes);
+                attributeRepository.save(attribute);
+                attributeValueRepository.save(attributeValue);
             }
         };
     }
