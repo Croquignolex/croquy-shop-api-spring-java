@@ -49,7 +49,7 @@ public class GeneralHelper {
 
     public static Optional<Date> textToDate(String str) {
         Optional<Date> opt = Optional.empty();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH);
 
         try {
             opt = Optional.of(formatter.parse(str));
